@@ -1,0 +1,25 @@
+# Java compiled output
+out/
+*.class
+
+# JVM crash logs
+hs_err_pid*.log
+replay_pid*.log
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Result outputs (regenerated each run)
+result/
+
+# Temporary downloaded files
+data/*.data
+data/*.test
+data/*.names
+data/*.Z
