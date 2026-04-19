@@ -1,0 +1,351 @@
+=== Classification Predictions ===
+Record                                             Actual       Predicted   
+----------------------------------------------------------------------------
+[buying=high, maint=low, doors=5more, persons=4, lug_boot=med, safety=high] acc          acc          
+[buying=med, maint=vhigh, doors=4, persons=more, lug_boot=med, safety=low] unacc        unacc        
+[buying=med, maint=med, doors=5more, persons=2, lug_boot=small, safety=low] unacc        unacc        
+[buying=low, maint=low, doors=4, persons=more, lug_boot=big, safety=med] good         unacc        <-- WRONG
+[buying=low, maint=med, doors=4, persons=2, lug_boot=med, safety=low] unacc        unacc        
+[buying=med, maint=low, doors=5more, persons=2, lug_boot=med, safety=med] unacc        unacc        
+[buying=high, maint=low, doors=2, persons=more, lug_boot=small, safety=high] unacc        unacc        
+[buying=low, maint=vhigh, doors=4, persons=4, lug_boot=small, safety=high] acc          acc          
+[buying=vhigh, maint=high, doors=4, persons=4, lug_boot=small, safety=low] unacc        unacc        
+[buying=low, maint=vhigh, doors=2, persons=2, lug_boot=small, safety=med] unacc        unacc        
+[buying=med, maint=vhigh, doors=5more, persons=more, lug_boot=med, safety=low] unacc        unacc        
+[buying=low, maint=low, doors=2, persons=2, lug_boot=big, safety=med] unacc        unacc        
+[buying=high, maint=vhigh, doors=2, persons=more, lug_boot=big, safety=med] unacc        unacc        
+[buying=med, maint=low, doors=3, persons=4, lug_boot=med, safety=high] good         acc          <-- WRONG
+[buying=med, maint=med, doors=5more, persons=more, lug_boot=big, safety=low] unacc        unacc        
+[buying=low, maint=med, doors=3, persons=more, lug_boot=big, safety=med] good         unacc        <-- WRONG
+[buying=med, maint=med, doors=2, persons=more, lug_boot=big, safety=low] unacc        unacc        
+[buying=low, maint=vhigh, doors=5more, persons=4, lug_boot=small, safety=low] unacc        unacc        
+[buying=vhigh, maint=med, doors=3, persons=4, lug_boot=big, safety=high] acc          acc          
+[buying=med, maint=low, doors=5more, persons=4, lug_boot=big, safety=med] good         unacc        <-- WRONG
+[buying=vhigh, maint=low, doors=2, persons=2, lug_boot=small, safety=med] unacc        unacc        
+[buying=med, maint=high, doors=5more, persons=4, lug_boot=small, safety=high] acc          acc          
+[buying=med, maint=med, doors=2, persons=4, lug_boot=med, safety=high] acc          acc          
+[buying=low, maint=low, doors=2, persons=more, lug_boot=small, safety=med] unacc        unacc        
+[buying=high, maint=vhigh, doors=3, persons=more, lug_boot=small, safety=med] unacc        unacc        
+[buying=high, maint=high, doors=4, persons=more, lug_boot=big, safety=med] acc          unacc        <-- WRONG
+[buying=med, maint=low, doors=5more, persons=2, lug_boot=med, safety=low] unacc        unacc        
+[buying=high, maint=vhigh, doors=2, persons=2, lug_boot=med, safety=low] unacc        unacc        
+[buying=low, maint=vhigh, doors=2, persons=more, lug_boot=big, safety=med] acc          unacc        <-- WRONG
+[buying=vhigh, maint=vhigh, doors=3, persons=2, lug_boot=small, safety=low] unacc        unacc        
+[buying=med, maint=vhigh, doors=5more, persons=2, lug_boot=med, safety=high] unacc        unacc        
+[buying=low, maint=med, doors=2, persons=more, lug_boot=small, safety=high] unacc        unacc        
+[buying=high, maint=med, doors=4, persons=2, lug_boot=big, safety=med] unacc        unacc        
+[buying=med, maint=high, doors=5more, persons=more, lug_boot=small, safety=med] unacc        unacc        
+[buying=med, maint=high, doors=3, persons=more, lug_boot=small, safety=med] unacc        unacc        
+[buying=low, maint=vhigh, doors=4, persons=more, lug_boot=med, safety=low] unacc        unacc        
+[buying=high, maint=low, doors=5more, persons=more, lug_boot=big, safety=high] acc          unacc        <-- WRONG
+[buying=med, maint=vhigh, doors=4, persons=2, lug_boot=big, safety=high] unacc        unacc        
+[buying=low, maint=low, doors=3, persons=4, lug_boot=med, safety=high] good         acc          <-- WRONG
+[buying=vhigh, maint=high, doors=3, persons=4, lug_boot=small, safety=med] unacc        unacc        
+[buying=med, maint=vhigh, doors=5more, persons=4, lug_boot=med, safety=high] acc          acc          
+[buying=high, maint=vhigh, doors=4, persons=more, lug_boot=small, safety=low] unacc        unacc        
+[buying=high, maint=med, doors=2, persons=more, lug_boot=small, safety=low] unacc        unacc        
+[buying=med, maint=vhigh, doors=2, persons=more, lug_boot=big, safety=high] acc          unacc        <-- WRONG
+[buying=vhigh, maint=high, doors=5more, persons=2, lug_boot=small, safety=med] unacc        unacc        
+[buying=med, maint=med, doors=2, persons=more, lug_boot=med, safety=high] acc          unacc        <-- WRONG
+[buying=high, maint=low, doors=4, persons=2, lug_boot=small, safety=med] unacc        unacc        
+[buying=high, maint=med, doors=3, persons=2, lug_boot=big, safety=low] unacc        unacc        
+[buying=high, maint=high, doors=5more, persons=2, lug_boot=small, safety=med] unacc        unacc        
+[buying=high, maint=low, doors=2, persons=more, lug_boot=med, safety=high] acc          unacc        <-- WRONG
+[buying=vhigh, maint=vhigh, doors=2, persons=more, lug_boot=med, safety=med] unacc        unacc        
+[buying=med, maint=med, doors=5more, persons=more, lug_boot=big, safety=high] vgood        unacc        <-- WRONG
+[buying=high, maint=vhigh, doors=3, persons=more, lug_boot=small, safety=low] unacc        unacc        
+[buying=high, maint=low, doors=5more, persons=2, lug_boot=small, safety=high] unacc        unacc        
+[buying=low, maint=low, doors=4, persons=4, lug_boot=med, safety=high] vgood        acc          <-- WRONG
+[buying=high, maint=med, doors=4, persons=2, lug_boot=big, safety=high] unacc        unacc        
+[buying=vhigh, maint=high, doors=3, persons=2, lug_boot=med, safety=high] unacc        unacc        
+[buying=high, maint=high, doors=5more, persons=more, lug_boot=big, safety=low] unacc        unacc        
+[buying=vhigh, maint=med, doors=3, persons=4, lug_boot=small, safety=med] unacc        unacc        
+[buying=med, maint=low, doors=5more, persons=2, lug_boot=small, safety=low] unacc        unacc        
+[buying=med, maint=vhigh, doors=4, persons=4, lug_boot=small, safety=low] unacc        unacc        
+[buying=low, maint=high, doors=3, persons=2, lug_boot=med, safety=low] unacc        unacc        
+[buying=high, maint=low, doors=2, persons=more, lug_boot=big, safety=high] acc          unacc        <-- WRONG
+[buying=high, maint=high, doors=3, persons=more, lug_boot=med, safety=low] unacc        unacc        
+[buying=high, maint=med, doors=4, persons=more, lug_boot=med, safety=low] unacc        unacc        
+[buying=med, maint=vhigh, doors=3, persons=2, lug_boot=big, safety=high] unacc        unacc        
+[buying=low, maint=low, doors=4, persons=2, lug_boot=big, safety=med] unacc        unacc        
+[buying=med, maint=high, doors=4, persons=4, lug_boot=big, safety=high] acc          acc          
+[buying=low, maint=med, doors=4, persons=4, lug_boot=small, safety=low] unacc        unacc        
+[buying=low, maint=med, doors=5more, persons=4, lug_boot=med, safety=med] good         unacc        <-- WRONG
+[buying=med, maint=high, doors=2, persons=2, lug_boot=big, safety=low] unacc        unacc        
+[buying=vhigh, maint=med, doors=4, persons=2, lug_boot=big, safety=low] unacc        unacc        
+[buying=high, maint=high, doors=4, persons=more, lug_boot=med, safety=med] acc          unacc        <-- WRONG
+[buying=med, maint=high, doors=3, persons=4, lug_boot=med, safety=med] unacc        unacc        
+[buying=med, maint=med, doors=3, persons=2, lug_boot=small, safety=high] unacc        unacc        
+[buying=med, maint=med, doors=4, persons=4, lug_boot=med, safety=high] vgood        acc          <-- WRONG
+[buying=vhigh, maint=low, doors=5more, persons=4, lug_boot=med, safety=med] acc          unacc        <-- WRONG
+[buying=high, maint=vhigh, doors=3, persons=2, lug_boot=small, safety=low] unacc        unacc        
+[buying=high, maint=high, doors=4, persons=more, lug_boot=big, safety=high] acc          unacc        <-- WRONG
+[buying=high, maint=vhigh, doors=2, persons=4, lug_boot=med, safety=med] unacc        unacc        
+[buying=med, maint=med, doors=4, persons=more, lug_boot=small, safety=low] unacc        unacc        
+[buying=high, maint=high, doors=2, persons=2, lug_boot=med, safety=med] unacc        unacc        
+[buying=vhigh, maint=vhigh, doors=2, persons=2, lug_boot=small, safety=med] unacc        unacc        
+[buying=vhigh, maint=vhigh, doors=5more, persons=4, lug_boot=big, safety=high] unacc        unacc        
+[buying=low, maint=high, doors=2, persons=2, lug_boot=small, safety=low] unacc        unacc        
+[buying=med, maint=vhigh, doors=5more, persons=4, lug_boot=small, safety=low] unacc        unacc        
+[buying=high, maint=low, doors=2, persons=2, lug_boot=med, safety=high] unacc        unacc        
+[buying=med, maint=high, doors=4, persons=4, lug_boot=small, safety=low] unacc        unacc        
+[buying=vhigh, maint=vhigh, doors=3, persons=more, lug_boot=small, safety=med] unacc        unacc        
+[buying=med, maint=med, doors=4, persons=more, lug_boot=med, safety=low] unacc        unacc        
+[buying=low, maint=med, doors=5more, persons=more, lug_boot=small, safety=high] good         unacc        <-- WRONG
+[buying=med, maint=med, doors=3, persons=2, lug_boot=small, safety=low] unacc        unacc        
+[buying=low, maint=high, doors=4, persons=more, lug_boot=small, safety=high] acc          unacc        <-- WRONG
+[buying=high, maint=vhigh, doors=3, persons=2, lug_boot=small, safety=high] unacc        unacc        
+[buying=med, maint=low, doors=3, persons=more, lug_boot=small, safety=med] acc          unacc        <-- WRONG
+[buying=vhigh, maint=med, doors=3, persons=more, lug_boot=med, safety=med] acc          unacc        <-- WRONG
+[buying=vhigh, maint=high, doors=4, persons=4, lug_boot=med, safety=med] unacc        unacc        
+[buying=med, maint=low, doors=4, persons=2, lug_boot=big, safety=high] unacc        unacc        
+[buying=med, maint=high, doors=5more, persons=2, lug_boot=big, safety=high] unacc        unacc        
+[buying=med, maint=high, doors=4, persons=more, lug_boot=big, safety=med] acc          unacc        <-- WRONG
+[buying=low, maint=vhigh, doors=2, persons=4, lug_boot=small, safety=med] unacc        unacc        
+[buying=high, maint=vhigh, doors=4, persons=4, lug_boot=small, safety=med] unacc        unacc        
+[buying=vhigh, maint=low, doors=5more, persons=4, lug_boot=small, safety=med] unacc        unacc        
+[buying=vhigh, maint=high, doors=5more, persons=2, lug_boot=small, safety=high] unacc        unacc        
+[buying=low, maint=vhigh, doors=3, persons=2, lug_boot=big, safety=low] unacc        unacc        
+[buying=med, maint=high, doors=5more, persons=more, lug_boot=med, safety=low] unacc        unacc        
+[buying=vhigh, maint=med, doors=5more, persons=more, lug_boot=big, safety=med] acc          unacc        <-- WRONG
+[buying=low, maint=low, doors=2, persons=2, lug_boot=big, safety=high] unacc        unacc        
+[buying=low, maint=high, doors=3, persons=4, lug_boot=med, safety=low] unacc        unacc        
+[buying=vhigh, maint=high, doors=2, persons=more, lug_boot=small, safety=med] unacc        unacc        
+[buying=med, maint=high, doors=3, persons=more, lug_boot=small, safety=low] unacc        unacc        
+[buying=high, maint=vhigh, doors=2, persons=more, lug_boot=small, safety=low] unacc        unacc        
+[buying=med, maint=high, doors=4, persons=2, lug_boot=small, safety=med] unacc        unacc        
+[buying=vhigh, maint=high, doors=4, persons=4, lug_boot=med, safety=low] unacc        unacc        
+[buying=vhigh, maint=vhigh, doors=5more, persons=2, lug_boot=big, safety=med] unacc        unacc        
+[buying=high, maint=low, doors=4, persons=2, lug_boot=med, safety=high] unacc        unacc        
+[buying=med, maint=high, doors=3, persons=4, lug_boot=big, safety=med] acc          unacc        <-- WRONG
+[buying=med, maint=med, doors=5more, persons=4, lug_boot=med, safety=med] acc          unacc        <-- WRONG
+[buying=med, maint=high, doors=5more, persons=more, lug_boot=med, safety=med] acc          unacc        <-- WRONG
+[buying=vhigh, maint=med, doors=3, persons=4, lug_boot=big, safety=low] unacc        unacc        
+[buying=high, maint=high, doors=3, persons=4, lug_boot=big, safety=high] acc          acc          
+[buying=low, maint=low, doors=4, persons=more, lug_boot=small, safety=med] acc          unacc        <-- WRONG
+[buying=vhigh, maint=med, doors=4, persons=2, lug_boot=med, safety=low] unacc        unacc        
+[buying=vhigh, maint=high, doors=4, persons=more, lug_boot=big, safety=med] unacc        unacc        
+[buying=high, maint=low, doors=2, persons=4, lug_boot=small, safety=low] unacc        unacc        
+[buying=vhigh, maint=vhigh, doors=5more, persons=more, lug_boot=small, safety=low] unacc        unacc        
+[buying=med, maint=low, doors=3, persons=4, lug_boot=med, safety=med] acc          unacc        <-- WRONG
+[buying=vhigh, maint=high, doors=2, persons=4, lug_boot=big, safety=low] unacc        unacc        
+[buying=vhigh, maint=vhigh, doors=2, persons=4, lug_boot=med, safety=med] unacc        unacc        
+[buying=med, maint=med, doors=3, persons=more, lug_boot=small, safety=high] acc          unacc        <-- WRONG
+[buying=med, maint=high, doors=5more, persons=4, lug_boot=small, safety=med] unacc        unacc        
+[buying=vhigh, maint=vhigh, doors=2, persons=2, lug_boot=big, safety=high] unacc        unacc        
+[buying=vhigh, maint=vhigh, doors=4, persons=more, lug_boot=small, safety=med] unacc        unacc        
+[buying=med, maint=vhigh, doors=5more, persons=more, lug_boot=med, safety=high] acc          unacc        <-- WRONG
+[buying=vhigh, maint=med, doors=2, persons=2, lug_boot=small, safety=high] unacc        unacc        
+[buying=high, maint=vhigh, doors=3, persons=2, lug_boot=med, safety=low] unacc        unacc        
+[buying=low, maint=low, doors=2, persons=4, lug_boot=med, safety=low] unacc        unacc        
+[buying=high, maint=vhigh, doors=4, persons=2, lug_boot=big, safety=high] unacc        unacc        
+[buying=low, maint=low, doors=2, persons=2, lug_boot=med, safety=med] unacc        unacc        
+[buying=vhigh, maint=med, doors=3, persons=more, lug_boot=med, safety=low] unacc        unacc        
+[buying=vhigh, maint=vhigh, doors=4, persons=2, lug_boot=small, safety=med] unacc        unacc        
+[buying=high, maint=low, doors=3, persons=2, lug_boot=small, safety=high] unacc        unacc        
+[buying=vhigh, maint=low, doors=3, persons=4, lug_boot=med, safety=low] unacc        unacc        
+[buying=high, maint=low, doors=5more, persons=more, lug_boot=med, safety=low] unacc        unacc        
+[buying=low, maint=vhigh, doors=2, persons=2, lug_boot=big, safety=high] unacc        unacc        
+[buying=high, maint=med, doors=4, persons=4, lug_boot=small, safety=high] acc          acc          
+[buying=high, maint=high, doors=3, persons=2, lug_boot=small, safety=med] unacc        unacc        
+[buying=low, maint=vhigh, doors=2, persons=2, lug_boot=big, safety=med] unacc        unacc        
+[buying=high, maint=low, doors=3, persons=2, lug_boot=med, safety=high] unacc        unacc        
+[buying=vhigh, maint=med, doors=2, persons=more, lug_boot=big, safety=med] acc          unacc        <-- WRONG
+[buying=med, maint=low, doors=5more, persons=more, lug_boot=big, safety=high] vgood        unacc        <-- WRONG
+[buying=high, maint=med, doors=5more, persons=more, lug_boot=big, safety=med] acc          unacc        <-- WRONG
+[buying=vhigh, maint=high, doors=2, persons=2, lug_boot=small, safety=low] unacc        unacc        
+[buying=low, maint=low, doors=3, persons=2, lug_boot=med, safety=med] unacc        unacc        
+[buying=low, maint=low, doors=2, persons=4, lug_boot=big, safety=low] unacc        unacc        
+[buying=low, maint=low, doors=5more, persons=more, lug_boot=med, safety=high] vgood        unacc        <-- WRONG
+[buying=high, maint=med, doors=5more, persons=more, lug_boot=big, safety=low] unacc        unacc        
+[buying=med, maint=med, doors=5more, persons=4, lug_boot=small, safety=high] acc          acc          
+[buying=low, maint=high, doors=5more, persons=more, lug_boot=small, safety=high] acc          unacc        <-- WRONG
+[buying=vhigh, maint=high, doors=5more, persons=4, lug_boot=big, safety=low] unacc        unacc        
+[buying=high, maint=med, doors=4, persons=4, lug_boot=big, safety=high] acc          acc          
+[buying=high, maint=med, doors=4, persons=4, lug_boot=big, safety=med] acc          unacc        <-- WRONG
+[buying=high, maint=vhigh, doors=3, persons=more, lug_boot=big, safety=med] unacc        unacc        
+[buying=low, maint=vhigh, doors=5more, persons=more, lug_boot=med, safety=high] acc          unacc        <-- WRONG
+[buying=low, maint=low, doors=3, persons=4, lug_boot=med, safety=low] unacc        unacc        
+[buying=high, maint=low, doors=4, persons=more, lug_boot=small, safety=high] acc          unacc        <-- WRONG
+[buying=low, maint=med, doors=2, persons=more, lug_boot=big, safety=low] unacc        unacc        
+[buying=high, maint=high, doors=5more, persons=2, lug_boot=big, safety=high] unacc        unacc        
+[buying=med, maint=low, doors=4, persons=2, lug_boot=med, safety=low] unacc        unacc        
+[buying=low, maint=med, doors=4, persons=4, lug_boot=small, safety=med] acc          unacc        <-- WRONG
+[buying=low, maint=high, doors=4, persons=more, lug_boot=small, safety=low] unacc        unacc        
+[buying=med, maint=low, doors=5more, persons=4, lug_boot=med, safety=med] good         unacc        <-- WRONG
+[buying=med, maint=low, doors=2, persons=more, lug_boot=small, safety=high] unacc        unacc        
+[buying=vhigh, maint=vhigh, doors=4, persons=4, lug_boot=small, safety=high] unacc        unacc        
+[buying=low, maint=med, doors=5more, persons=2, lug_boot=small, safety=low] unacc        unacc        
+[buying=high, maint=vhigh, doors=2, persons=2, lug_boot=big, safety=low] unacc        unacc        
+[buying=vhigh, maint=low, doors=5more, persons=4, lug_boot=big, safety=med] acc          unacc        <-- WRONG
+[buying=vhigh, maint=vhigh, doors=3, persons=2, lug_boot=small, safety=high] unacc        unacc        
+[buying=vhigh, maint=high, doors=4, persons=2, lug_boot=big, safety=low] unacc        unacc        
+[buying=low, maint=vhigh, doors=5more, persons=4, lug_boot=big, safety=high] acc          acc          
+[buying=high, maint=low, doors=3, persons=2, lug_boot=big, safety=low] unacc        unacc        
+[buying=vhigh, maint=vhigh, doors=2, persons=2, lug_boot=med, safety=high] unacc        unacc        
+[buying=vhigh, maint=low, doors=2, persons=more, lug_boot=big, safety=high] acc          unacc        <-- WRONG
+[buying=low, maint=vhigh, doors=4, persons=more, lug_boot=small, safety=high] acc          unacc        <-- WRONG
+[buying=high, maint=vhigh, doors=5more, persons=more, lug_boot=small, safety=med] unacc        unacc        
+[buying=low, maint=med, doors=3, persons=4, lug_boot=small, safety=low] unacc        unacc        
+[buying=med, maint=vhigh, doors=2, persons=4, lug_boot=med, safety=low] unacc        unacc        
+[buying=low, maint=med, doors=4, persons=more, lug_boot=small, safety=high] good         unacc        <-- WRONG
+[buying=med, maint=low, doors=5more, persons=4, lug_boot=med, safety=high] vgood        acc          <-- WRONG
+[buying=low, maint=med, doors=4, persons=2, lug_boot=small, safety=high] unacc        unacc        
+[buying=vhigh, maint=vhigh, doors=3, persons=more, lug_boot=med, safety=low] unacc        unacc        
+[buying=low, maint=med, doors=4, persons=2, lug_boot=big, safety=med] unacc        unacc        
+[buying=vhigh, maint=med, doors=3, persons=4, lug_boot=med, safety=low] unacc        unacc        
+[buying=med, maint=vhigh, doors=2, persons=4, lug_boot=med, safety=med] unacc        unacc        
+[buying=med, maint=low, doors=4, persons=more, lug_boot=big, safety=high] vgood        unacc        <-- WRONG
+[buying=vhigh, maint=med, doors=5more, persons=2, lug_boot=small, safety=med] unacc        unacc        
+[buying=low, maint=low, doors=3, persons=more, lug_boot=small, safety=high] good         unacc        <-- WRONG
+[buying=low, maint=vhigh, doors=4, persons=4, lug_boot=big, safety=high] acc          acc          
+[buying=med, maint=high, doors=5more, persons=more, lug_boot=med, safety=high] acc          unacc        <-- WRONG
+[buying=vhigh, maint=med, doors=3, persons=4, lug_boot=small, safety=low] unacc        unacc        
+[buying=low, maint=vhigh, doors=2, persons=more, lug_boot=med, safety=med] unacc        unacc        
+[buying=high, maint=vhigh, doors=4, persons=more, lug_boot=big, safety=high] unacc        unacc        
+[buying=high, maint=low, doors=3, persons=4, lug_boot=big, safety=low] unacc        unacc        
+[buying=vhigh, maint=vhigh, doors=5more, persons=4, lug_boot=big, safety=med] unacc        unacc        
+[buying=high, maint=high, doors=3, persons=2, lug_boot=med, safety=high] unacc        unacc        
+[buying=low, maint=high, doors=5more, persons=4, lug_boot=big, safety=med] acc          unacc        <-- WRONG
+[buying=low, maint=med, doors=5more, persons=more, lug_boot=big, safety=low] unacc        unacc        
+[buying=vhigh, maint=med, doors=4, persons=4, lug_boot=big, safety=high] acc          acc          
+[buying=high, maint=low, doors=2, persons=more, lug_boot=med, safety=low] unacc        unacc        
+[buying=vhigh, maint=med, doors=3, persons=2, lug_boot=small, safety=high] unacc        unacc        
+[buying=low, maint=vhigh, doors=2, persons=4, lug_boot=med, safety=high] acc          acc          
+[buying=low, maint=low, doors=3, persons=2, lug_boot=med, safety=high] unacc        unacc        
+[buying=low, maint=vhigh, doors=5more, persons=4, lug_boot=big, safety=low] unacc        unacc        
+[buying=high, maint=vhigh, doors=5more, persons=2, lug_boot=small, safety=med] unacc        unacc        
+[buying=med, maint=med, doors=4, persons=2, lug_boot=med, safety=low] unacc        unacc        
+[buying=low, maint=low, doors=5more, persons=2, lug_boot=small, safety=low] unacc        unacc        
+[buying=med, maint=low, doors=3, persons=4, lug_boot=small, safety=med] acc          unacc        <-- WRONG
+[buying=med, maint=low, doors=3, persons=more, lug_boot=small, safety=low] unacc        unacc        
+[buying=high, maint=med, doors=3, persons=more, lug_boot=big, safety=high] acc          unacc        <-- WRONG
+[buying=low, maint=low, doors=4, persons=2, lug_boot=med, safety=med] unacc        unacc        
+[buying=vhigh, maint=med, doors=2, persons=2, lug_boot=small, safety=low] unacc        unacc        
+[buying=med, maint=high, doors=3, persons=more, lug_boot=big, safety=med] acc          unacc        <-- WRONG
+[buying=high, maint=med, doors=5more, persons=more, lug_boot=small, safety=med] unacc        unacc        
+[buying=med, maint=med, doors=5more, persons=2, lug_boot=big, safety=med] unacc        unacc        
+[buying=med, maint=high, doors=4, persons=2, lug_boot=small, safety=low] unacc        unacc        
+[buying=high, maint=low, doors=5more, persons=4, lug_boot=small, safety=low] unacc        unacc        
+[buying=med, maint=high, doors=4, persons=more, lug_boot=med, safety=med] acc          unacc        <-- WRONG
+[buying=med, maint=low, doors=4, persons=4, lug_boot=med, safety=high] vgood        acc          <-- WRONG
+[buying=med, maint=low, doors=5more, persons=2, lug_boot=big, safety=med] unacc        unacc        
+[buying=vhigh, maint=med, doors=4, persons=2, lug_boot=med, safety=med] unacc        unacc        
+[buying=med, maint=low, doors=2, persons=more, lug_boot=med, safety=low] unacc        unacc        
+[buying=high, maint=vhigh, doors=4, persons=2, lug_boot=med, safety=low] unacc        unacc        
+[buying=vhigh, maint=low, doors=5more, persons=more, lug_boot=med, safety=low] unacc        unacc        
+[buying=high, maint=vhigh, doors=4, persons=2, lug_boot=big, safety=med] unacc        unacc        
+[buying=high, maint=high, doors=3, persons=2, lug_boot=big, safety=med] unacc        unacc        
+[buying=high, maint=low, doors=4, persons=2, lug_boot=med, safety=med] unacc        unacc        
+[buying=low, maint=low, doors=2, persons=more, lug_boot=big, safety=low] unacc        unacc        
+[buying=low, maint=med, doors=5more, persons=more, lug_boot=med, safety=med] good         unacc        <-- WRONG
+[buying=vhigh, maint=vhigh, doors=2, persons=more, lug_boot=small, safety=low] unacc        unacc        
+[buying=vhigh, maint=low, doors=5more, persons=4, lug_boot=med, safety=low] unacc        unacc        
+[buying=vhigh, maint=high, doors=5more, persons=more, lug_boot=small, safety=med] unacc        unacc        
+[buying=med, maint=vhigh, doors=4, persons=4, lug_boot=big, safety=high] acc          acc          
+[buying=low, maint=med, doors=2, persons=4, lug_boot=big, safety=high] vgood        acc          <-- WRONG
+[buying=vhigh, maint=vhigh, doors=4, persons=4, lug_boot=med, safety=low] unacc        unacc        
+[buying=med, maint=med, doors=3, persons=more, lug_boot=med, safety=low] unacc        unacc        
+[buying=low, maint=high, doors=4, persons=4, lug_boot=med, safety=low] unacc        unacc        
+[buying=med, maint=vhigh, doors=3, persons=more, lug_boot=med, safety=med] acc          unacc        <-- WRONG
+[buying=low, maint=vhigh, doors=4, persons=more, lug_boot=big, safety=high] acc          unacc        <-- WRONG
+[buying=med, maint=high, doors=2, persons=4, lug_boot=big, safety=med] acc          unacc        <-- WRONG
+[buying=med, maint=med, doors=3, persons=more, lug_boot=small, safety=low] unacc        unacc        
+[buying=high, maint=low, doors=3, persons=4, lug_boot=med, safety=high] acc          acc          
+[buying=vhigh, maint=vhigh, doors=2, persons=more, lug_boot=small, safety=med] unacc        unacc        
+[buying=high, maint=high, doors=2, persons=2, lug_boot=small, safety=low] unacc        unacc        
+[buying=vhigh, maint=vhigh, doors=2, persons=2, lug_boot=big, safety=med] unacc        unacc        
+[buying=low, maint=vhigh, doors=3, persons=more, lug_boot=small, safety=high] acc          unacc        <-- WRONG
+[buying=vhigh, maint=high, doors=5more, persons=2, lug_boot=small, safety=low] unacc        unacc        
+[buying=low, maint=low, doors=4, persons=more, lug_boot=small, safety=high] good         unacc        <-- WRONG
+[buying=vhigh, maint=med, doors=2, persons=more, lug_boot=med, safety=med] unacc        unacc        
+[buying=vhigh, maint=high, doors=2, persons=more, lug_boot=med, safety=low] unacc        unacc        
+[buying=low, maint=high, doors=3, persons=more, lug_boot=med, safety=med] acc          unacc        <-- WRONG
+[buying=high, maint=med, doors=4, persons=2, lug_boot=small, safety=high] unacc        unacc        
+[buying=med, maint=low, doors=4, persons=more, lug_boot=big, safety=med] good         unacc        <-- WRONG
+[buying=med, maint=vhigh, doors=2, persons=more, lug_boot=small, safety=low] unacc        unacc        
+[buying=vhigh, maint=med, doors=4, persons=2, lug_boot=big, safety=med] unacc        unacc        
+[buying=vhigh, maint=low, doors=2, persons=more, lug_boot=small, safety=med] unacc        unacc        
+[buying=vhigh, maint=high, doors=3, persons=4, lug_boot=big, safety=high] unacc        unacc        
+[buying=vhigh, maint=low, doors=4, persons=4, lug_boot=small, safety=low] unacc        unacc        
+[buying=high, maint=med, doors=4, persons=more, lug_boot=med, safety=high] acc          unacc        <-- WRONG
+[buying=low, maint=high, doors=5more, persons=4, lug_boot=big, safety=high] vgood        acc          <-- WRONG
+[buying=vhigh, maint=vhigh, doors=2, persons=more, lug_boot=big, safety=high] unacc        unacc        
+[buying=low, maint=vhigh, doors=4, persons=2, lug_boot=big, safety=high] unacc        unacc        
+[buying=med, maint=vhigh, doors=4, persons=more, lug_boot=big, safety=med] acc          unacc        <-- WRONG
+[buying=vhigh, maint=vhigh, doors=3, persons=2, lug_boot=big, safety=med] unacc        unacc        
+[buying=low, maint=vhigh, doors=2, persons=4, lug_boot=med, safety=med] unacc        unacc        
+[buying=low, maint=med, doors=5more, persons=more, lug_boot=med, safety=high] vgood        unacc        <-- WRONG
+[buying=med, maint=vhigh, doors=2, persons=4, lug_boot=big, safety=med] acc          unacc        <-- WRONG
+[buying=vhigh, maint=vhigh, doors=4, persons=2, lug_boot=small, safety=low] unacc        unacc        
+[buying=med, maint=med, doors=4, persons=2, lug_boot=small, safety=med] unacc        unacc        
+[buying=med, maint=vhigh, doors=2, persons=2, lug_boot=big, safety=high] unacc        unacc        
+[buying=vhigh, maint=med, doors=2, persons=4, lug_boot=med, safety=high] acc          acc          
+[buying=high, maint=high, doors=2, persons=more, lug_boot=big, safety=med] acc          unacc        <-- WRONG
+[buying=low, maint=vhigh, doors=4, persons=2, lug_boot=small, safety=low] unacc        unacc        
+[buying=vhigh, maint=high, doors=4, persons=2, lug_boot=med, safety=med] unacc        unacc        
+[buying=low, maint=med, doors=2, persons=2, lug_boot=med, safety=med] unacc        unacc        
+[buying=med, maint=med, doors=2, persons=2, lug_boot=med, safety=low] unacc        unacc        
+[buying=med, maint=vhigh, doors=4, persons=more, lug_boot=small, safety=med] unacc        unacc        
+[buying=high, maint=low, doors=2, persons=4, lug_boot=med, safety=low] unacc        unacc        
+[buying=vhigh, maint=med, doors=5more, persons=more, lug_boot=big, safety=low] unacc        unacc        
+[buying=low, maint=med, doors=4, persons=2, lug_boot=small, safety=med] unacc        unacc        
+[buying=vhigh, maint=high, doors=5more, persons=more, lug_boot=small, safety=high] unacc        unacc        
+[buying=vhigh, maint=vhigh, doors=5more, persons=more, lug_boot=big, safety=low] unacc        unacc        
+[buying=med, maint=med, doors=2, persons=2, lug_boot=big, safety=high] unacc        unacc        
+[buying=low, maint=med, doors=2, persons=more, lug_boot=small, safety=med] unacc        unacc        
+[buying=high, maint=high, doors=3, persons=4, lug_boot=small, safety=high] acc          acc          
+[buying=vhigh, maint=high, doors=2, persons=4, lug_boot=med, safety=high] unacc        unacc        
+[buying=high, maint=low, doors=4, persons=more, lug_boot=big, safety=med] acc          unacc        <-- WRONG
+[buying=vhigh, maint=med, doors=3, persons=4, lug_boot=med, safety=med] unacc        unacc        
+[buying=low, maint=vhigh, doors=4, persons=2, lug_boot=big, safety=med] unacc        unacc        
+[buying=vhigh, maint=med, doors=2, persons=2, lug_boot=med, safety=low] unacc        unacc        
+[buying=med, maint=med, doors=3, persons=4, lug_boot=big, safety=med] acc          unacc        <-- WRONG
+[buying=med, maint=high, doors=2, persons=more, lug_boot=big, safety=low] unacc        unacc        
+[buying=low, maint=high, doors=4, persons=more, lug_boot=big, safety=med] acc          unacc        <-- WRONG
+[buying=vhigh, maint=high, doors=4, persons=2, lug_boot=med, safety=high] unacc        unacc        
+[buying=med, maint=low, doors=2, persons=more, lug_boot=med, safety=high] good         unacc        <-- WRONG
+[buying=high, maint=vhigh, doors=5more, persons=4, lug_boot=big, safety=high] unacc        unacc        
+[buying=high, maint=med, doors=3, persons=2, lug_boot=small, safety=low] unacc        unacc        
+[buying=high, maint=low, doors=4, persons=more, lug_boot=med, safety=low] unacc        unacc        
+[buying=vhigh, maint=low, doors=3, persons=2, lug_boot=small, safety=high] unacc        unacc        
+[buying=vhigh, maint=low, doors=2, persons=4, lug_boot=big, safety=med] acc          unacc        <-- WRONG
+[buying=med, maint=low, doors=3, persons=more, lug_boot=med, safety=low] unacc        unacc        
+[buying=high, maint=vhigh, doors=2, persons=4, lug_boot=small, safety=high] unacc        unacc        
+[buying=low, maint=high, doors=4, persons=4, lug_boot=big, safety=low] unacc        unacc        
+[buying=low, maint=high, doors=4, persons=2, lug_boot=small, safety=high] unacc        unacc        
+[buying=med, maint=low, doors=4, persons=more, lug_boot=small, safety=high] good         unacc        <-- WRONG
+[buying=low, maint=vhigh, doors=2, persons=2, lug_boot=small, safety=high] unacc        unacc        
+[buying=high, maint=med, doors=3, persons=more, lug_boot=small, safety=med] unacc        unacc        
+[buying=high, maint=high, doors=5more, persons=4, lug_boot=med, safety=low] unacc        unacc        
+[buying=vhigh, maint=vhigh, doors=5more, persons=2, lug_boot=big, safety=low] unacc        unacc        
+[buying=high, maint=vhigh, doors=5more, persons=more, lug_boot=med, safety=med] unacc        unacc        
+[buying=high, maint=high, doors=5more, persons=4, lug_boot=big, safety=low] unacc        unacc        
+[buying=high, maint=vhigh, doors=3, persons=2, lug_boot=med, safety=med] unacc        unacc        
+[buying=vhigh, maint=vhigh, doors=3, persons=2, lug_boot=big, safety=high] unacc        unacc        
+[buying=vhigh, maint=low, doors=2, persons=2, lug_boot=med, safety=med] unacc        unacc        
+[buying=high, maint=high, doors=5more, persons=more, lug_boot=med, safety=high] acc          unacc        <-- WRONG
+[buying=high, maint=med, doors=2, persons=more, lug_boot=big, safety=med] acc          unacc        <-- WRONG
+[buying=vhigh, maint=vhigh, doors=4, persons=4, lug_boot=med, safety=high] unacc        unacc        
+[buying=high, maint=low, doors=5more, persons=4, lug_boot=big, safety=med] acc          unacc        <-- WRONG
+[buying=vhigh, maint=high, doors=4, persons=2, lug_boot=small, safety=med] unacc        unacc        
+[buying=med, maint=low, doors=4, persons=2, lug_boot=big, safety=low] unacc        unacc        
+[buying=med, maint=low, doors=3, persons=more, lug_boot=big, safety=med] good         unacc        <-- WRONG
+[buying=med, maint=med, doors=4, persons=more, lug_boot=big, safety=high] vgood        unacc        <-- WRONG
+[buying=low, maint=high, doors=4, persons=4, lug_boot=med, safety=high] vgood        acc          <-- WRONG
+[buying=med, maint=low, doors=3, persons=4, lug_boot=big, safety=high] vgood        acc          <-- WRONG
+[buying=high, maint=med, doors=3, persons=4, lug_boot=small, safety=low] unacc        unacc        
+[buying=med, maint=low, doors=5more, persons=more, lug_boot=small, safety=low] unacc        unacc        
+[buying=med, maint=low, doors=5more, persons=2, lug_boot=med, safety=high] unacc        unacc        
+[buying=high, maint=low, doors=4, persons=4, lug_boot=small, safety=high] acc          acc          
+[buying=med, maint=vhigh, doors=2, persons=4, lug_boot=big, safety=low] unacc        unacc        
+[buying=high, maint=med, doors=5more, persons=more, lug_boot=small, safety=high] acc          unacc        <-- WRONG
+[buying=low, maint=low, doors=2, persons=2, lug_boot=med, safety=high] unacc        unacc        
+[buying=med, maint=low, doors=3, persons=4, lug_boot=big, safety=low] unacc        unacc        
+[buying=high, maint=high, doors=4, persons=2, lug_boot=med, safety=med] unacc        unacc        
+[buying=med, maint=vhigh, doors=2, persons=more, lug_boot=small, safety=high] unacc        unacc        
+[buying=high, maint=low, doors=3, persons=2, lug_boot=small, safety=med] unacc        unacc        
+[buying=low, maint=low, doors=3, persons=more, lug_boot=small, safety=low] unacc        unacc        
+[buying=med, maint=med, doors=5more, persons=4, lug_boot=big, safety=high] vgood        acc          <-- WRONG
+----------------------------------------------------------------------------
+Accuracy: 260/346 = 75.14%

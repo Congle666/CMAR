@@ -1,0 +1,450 @@
+==========================================================
+       CMAR — PHAN LOP DUA TREN NHIEU LUAT KET HOP
+  (Li, Han, Pei — ICDM 2001)
+==========================================================
+
+Dataset:              data/car.csv
+Training records:     1382
+Test records:         346
+Min Support:          50
+Min Confidence:       0.5
+Chi-square threshold: 3.841 (p=0.05, df=1)
+Coverage delta:       4
+Default class:        unacc
+
+----------------------------------------------------------
+THUAT TOAN CMAR (Section 3 & 4 of the paper)
+----------------------------------------------------------
+
+Phase 1: RULE GENERATION (Section 3.1)
+   Tu frequent patterns, lay pattern chua dung 1 class item.
+   condset = cac item khong phai class, consequent = class.
+   Giu luat co confidence >= 0.5.
+
+Phase 2: PRUNING (Section 3.3) — 3 phuong phap:
+
+   Pruning 1: General Rule Pruning
+     Sap xep theo: confidence giam -> support giam -> condset ngan.
+     Luat r1 bi loai neu ton tai r2 uu tien hon sao cho:
+       condset(r2) c= condset(r1) VA class(r2) = class(r1).
+
+   Pruning 2: Chi-Square Significance Test
+     Chi giu luat co chi-square >= 3.841 (positively correlated).
+     Loai bo luat khong co tuong quan thong ke voi class.
+
+   Pruning 3: Database Coverage (Algorithm 1)
+     Duyet luat theo thu tu uu tien. Moi luat duoc giu neu
+     no correctly classify it nhat 1 training record chua bi cover.
+     Record bi loai khi da duoc cover boi >= 4 luat (delta).
+
+Phase 3: CLASSIFICATION (Section 4)
+   Voi moi record test:
+   - Thu thap tat ca luat match (condset c= record items).
+   - Nhom luat theo class.
+   - Tinh score(class) = Sum chi^2(r) / max_chi^2(r)
+     (weighted chi-square — Section 4 of paper)
+   - Class co score cao nhat thang.
+   - Khong co luat match -> dung default class.
+
+----------------------------------------------------------
+KET QUA PRUNING (3 giai doan)
+----------------------------------------------------------
+
+Candidate rules (truoc pruning):  182
+After Pruning 1 (general rules):  35
+After Pruning 2 (chi-square):     19
+After Pruning 3 (db coverage):    19
+Total rules removed:              163
+
+----------------------------------------------------------
+CAC LUAT SAU PRUNING (19 luat)
+----------------------------------------------------------
+
+1. [safety=low] => unacc [sup=0.3365, conf=1.0000]
+2. [persons=2] => unacc [sup=0.3336, conf=1.0000]
+3. [buying=vhigh, maint=high] => unacc [sup=0.0622, conf=1.0000]
+4. [maint=vhigh, buying=high] => unacc [sup=0.0615, conf=1.0000]
+5. [maint=vhigh, buying=vhigh] => unacc [sup=0.0586, conf=1.0000]
+6. [lug_boot=small, maint=vhigh] => unacc [sup=0.0716, conf=0.9000]
+7. [doors=2, buying=vhigh] => unacc [sup=0.0528, conf=0.8795]
+8. [lug_boot=small, buying=vhigh] => unacc [sup=0.0709, conf=0.8750]
+9. [doors=2, maint=vhigh] => unacc [sup=0.0478, conf=0.8684]
+10. [lug_boot=small, buying=high] => unacc [sup=0.0702, conf=0.8584]
+11. [doors=2, lug_boot=small] => unacc [sup=0.0731, conf=0.8487]
+12. [maint=vhigh] => unacc [sup=0.2041, conf=0.8343]
+13. [buying=vhigh] => unacc [sup=0.2062, conf=0.8213]
+14. [doors=2, buying=high] => unacc [sup=0.0528, conf=0.8111]
+15. [safety=med, lug_boot=small] => unacc [sup=0.0876, conf=0.7961]
+16. [lug_boot=small, maint=high] => unacc [sup=0.0673, conf=0.7949]
+17. [lug_boot=small] => unacc [sup=0.2547, conf=0.7719]
+18. [buying=high] => unacc [sup=0.1889, conf=0.7565]
+19. [safety=high, persons=4] => acc [sup=0.0637, conf=0.5714]
+
+----------------------------------------------------------
+DU DOAN TUNG BAN GHI TEST (346 records)
+----------------------------------------------------------
+
+#      Actual     Predicted  
+----------------------------------------
+1      acc        acc        OK
+2      unacc      unacc      OK
+3      unacc      unacc      OK
+4      good       unacc      WRONG
+5      unacc      unacc      OK
+6      unacc      unacc      OK
+7      unacc      unacc      OK
+8      acc        acc        OK
+9      unacc      unacc      OK
+10     unacc      unacc      OK
+11     unacc      unacc      OK
+12     unacc      unacc      OK
+13     unacc      unacc      OK
+14     good       acc        WRONG
+15     unacc      unacc      OK
+16     good       unacc      WRONG
+17     unacc      unacc      OK
+18     unacc      unacc      OK
+19     acc        acc        OK
+20     good       unacc      WRONG
+21     unacc      unacc      OK
+22     acc        acc        OK
+23     acc        acc        OK
+24     unacc      unacc      OK
+25     unacc      unacc      OK
+26     acc        unacc      WRONG
+27     unacc      unacc      OK
+28     unacc      unacc      OK
+29     acc        unacc      WRONG
+30     unacc      unacc      OK
+31     unacc      unacc      OK
+32     unacc      unacc      OK
+33     unacc      unacc      OK
+34     unacc      unacc      OK
+35     unacc      unacc      OK
+36     unacc      unacc      OK
+37     acc        unacc      WRONG
+38     unacc      unacc      OK
+39     good       acc        WRONG
+40     unacc      unacc      OK
+41     acc        acc        OK
+42     unacc      unacc      OK
+43     unacc      unacc      OK
+44     acc        unacc      WRONG
+45     unacc      unacc      OK
+46     acc        unacc      WRONG
+47     unacc      unacc      OK
+48     unacc      unacc      OK
+49     unacc      unacc      OK
+50     acc        unacc      WRONG
+51     unacc      unacc      OK
+52     vgood      unacc      WRONG
+53     unacc      unacc      OK
+54     unacc      unacc      OK
+55     vgood      acc        WRONG
+56     unacc      unacc      OK
+57     unacc      unacc      OK
+58     unacc      unacc      OK
+59     unacc      unacc      OK
+60     unacc      unacc      OK
+61     unacc      unacc      OK
+62     unacc      unacc      OK
+63     acc        unacc      WRONG
+64     unacc      unacc      OK
+65     unacc      unacc      OK
+66     unacc      unacc      OK
+67     unacc      unacc      OK
+68     acc        acc        OK
+69     unacc      unacc      OK
+70     good       unacc      WRONG
+71     unacc      unacc      OK
+72     unacc      unacc      OK
+73     acc        unacc      WRONG
+74     unacc      unacc      OK
+75     unacc      unacc      OK
+76     vgood      acc        WRONG
+77     acc        unacc      WRONG
+78     unacc      unacc      OK
+79     acc        unacc      WRONG
+80     unacc      unacc      OK
+81     unacc      unacc      OK
+82     unacc      unacc      OK
+83     unacc      unacc      OK
+84     unacc      unacc      OK
+85     unacc      unacc      OK
+86     unacc      unacc      OK
+87     unacc      unacc      OK
+88     unacc      unacc      OK
+89     unacc      unacc      OK
+90     unacc      unacc      OK
+91     good       unacc      WRONG
+92     unacc      unacc      OK
+93     acc        unacc      WRONG
+94     unacc      unacc      OK
+95     acc        unacc      WRONG
+96     acc        unacc      WRONG
+97     unacc      unacc      OK
+98     unacc      unacc      OK
+99     unacc      unacc      OK
+100    acc        unacc      WRONG
+101    unacc      unacc      OK
+102    unacc      unacc      OK
+103    unacc      unacc      OK
+104    unacc      unacc      OK
+105    unacc      unacc      OK
+106    unacc      unacc      OK
+107    acc        unacc      WRONG
+108    unacc      unacc      OK
+109    unacc      unacc      OK
+110    unacc      unacc      OK
+111    unacc      unacc      OK
+112    unacc      unacc      OK
+113    unacc      unacc      OK
+114    unacc      unacc      OK
+115    unacc      unacc      OK
+116    unacc      unacc      OK
+117    acc        unacc      WRONG
+118    acc        unacc      WRONG
+119    acc        unacc      WRONG
+120    unacc      unacc      OK
+121    acc        acc        OK
+122    acc        unacc      WRONG
+123    unacc      unacc      OK
+124    unacc      unacc      OK
+125    unacc      unacc      OK
+126    unacc      unacc      OK
+127    acc        unacc      WRONG
+128    unacc      unacc      OK
+129    unacc      unacc      OK
+130    acc        unacc      WRONG
+131    unacc      unacc      OK
+132    unacc      unacc      OK
+133    unacc      unacc      OK
+134    acc        unacc      WRONG
+135    unacc      unacc      OK
+136    unacc      unacc      OK
+137    unacc      unacc      OK
+138    unacc      unacc      OK
+139    unacc      unacc      OK
+140    unacc      unacc      OK
+141    unacc      unacc      OK
+142    unacc      unacc      OK
+143    unacc      unacc      OK
+144    unacc      unacc      OK
+145    unacc      unacc      OK
+146    acc        acc        OK
+147    unacc      unacc      OK
+148    unacc      unacc      OK
+149    unacc      unacc      OK
+150    acc        unacc      WRONG
+151    vgood      unacc      WRONG
+152    acc        unacc      WRONG
+153    unacc      unacc      OK
+154    unacc      unacc      OK
+155    unacc      unacc      OK
+156    vgood      unacc      WRONG
+157    unacc      unacc      OK
+158    acc        acc        OK
+159    acc        unacc      WRONG
+160    unacc      unacc      OK
+161    acc        acc        OK
+162    acc        unacc      WRONG
+163    unacc      unacc      OK
+164    acc        unacc      WRONG
+165    unacc      unacc      OK
+166    acc        unacc      WRONG
+167    unacc      unacc      OK
+168    unacc      unacc      OK
+169    unacc      unacc      OK
+170    acc        unacc      WRONG
+171    unacc      unacc      OK
+172    good       unacc      WRONG
+173    unacc      unacc      OK
+174    unacc      unacc      OK
+175    unacc      unacc      OK
+176    unacc      unacc      OK
+177    acc        unacc      WRONG
+178    unacc      unacc      OK
+179    unacc      unacc      OK
+180    acc        acc        OK
+181    unacc      unacc      OK
+182    unacc      unacc      OK
+183    acc        unacc      WRONG
+184    acc        unacc      WRONG
+185    unacc      unacc      OK
+186    unacc      unacc      OK
+187    unacc      unacc      OK
+188    good       unacc      WRONG
+189    vgood      acc        WRONG
+190    unacc      unacc      OK
+191    unacc      unacc      OK
+192    unacc      unacc      OK
+193    unacc      unacc      OK
+194    unacc      unacc      OK
+195    vgood      unacc      WRONG
+196    unacc      unacc      OK
+197    good       unacc      WRONG
+198    acc        acc        OK
+199    acc        unacc      WRONG
+200    unacc      unacc      OK
+201    unacc      unacc      OK
+202    unacc      unacc      OK
+203    unacc      unacc      OK
+204    unacc      unacc      OK
+205    unacc      unacc      OK
+206    acc        unacc      WRONG
+207    unacc      unacc      OK
+208    acc        acc        OK
+209    unacc      unacc      OK
+210    unacc      unacc      OK
+211    acc        acc        OK
+212    unacc      unacc      OK
+213    unacc      unacc      OK
+214    unacc      unacc      OK
+215    unacc      unacc      OK
+216    unacc      unacc      OK
+217    acc        unacc      WRONG
+218    unacc      unacc      OK
+219    acc        unacc      WRONG
+220    unacc      unacc      OK
+221    unacc      unacc      OK
+222    acc        unacc      WRONG
+223    unacc      unacc      OK
+224    unacc      unacc      OK
+225    unacc      unacc      OK
+226    unacc      unacc      OK
+227    acc        unacc      WRONG
+228    vgood      acc        WRONG
+229    unacc      unacc      OK
+230    unacc      unacc      OK
+231    unacc      unacc      OK
+232    unacc      unacc      OK
+233    unacc      unacc      OK
+234    unacc      unacc      OK
+235    unacc      unacc      OK
+236    unacc      unacc      OK
+237    unacc      unacc      OK
+238    good       unacc      WRONG
+239    unacc      unacc      OK
+240    unacc      unacc      OK
+241    unacc      unacc      OK
+242    acc        acc        OK
+243    vgood      acc        WRONG
+244    unacc      unacc      OK
+245    unacc      unacc      OK
+246    unacc      unacc      OK
+247    acc        unacc      WRONG
+248    acc        unacc      WRONG
+249    acc        unacc      WRONG
+250    unacc      unacc      OK
+251    acc        acc        OK
+252    unacc      unacc      OK
+253    unacc      unacc      OK
+254    unacc      unacc      OK
+255    acc        unacc      WRONG
+256    unacc      unacc      OK
+257    good       unacc      WRONG
+258    unacc      unacc      OK
+259    unacc      unacc      OK
+260    acc        unacc      WRONG
+261    unacc      unacc      OK
+262    good       unacc      WRONG
+263    unacc      unacc      OK
+264    unacc      unacc      OK
+265    unacc      unacc      OK
+266    unacc      unacc      OK
+267    unacc      unacc      OK
+268    acc        unacc      WRONG
+269    vgood      acc        WRONG
+270    unacc      unacc      OK
+271    unacc      unacc      OK
+272    acc        unacc      WRONG
+273    unacc      unacc      OK
+274    unacc      unacc      OK
+275    vgood      unacc      WRONG
+276    acc        unacc      WRONG
+277    unacc      unacc      OK
+278    unacc      unacc      OK
+279    unacc      unacc      OK
+280    acc        acc        OK
+281    acc        unacc      WRONG
+282    unacc      unacc      OK
+283    unacc      unacc      OK
+284    unacc      unacc      OK
+285    unacc      unacc      OK
+286    unacc      unacc      OK
+287    unacc      unacc      OK
+288    unacc      unacc      OK
+289    unacc      unacc      OK
+290    unacc      unacc      OK
+291    unacc      unacc      OK
+292    unacc      unacc      OK
+293    unacc      unacc      OK
+294    acc        acc        OK
+295    unacc      unacc      OK
+296    acc        unacc      WRONG
+297    unacc      unacc      OK
+298    unacc      unacc      OK
+299    unacc      unacc      OK
+300    acc        unacc      WRONG
+301    unacc      unacc      OK
+302    acc        unacc      WRONG
+303    unacc      unacc      OK
+304    good       unacc      WRONG
+305    unacc      unacc      OK
+306    unacc      unacc      OK
+307    unacc      unacc      OK
+308    unacc      unacc      OK
+309    acc        unacc      WRONG
+310    unacc      unacc      OK
+311    unacc      unacc      OK
+312    unacc      unacc      OK
+313    unacc      unacc      OK
+314    good       unacc      WRONG
+315    unacc      unacc      OK
+316    unacc      unacc      OK
+317    unacc      unacc      OK
+318    unacc      unacc      OK
+319    unacc      unacc      OK
+320    unacc      unacc      OK
+321    unacc      unacc      OK
+322    unacc      unacc      OK
+323    unacc      unacc      OK
+324    acc        unacc      WRONG
+325    acc        unacc      WRONG
+326    unacc      unacc      OK
+327    acc        unacc      WRONG
+328    unacc      unacc      OK
+329    unacc      unacc      OK
+330    good       unacc      WRONG
+331    vgood      unacc      WRONG
+332    vgood      acc        WRONG
+333    vgood      acc        WRONG
+334    unacc      unacc      OK
+335    unacc      unacc      OK
+336    unacc      unacc      OK
+337    acc        acc        OK
+338    unacc      unacc      OK
+339    acc        unacc      WRONG
+340    unacc      unacc      OK
+341    unacc      unacc      OK
+342    unacc      unacc      OK
+343    unacc      unacc      OK
+344    unacc      unacc      OK
+345    unacc      unacc      OK
+346    vgood      acc        WRONG
+----------------------------------------
+
+----------------------------------------------------------
+DANH GIA HIEU SUAT
+----------------------------------------------------------
+
+Accuracy: 260/346 = 0.7514 (75.14%)
+
+Class          TP   FP   FN  Precision     Recall         F1
+--------------------------------------------------------
+acc            20   11   55     0.6452     0.2667     0.3774
+unacc         240   75    0     0.7619     1.0000     0.8649
+good            0    0   16     0.0000     0.0000     0.0000
+vgood           0    0   15     0.0000     0.0000     0.0000
+--------------------------------------------------------
+Macro-F1: 0.3106

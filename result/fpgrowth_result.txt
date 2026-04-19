@@ -1,0 +1,2852 @@
+==========================================================
+           FP-GROWTH — KET QUA DAO MO TAP PHO BIEN
+==========================================================
+
+Dataset:            data/car.csv
+Training records:   1382
+Min Support:        50
+Frequent patterns:  223
+
+----------------------------------------------------------
+THUAT TOAN FP-GROWTH
+----------------------------------------------------------
+
+Buoc 1: Dem tan suat moi item, loai bo item < minSupport.
+Buoc 2: Xay dung cay FP-Tree:
+   - Sap xep item theo tan suat giam dan.
+   - Chen tung giao dich vao cay tu goc.
+   - Nut con cung item -> tang count; chua co -> tao nut moi.
+   - Header Table lien ket cac nut cung item qua node-link.
+Buoc 3: Mining de quy:
+   - Voi moi item (theo tan suat tang dan):
+     + Ghi nhan pattern {prefix U item}
+     + Thu thap Conditional Pattern Base
+     + Xay Conditional FP-Tree -> de quy
+
+----------------------------------------------------------
+HEADER TABLE (Bang Tan Suat Item)
+----------------------------------------------------------
+
+Item                           Frequency
+------------------------------------------
+persons=4                      473
+safety=low                     465
+lug_boot=med                   465
+persons=2                      461
+lug_boot=big                   461
+safety=high                    460
+safety=med                     457
+lug_boot=small                 456
+persons=more                   448
+maint=high                     356
+buying=low                     353
+doors=3                        353
+doors=5more                    348
+buying=vhigh                   347
+doors=2                        347
+maint=med                      346
+buying=high                    345
+maint=low                      342
+maint=vhigh                    338
+buying=med                     337
+doors=4                        334
+
+----------------------------------------------------------
+CAU TRUC CAY FP-TREE
+----------------------------------------------------------
+(Moi nut: item:count)
+
+[root]
+├── lug_boot=med:312 {acc=56, vgood=13, unacc=233, good=10}
+│   ├── persons=2:105 {unacc=105}
+│   │   ├── safety=med:52 {unacc=52}
+│   │   │   ├── doors=2:6 {unacc=6}
+│   │   │   │   ├── buying=high:2 {unacc=2}
+│   │   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   └── maint=low:1 {unacc=1}
+│   │   │   │   ├── maint=med:2 {unacc=2}
+│   │   │   │   │   ├── buying=med:1 {unacc=1}
+│   │   │   │   │   └── buying=high:1 {unacc=1}
+│   │   │   │   ├── maint=low:1 {unacc=1}
+│   │   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │   └── maint=vhigh:1 {unacc=1}
+│   │   │   │       └── buying=med:1 {unacc=1}
+│   │   │   ├── buying=low:8 {unacc=8}
+│   │   │   │   ├── doors=3:2 {unacc=2}
+│   │   │   │   │   ├── maint=med:1 {unacc=1}
+│   │   │   │   │   └── maint=vhigh:1 {unacc=1}
+│   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   └── doors=4:1 {unacc=1}
+│   │   │   │   ├── doors=5more:3 {unacc=3}
+│   │   │   │   │   ├── maint=low:1 {unacc=1}
+│   │   │   │   │   ├── maint=med:1 {unacc=1}
+│   │   │   │   │   └── maint=vhigh:1 {unacc=1}
+│   │   │   │   ├── maint=med:1 {unacc=1}
+│   │   │   │   │   └── doors=4:1 {unacc=1}
+│   │   │   │   └── doors=2:1 {unacc=1}
+│   │   │   │       └── maint=vhigh:1 {unacc=1}
+│   │   │   ├── maint=high:13 {unacc=13}
+│   │   │   │   ├── doors=3:3 {unacc=3}
+│   │   │   │   │   ├── buying=med:1 {unacc=1}
+│   │   │   │   │   ├── buying=vhigh:1 {unacc=1}
+│   │   │   │   │   └── buying=high:1 {unacc=1}
+│   │   │   │   ├── buying=vhigh:1 {unacc=1}
+│   │   │   │   │   └── doors=2:1 {unacc=1}
+│   │   │   │   ├── doors=5more:3 {unacc=3}
+│   │   │   │   │   ├── buying=med:1 {unacc=1}
+│   │   │   │   │   ├── buying=vhigh:1 {unacc=1}
+│   │   │   │   │   └── buying=high:1 {unacc=1}
+│   │   │   │   ├── buying=low:4 {unacc=4}
+│   │   │   │   │   ├── doors=3:1 {unacc=1}
+│   │   │   │   │   ├── doors=2:1 {unacc=1}
+│   │   │   │   │   ├── doors=5more:1 {unacc=1}
+│   │   │   │   │   └── doors=4:1 {unacc=1}
+│   │   │   │   ├── doors=2:1 {unacc=1}
+│   │   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │       └── doors=4:1 {unacc=1}
+│   │   │   ├── doors=5more:8 {unacc=8}
+│   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │   ├── buying=high:2 {unacc=2}
+│   │   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   └── maint=low:1 {unacc=1}
+│   │   │   │   ├── maint=med:2 {unacc=2}
+│   │   │   │   │   ├── buying=high:1 {unacc=1}
+│   │   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │   └── buying=vhigh:3 {unacc=3}
+│   │   │   │       ├── maint=med:1 {unacc=1}
+│   │   │   │       ├── maint=low:1 {unacc=1}
+│   │   │   │       └── maint=vhigh:1 {unacc=1}
+│   │   │   ├── buying=vhigh:4 {unacc=4}
+│   │   │   │   ├── doors=2:2 {unacc=2}
+│   │   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   └── maint=med:1 {unacc=1}
+│   │   │   │   ├── maint=low:1 {unacc=1}
+│   │   │   │   │   └── doors=4:1 {unacc=1}
+│   │   │   │   └── maint=vhigh:1 {unacc=1}
+│   │   │   │       └── doors=4:1 {unacc=1}
+│   │   │   ├── doors=3:8 {unacc=8}
+│   │   │   │   ├── buying=vhigh:3 {unacc=3}
+│   │   │   │   │   ├── maint=low:1 {unacc=1}
+│   │   │   │   │   ├── maint=med:1 {unacc=1}
+│   │   │   │   │   └── maint=vhigh:1 {unacc=1}
+│   │   │   │   ├── maint=med:2 {unacc=2}
+│   │   │   │   │   ├── buying=high:1 {unacc=1}
+│   │   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │   ├── buying=high:1 {unacc=1}
+│   │   │   │   │   └── maint=low:1 {unacc=1}
+│   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │   └── maint=low:1 {unacc=1}
+│   │   │   │       └── buying=med:1 {unacc=1}
+│   │   │   ├── buying=high:1 {unacc=1}
+│   │   │   │   └── maint=vhigh:1 {unacc=1}
+│   │   │   │       └── doors=4:1 {unacc=1}
+│   │   │   ├── maint=med:2 {unacc=2}
+│   │   │   │   ├── buying=med:1 {unacc=1}
+│   │   │   │   │   └── doors=4:1 {unacc=1}
+│   │   │   │   └── buying=high:1 {unacc=1}
+│   │   │   │       └── doors=4:1 {unacc=1}
+│   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │       └── doors=4:1 {unacc=1}
+│   │   │   └── maint=low:1 {unacc=1}
+│   │   │       └── buying=med:1 {unacc=1}
+│   │   │           └── doors=4:1 {unacc=1}
+│   │   └── safety=high:53 {unacc=53}
+│   │       ├── doors=3:8 {unacc=8}
+│   │       │   ├── maint=med:2 {unacc=2}
+│   │       │   │   ├── buying=med:1 {unacc=1}
+│   │       │   │   └── buying=high:1 {unacc=1}
+│   │       │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   ├── buying=vhigh:3 {unacc=3}
+│   │       │   │   ├── maint=med:1 {unacc=1}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   └── maint=low:1 {unacc=1}
+│   │       │       └── buying=med:1 {unacc=1}
+│   │       ├── doors=2:5 {unacc=5}
+│   │       │   ├── maint=med:2 {unacc=2}
+│   │       │   │   ├── buying=med:1 {unacc=1}
+│   │       │   │   └── buying=high:1 {unacc=1}
+│   │       │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   └── maint=low:1 {unacc=1}
+│   │       │       └── buying=med:1 {unacc=1}
+│   │       ├── maint=low:1 {unacc=1}
+│   │       │   └── buying=med:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── maint=high:13 {unacc=13}
+│   │       │   ├── buying=low:4 {unacc=4}
+│   │       │   │   ├── doors=4:1 {unacc=1}
+│   │       │   │   ├── doors=3:1 {unacc=1}
+│   │       │   │   ├── doors=2:1 {unacc=1}
+│   │       │   │   └── doors=5more:1 {unacc=1}
+│   │       │   ├── doors=5more:3 {unacc=3}
+│   │       │   │   ├── buying=high:1 {unacc=1}
+│   │       │   │   ├── buying=vhigh:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   ├── buying=vhigh:1 {unacc=1}
+│   │       │   │   └── doors=2:1 {unacc=1}
+│   │       │   ├── doors=2:2 {unacc=2}
+│   │       │   │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   ├── doors=3:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   └── buying=med:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── buying=low:10 {unacc=10}
+│   │       │   ├── doors=3:2 {unacc=2}
+│   │       │   │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── maint=med:1 {unacc=1}
+│   │       │   ├── doors=2:2 {unacc=2}
+│   │       │   │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── maint=med:1 {unacc=1}
+│   │       │   ├── doors=5more:3 {unacc=3}
+│   │       │   │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── maint=med:1 {unacc=1}
+│   │       │   ├── maint=med:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   └── maint=vhigh:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── buying=vhigh:5 {unacc=5}
+│   │       │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   ├── maint=med:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   └── doors=2:2 {unacc=2}
+│   │       │       ├── maint=med:1 {unacc=1}
+│   │       │       └── maint=low:1 {unacc=1}
+│   │       ├── doors=5more:7 {unacc=7}
+│   │       │   ├── buying=vhigh:3 {unacc=3}
+│   │       │   │   ├── maint=med:1 {unacc=1}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   ├── maint=med:2 {unacc=2}
+│   │       │   │   ├── buying=med:1 {unacc=1}
+│   │       │   │   └── buying=high:1 {unacc=1}
+│   │       │   └── buying=high:2 {unacc=2}
+│   │       │       ├── maint=vhigh:1 {unacc=1}
+│   │       │       └── maint=low:1 {unacc=1}
+│   │       ├── maint=vhigh:1 {unacc=1}
+│   │       │   └── buying=med:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── maint=med:2 {unacc=2}
+│   │       │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   └── buying=med:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       └── buying=high:1 {unacc=1}
+│   │           └── maint=vhigh:1 {unacc=1}
+│   │               └── doors=4:1 {unacc=1}
+│   ├── safety=low:100 {unacc=100}
+│   │   ├── persons=2:53 {unacc=53}
+│   │   │   ├── buying=vhigh:4 {unacc=4}
+│   │   │   │   ├── doors=2:2 {unacc=2}
+│   │   │   │   │   ├── maint=low:1 {unacc=1}
+│   │   │   │   │   └── maint=vhigh:1 {unacc=1}
+│   │   │   │   ├── maint=low:1 {unacc=1}
+│   │   │   │   │   └── doors=4:1 {unacc=1}
+│   │   │   │   └── maint=vhigh:1 {unacc=1}
+│   │   │   │       └── doors=4:1 {unacc=1}
+│   │   │   ├── doors=5more:8 {unacc=8}
+│   │   │   │   ├── maint=med:2 {unacc=2}
+│   │   │   │   │   ├── buying=high:1 {unacc=1}
+│   │   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │   ├── buying=high:2 {unacc=2}
+│   │   │   │   │   ├── maint=low:1 {unacc=1}
+│   │   │   │   │   └── maint=vhigh:1 {unacc=1}
+│   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │   └── buying=vhigh:3 {unacc=3}
+│   │   │   │       ├── maint=low:1 {unacc=1}
+│   │   │   │       ├── maint=med:1 {unacc=1}
+│   │   │   │       └── maint=vhigh:1 {unacc=1}
+│   │   │   ├── maint=high:15 {unacc=15}
+│   │   │   │   ├── buying=med:1 {unacc=1}
+│   │   │   │   │   └── doors=4:1 {unacc=1}
+│   │   │   │   ├── doors=5more:3 {unacc=3}
+│   │   │   │   │   ├── buying=med:1 {unacc=1}
+│   │   │   │   │   ├── buying=vhigh:1 {unacc=1}
+│   │   │   │   │   └── buying=high:1 {unacc=1}
+│   │   │   │   ├── buying=low:3 {unacc=3}
+│   │   │   │   │   ├── doors=2:1 {unacc=1}
+│   │   │   │   │   ├── doors=4:1 {unacc=1}
+│   │   │   │   │   └── doors=5more:1 {unacc=1}
+│   │   │   │   ├── doors=3:3 {unacc=3}
+│   │   │   │   │   ├── buying=high:1 {unacc=1}
+│   │   │   │   │   ├── buying=vhigh:1 {unacc=1}
+│   │   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │   ├── buying=vhigh:2 {unacc=2}
+│   │   │   │   │   ├── doors=2:1 {unacc=1}
+│   │   │   │   │   └── doors=4:1 {unacc=1}
+│   │   │   │   ├── buying=high:1 {unacc=1}
+│   │   │   │   │   └── doors=4:1 {unacc=1}
+│   │   │   │   └── doors=2:2 {unacc=2}
+│   │   │   │       ├── buying=high:1 {unacc=1}
+│   │   │   │       └── buying=med:1 {unacc=1}
+│   │   │   ├── doors=2:4 {unacc=4}
+│   │   │   │   ├── maint=low:1 {unacc=1}
+│   │   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │   ├── buying=high:1 {unacc=1}
+│   │   │   │   │   └── maint=low:1 {unacc=1}
+│   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │   └── maint=med:1 {unacc=1}
+│   │   │   │       └── buying=high:1 {unacc=1}
+│   │   │   ├── buying=low:11 {unacc=11}
+│   │   │   │   ├── doors=5more:3 {unacc=3}
+│   │   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   ├── maint=med:1 {unacc=1}
+│   │   │   │   │   └── maint=low:1 {unacc=1}
+│   │   │   │   ├── doors=2:3 {unacc=3}
+│   │   │   │   │   ├── maint=med:1 {unacc=1}
+│   │   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   └── maint=low:1 {unacc=1}
+│   │   │   │   ├── doors=3:3 {unacc=3}
+│   │   │   │   │   ├── maint=med:1 {unacc=1}
+│   │   │   │   │   ├── maint=low:1 {unacc=1}
+│   │   │   │   │   └── maint=vhigh:1 {unacc=1}
+│   │   │   │   ├── maint=low:1 {unacc=1}
+│   │   │   │   │   └── doors=4:1 {unacc=1}
+│   │   │   │   └── maint=vhigh:1 {unacc=1}
+│   │   │   │       └── doors=4:1 {unacc=1}
+│   │   │   ├── doors=3:8 {unacc=8}
+│   │   │   │   ├── buying=vhigh:3 {unacc=3}
+│   │   │   │   │   ├── maint=med:1 {unacc=1}
+│   │   │   │   │   ├── maint=low:1 {unacc=1}
+│   │   │   │   │   └── maint=vhigh:1 {unacc=1}
+│   │   │   │   ├── maint=low:1 {unacc=1}
+│   │   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │   ├── maint=med:2 {unacc=2}
+│   │   │   │   │   ├── buying=high:1 {unacc=1}
+│   │   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │   ├── buying=high:1 {unacc=1}
+│   │   │   │   │   └── maint=low:1 {unacc=1}
+│   │   │   │   └── maint=vhigh:1 {unacc=1}
+│   │   │   │       └── buying=med:1 {unacc=1}
+│   │   │   ├── buying=high:1 {unacc=1}
+│   │   │   │   └── maint=low:1 {unacc=1}
+│   │   │   │       └── doors=4:1 {unacc=1}
+│   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │       └── doors=4:1 {unacc=1}
+│   │   │   └── maint=med:1 {unacc=1}
+│   │   │       └── buying=high:1 {unacc=1}
+│   │   │           └── doors=4:1 {unacc=1}
+│   │   └── persons=more:47 {unacc=47}
+│   │       ├── maint=high:13 {unacc=13}
+│   │       │   ├── doors=3:2 {unacc=2}
+│   │       │   │   ├── buying=vhigh:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   ├── buying=low:4 {unacc=4}
+│   │       │   │   ├── doors=5more:1 {unacc=1}
+│   │       │   │   ├── doors=3:1 {unacc=1}
+│   │       │   │   ├── doors=2:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   ├── doors=2:2 {unacc=2}
+│   │       │   │   ├── buying=med:1 {unacc=1}
+│   │       │   │   └── buying=high:1 {unacc=1}
+│   │       │   ├── doors=5more:2 {unacc=2}
+│   │       │   │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── buying=vhigh:1 {unacc=1}
+│   │       │   ├── buying=med:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   ├── buying=vhigh:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   └── buying=high:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── doors=5more:6 {unacc=6}
+│   │       │   ├── buying=vhigh:2 {unacc=2}
+│   │       │   │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── maint=med:1 {unacc=1}
+│   │       │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   ├── maint=med:2 {unacc=2}
+│   │       │   │   ├── buying=med:1 {unacc=1}
+│   │       │   │   └── buying=high:1 {unacc=1}
+│   │       │   └── buying=high:1 {unacc=1}
+│   │       │       └── maint=vhigh:1 {unacc=1}
+│   │       ├── buying=low:11 {unacc=11}
+│   │       │   ├── doors=5more:3 {unacc=3}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── maint=med:1 {unacc=1}
+│   │       │   ├── doors=3:3 {unacc=3}
+│   │       │   │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── maint=med:1 {unacc=1}
+│   │       │   ├── maint=med:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   ├── doors=2:3 {unacc=3}
+│   │       │   │   ├── maint=med:1 {unacc=1}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   └── maint=low:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── maint=low:1 {unacc=1}
+│   │       │   └── buying=med:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── buying=vhigh:6 {unacc=6}
+│   │       │   ├── doors=2:3 {unacc=3}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   ├── maint=med:1 {unacc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   └── maint=med:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── doors=2:4 {unacc=4}
+│   │       │   ├── maint=med:2 {unacc=2}
+│   │       │   │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   └── maint=vhigh:1 {unacc=1}
+│   │       │       └── buying=med:1 {unacc=1}
+│   │       ├── doors=3:5 {unacc=5}
+│   │       │   ├── buying=vhigh:1 {unacc=1}
+│   │       │   │   └── maint=low:1 {unacc=1}
+│   │       │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   ├── buying=high:2 {unacc=2}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   └── maint=med:1 {unacc=1}
+│   │       │       └── buying=high:1 {unacc=1}
+│   │       └── buying=high:1 {unacc=1}
+│   │           └── maint=vhigh:1 {unacc=1}
+│   │               └── doors=4:1 {unacc=1}
+│   ├── safety=med:53 {acc=29, unacc=16, good=8}
+│   │   └── persons=more:53 {acc=29, unacc=16, good=8}
+│   │       ├── maint=high:12 {acc=6, unacc=6}
+│   │       │   ├── buying=low:3 {acc=3}
+│   │       │   │   ├── doors=2:1 {acc=1}
+│   │       │   │   ├── doors=5more:1 {acc=1}
+│   │       │   │   └── doors=4:1 {acc=1}
+│   │       │   ├── buying=vhigh:2 {unacc=2}
+│   │       │   │   ├── doors=4:1 {unacc=1}
+│   │       │   │   └── doors=2:1 {unacc=1}
+│   │       │   ├── doors=5more:2 {acc=1, unacc=1}
+│   │       │   │   ├── buying=high:1 {acc=1}
+│   │       │   │   └── buying=vhigh:1 {unacc=1}
+│   │       │   ├── doors=2:2 {unacc=2}
+│   │       │   │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   └── doors=3:3 {acc=2, unacc=1}
+│   │       │       ├── buying=vhigh:1 {unacc=1}
+│   │       │       ├── buying=med:1 {acc=1}
+│   │       │       └── buying=high:1 {acc=1}
+│   │       ├── doors=2:6 {acc=2, unacc=4}
+│   │       │   ├── buying=high:2 {unacc=2}
+│   │       │   │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── maint=low:1 {unacc=1}
+│   │       │   ├── maint=med:2 {acc=1, unacc=1}
+│   │       │   │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {acc=1}
+│   │       │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   └── maint=low:1 {acc=1}
+│   │       │       └── buying=med:1 {acc=1}
+│   │       ├── buying=low:10 {acc=5, good=5}
+│   │       │   ├── maint=med:1 {good=1}
+│   │       │   │   └── doors=4:1 {good=1}
+│   │       │   ├── doors=5more:2 {acc=1, good=1}
+│   │       │   │   ├── maint=vhigh:1 {acc=1}
+│   │       │   │   └── maint=low:1 {good=1}
+│   │       │   ├── doors=2:2 {acc=2}
+│   │       │   │   ├── maint=low:1 {acc=1}
+│   │       │   │   └── maint=med:1 {acc=1}
+│   │       │   ├── doors=3:3 {acc=1, good=2}
+│   │       │   │   ├── maint=low:1 {good=1}
+│   │       │   │   ├── maint=vhigh:1 {acc=1}
+│   │       │   │   └── maint=med:1 {good=1}
+│   │       │   ├── maint=vhigh:1 {acc=1}
+│   │       │   │   └── doors=4:1 {acc=1}
+│   │       │   └── maint=low:1 {good=1}
+│   │       │       └── doors=4:1 {good=1}
+│   │       ├── maint=low:1 {good=1}
+│   │       │   └── buying=med:1 {good=1}
+│   │       │       └── doors=4:1 {good=1}
+│   │       ├── doors=3:7 {acc=4, unacc=2, good=1}
+│   │       │   ├── maint=med:2 {acc=2}
+│   │       │   │   ├── buying=high:1 {acc=1}
+│   │       │   │   └── buying=med:1 {acc=1}
+│   │       │   ├── maint=low:1 {good=1}
+│   │       │   │   └── buying=med:1 {good=1}
+│   │       │   ├── buying=vhigh:2 {acc=1, unacc=1}
+│   │       │   │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── maint=low:1 {acc=1}
+│   │       │   └── buying=high:2 {acc=1, unacc=1}
+│   │       │       ├── maint=vhigh:1 {unacc=1}
+│   │       │       └── maint=low:1 {acc=1}
+│   │       ├── doors=5more:8 {acc=6, unacc=1, good=1}
+│   │       │   ├── maint=med:2 {acc=2}
+│   │       │   │   ├── buying=high:1 {acc=1}
+│   │       │   │   └── buying=med:1 {acc=1}
+│   │       │   ├── buying=vhigh:3 {acc=2, unacc=1}
+│   │       │   │   ├── maint=low:1 {acc=1}
+│   │       │   │   ├── maint=med:1 {acc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   ├── maint=low:1 {good=1}
+│   │       │   │   └── buying=med:1 {good=1}
+│   │       │   ├── buying=high:1 {acc=1}
+│   │       │   │   └── maint=low:1 {acc=1}
+│   │       │   └── maint=vhigh:1 {acc=1}
+│   │       │       └── buying=med:1 {acc=1}
+│   │       ├── buying=high:2 {acc=1, unacc=1}
+│   │       │   ├── maint=low:1 {acc=1}
+│   │       │   │   └── doors=4:1 {acc=1}
+│   │       │   └── maint=vhigh:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── maint=med:2 {acc=2}
+│   │       │   ├── buying=med:1 {acc=1}
+│   │       │   │   └── doors=4:1 {acc=1}
+│   │       │   └── buying=high:1 {acc=1}
+│   │       │       └── doors=4:1 {acc=1}
+│   │       ├── buying=vhigh:4 {acc=2, unacc=2}
+│   │       │   ├── maint=med:1 {acc=1}
+│   │       │   │   └── doors=4:1 {acc=1}
+│   │       │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   ├── maint=low:1 {acc=1}
+│   │       │   │   └── doors=4:1 {acc=1}
+│   │       │   └── doors=2:1 {unacc=1}
+│   │       │       └── maint=low:1 {unacc=1}
+│   │       └── maint=vhigh:1 {acc=1}
+│   │           └── buying=med:1 {acc=1}
+│   │               └── doors=4:1 {acc=1}
+│   └── safety=high:54 {acc=27, vgood=13, unacc=12, good=2}
+│       └── persons=more:54 {acc=27, vgood=13, unacc=12, good=2}
+│           ├── maint=high:14 {acc=7, vgood=3, unacc=4}
+│           │   ├── doors=5more:1 {unacc=1}
+│           │   │   └── buying=vhigh:1 {unacc=1}
+│           │   ├── buying=low:4 {acc=1, vgood=3}
+│           │   │   ├── doors=3:1 {vgood=1}
+│           │   │   ├── doors=5more:1 {vgood=1}
+│           │   │   ├── doors=4:1 {vgood=1}
+│           │   │   └── doors=2:1 {acc=1}
+│           │   ├── doors=3:3 {acc=2, unacc=1}
+│           │   │   ├── buying=high:1 {acc=1}
+│           │   │   ├── buying=med:1 {acc=1}
+│           │   │   └── buying=vhigh:1 {unacc=1}
+│           │   ├── buying=vhigh:2 {unacc=2}
+│           │   │   ├── doors=4:1 {unacc=1}
+│           │   │   └── doors=2:1 {unacc=1}
+│           │   ├── buying=high:1 {acc=1}
+│           │   │   └── doors=4:1 {acc=1}
+│           │   ├── doors=2:2 {acc=2}
+│           │   │   ├── buying=high:1 {acc=1}
+│           │   │   └── buying=med:1 {acc=1}
+│           │   └── buying=med:1 {acc=1}
+│           │       └── doors=4:1 {acc=1}
+│           ├── buying=low:9 {acc=3, vgood=4, good=2}
+│           │   ├── maint=med:1 {vgood=1}
+│           │   │   └── doors=4:1 {vgood=1}
+│           │   ├── doors=3:3 {acc=1, vgood=2}
+│           │   │   ├── maint=vhigh:1 {acc=1}
+│           │   │   ├── maint=med:1 {vgood=1}
+│           │   │   └── maint=low:1 {vgood=1}
+│           │   ├── maint=vhigh:1 {acc=1}
+│           │   │   └── doors=4:1 {acc=1}
+│           │   ├── doors=2:3 {acc=1, good=2}
+│           │   │   ├── maint=med:1 {good=1}
+│           │   │   ├── maint=low:1 {good=1}
+│           │   │   └── maint=vhigh:1 {acc=1}
+│           │   └── maint=low:1 {vgood=1}
+│           │       └── doors=4:1 {vgood=1}
+│           ├── doors=5more:8 {acc=4, unacc=2, vgood=2}
+│           │   ├── maint=med:2 {acc=1, vgood=1}
+│           │   │   ├── buying=med:1 {vgood=1}
+│           │   │   └── buying=high:1 {acc=1}
+│           │   ├── buying=vhigh:3 {acc=2, unacc=1}
+│           │   │   ├── maint=low:1 {acc=1}
+│           │   │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   └── maint=med:1 {acc=1}
+│           │   ├── buying=high:2 {acc=1, unacc=1}
+│           │   │   ├── maint=low:1 {acc=1}
+│           │   │   └── maint=vhigh:1 {unacc=1}
+│           │   └── maint=low:1 {vgood=1}
+│           │       └── buying=med:1 {vgood=1}
+│           ├── doors=3:9 {acc=5, unacc=2, vgood=2}
+│           │   ├── buying=vhigh:3 {acc=2, unacc=1}
+│           │   │   ├── maint=low:1 {acc=1}
+│           │   │   ├── maint=med:1 {acc=1}
+│           │   │   └── maint=vhigh:1 {unacc=1}
+│           │   ├── maint=med:2 {acc=1, vgood=1}
+│           │   │   ├── buying=med:1 {vgood=1}
+│           │   │   └── buying=high:1 {acc=1}
+│           │   ├── buying=high:2 {acc=1, unacc=1}
+│           │   │   ├── maint=low:1 {acc=1}
+│           │   │   └── maint=vhigh:1 {unacc=1}
+│           │   ├── maint=vhigh:1 {acc=1}
+│           │   │   └── buying=med:1 {acc=1}
+│           │   └── maint=low:1 {vgood=1}
+│           │       └── buying=med:1 {vgood=1}
+│           ├── doors=2:3 {acc=2, unacc=1}
+│           │   ├── maint=vhigh:1 {acc=1}
+│           │   │   └── buying=med:1 {acc=1}
+│           │   ├── maint=med:1 {acc=1}
+│           │   │   └── buying=high:1 {acc=1}
+│           │   └── buying=high:1 {unacc=1}
+│           │       └── maint=vhigh:1 {unacc=1}
+│           ├── buying=vhigh:6 {acc=4, unacc=2}
+│           │   ├── doors=2:3 {acc=2, unacc=1}
+│           │   │   ├── maint=med:1 {acc=1}
+│           │   │   ├── maint=low:1 {acc=1}
+│           │   │   └── maint=vhigh:1 {unacc=1}
+│           │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   └── doors=4:1 {unacc=1}
+│           │   ├── maint=med:1 {acc=1}
+│           │   │   └── doors=4:1 {acc=1}
+│           │   └── maint=low:1 {acc=1}
+│           │       └── doors=4:1 {acc=1}
+│           ├── buying=high:2 {acc=1, unacc=1}
+│           │   ├── maint=low:1 {acc=1}
+│           │   │   └── doors=4:1 {acc=1}
+│           │   └── maint=vhigh:1 {unacc=1}
+│           │       └── doors=4:1 {unacc=1}
+│           ├── maint=low:1 {vgood=1}
+│           │   └── buying=med:1 {vgood=1}
+│           │       └── doors=4:1 {vgood=1}
+│           ├── maint=med:1 {vgood=1}
+│           │   └── buying=med:1 {vgood=1}
+│           │       └── doors=4:1 {vgood=1}
+│           └── maint=vhigh:1 {acc=1}
+│               └── buying=med:1 {acc=1}
+│                   └── doors=4:1 {acc=1}
+├── persons=4:473 {acc=164, vgood=21, unacc=257, good=31}
+│   ├── safety=low:106 {unacc=106}
+│   │   ├── lug_boot=small:52 {unacc=52}
+│   │   │   ├── buying=low:9 {unacc=9}
+│   │   │   │   ├── doors=5more:2 {unacc=2}
+│   │   │   │   │   ├── maint=low:1 {unacc=1}
+│   │   │   │   │   └── maint=med:1 {unacc=1}
+│   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   └── doors=4:1 {unacc=1}
+│   │   │   │   ├── maint=low:1 {unacc=1}
+│   │   │   │   │   └── doors=4:1 {unacc=1}
+│   │   │   │   ├── doors=3:2 {unacc=2}
+│   │   │   │   │   ├── maint=low:1 {unacc=1}
+│   │   │   │   │   └── maint=vhigh:1 {unacc=1}
+│   │   │   │   └── doors=2:3 {unacc=3}
+│   │   │   │       ├── maint=low:1 {unacc=1}
+│   │   │   │       ├── maint=vhigh:1 {unacc=1}
+│   │   │   │       └── maint=med:1 {unacc=1}
+│   │   │   ├── maint=med:2 {unacc=2}
+│   │   │   │   ├── buying=med:1 {unacc=1}
+│   │   │   │   │   └── doors=4:1 {unacc=1}
+│   │   │   │   └── buying=high:1 {unacc=1}
+│   │   │   │       └── doors=4:1 {unacc=1}
+│   │   │   ├── buying=vhigh:5 {unacc=5}
+│   │   │   │   ├── doors=2:3 {unacc=3}
+│   │   │   │   │   ├── maint=low:1 {unacc=1}
+│   │   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   └── maint=med:1 {unacc=1}
+│   │   │   │   ├── maint=med:1 {unacc=1}
+│   │   │   │   │   └── doors=4:1 {unacc=1}
+│   │   │   │   └── maint=vhigh:1 {unacc=1}
+│   │   │   │       └── doors=4:1 {unacc=1}
+│   │   │   ├── doors=5more:7 {unacc=7}
+│   │   │   │   ├── buying=vhigh:3 {unacc=3}
+│   │   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   ├── maint=low:1 {unacc=1}
+│   │   │   │   │   └── maint=med:1 {unacc=1}
+│   │   │   │   ├── maint=med:2 {unacc=2}
+│   │   │   │   │   ├── buying=med:1 {unacc=1}
+│   │   │   │   │   └── buying=high:1 {unacc=1}
+│   │   │   │   ├── buying=high:1 {unacc=1}
+│   │   │   │   │   └── maint=vhigh:1 {unacc=1}
+│   │   │   │   └── maint=low:1 {unacc=1}
+│   │   │   │       └── buying=med:1 {unacc=1}
+│   │   │   ├── doors=2:5 {unacc=5}
+│   │   │   │   ├── maint=med:2 {unacc=2}
+│   │   │   │   │   ├── buying=med:1 {unacc=1}
+│   │   │   │   │   └── buying=high:1 {unacc=1}
+│   │   │   │   ├── maint=low:1 {unacc=1}
+│   │   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │   └── buying=high:1 {unacc=1}
+│   │   │   │       └── maint=vhigh:1 {unacc=1}
+│   │   │   ├── doors=3:7 {unacc=7}
+│   │   │   │   ├── buying=vhigh:2 {unacc=2}
+│   │   │   │   │   ├── maint=low:1 {unacc=1}
+│   │   │   │   │   └── maint=vhigh:1 {unacc=1}
+│   │   │   │   ├── maint=low:1 {unacc=1}
+│   │   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │   ├── buying=high:2 {unacc=2}
+│   │   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   └── maint=low:1 {unacc=1}
+│   │   │   │   ├── maint=med:1 {unacc=1}
+│   │   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │   └── maint=vhigh:1 {unacc=1}
+│   │   │   │       └── buying=med:1 {unacc=1}
+│   │   │   ├── maint=high:14 {unacc=14}
+│   │   │   │   ├── doors=5more:3 {unacc=3}
+│   │   │   │   │   ├── buying=vhigh:1 {unacc=1}
+│   │   │   │   │   ├── buying=med:1 {unacc=1}
+│   │   │   │   │   └── buying=high:1 {unacc=1}
+│   │   │   │   ├── doors=3:3 {unacc=3}
+│   │   │   │   │   ├── buying=high:1 {unacc=1}
+│   │   │   │   │   ├── buying=vhigh:1 {unacc=1}
+│   │   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │   ├── buying=vhigh:1 {unacc=1}
+│   │   │   │   │   └── doors=2:1 {unacc=1}
+│   │   │   │   ├── buying=low:4 {unacc=4}
+│   │   │   │   │   ├── doors=5more:1 {unacc=1}
+│   │   │   │   │   ├── doors=2:1 {unacc=1}
+│   │   │   │   │   ├── doors=4:1 {unacc=1}
+│   │   │   │   │   └── doors=3:1 {unacc=1}
+│   │   │   │   ├── doors=2:2 {unacc=2}
+│   │   │   │   │   ├── buying=high:1 {unacc=1}
+│   │   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │   └── buying=high:1 {unacc=1}
+│   │   │   │       └── doors=4:1 {unacc=1}
+│   │   │   ├── buying=high:2 {unacc=2}
+│   │   │   │   ├── maint=low:1 {unacc=1}
+│   │   │   │   │   └── doors=4:1 {unacc=1}
+│   │   │   │   └── maint=vhigh:1 {unacc=1}
+│   │   │   │       └── doors=4:1 {unacc=1}
+│   │   │   └── maint=low:1 {unacc=1}
+│   │   │       └── buying=med:1 {unacc=1}
+│   │   │           └── doors=4:1 {unacc=1}
+│   │   └── lug_boot=big:54 {unacc=54}
+│   │       ├── doors=5more:9 {unacc=9}
+│   │       │   ├── buying=high:2 {unacc=2}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   ├── buying=vhigh:3 {unacc=3}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── maint=med:1 {unacc=1}
+│   │       │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   └── maint=med:2 {unacc=2}
+│   │       │       ├── buying=med:1 {unacc=1}
+│   │       │       └── buying=high:1 {unacc=1}
+│   │       ├── buying=low:10 {unacc=10}
+│   │       │   ├── doors=2:2 {unacc=2}
+│   │       │   │   ├── maint=med:1 {unacc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   ├── doors=5more:2 {unacc=2}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── maint=med:1 {unacc=1}
+│   │       │   ├── doors=3:3 {unacc=3}
+│   │       │   │   ├── maint=med:1 {unacc=1}
+│   │       │   │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── maint=low:1 {unacc=1}
+│   │       │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   └── maint=med:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── buying=high:2 {unacc=2}
+│   │       │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   └── maint=vhigh:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── maint=high:12 {unacc=12}
+│   │       │   ├── doors=2:2 {unacc=2}
+│   │       │   │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   ├── buying=med:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   ├── buying=low:3 {unacc=3}
+│   │       │   │   ├── doors=3:1 {unacc=1}
+│   │       │   │   ├── doors=2:1 {unacc=1}
+│   │       │   │   └── doors=5more:1 {unacc=1}
+│   │       │   ├── doors=5more:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   ├── doors=3:3 {unacc=3}
+│   │       │   │   ├── buying=high:1 {unacc=1}
+│   │       │   │   ├── buying=med:1 {unacc=1}
+│   │       │   │   └── buying=vhigh:1 {unacc=1}
+│   │       │   └── buying=vhigh:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── buying=vhigh:6 {unacc=6}
+│   │       │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   ├── doors=2:3 {unacc=3}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── maint=med:1 {unacc=1}
+│   │       │   ├── maint=med:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   └── maint=vhigh:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── maint=med:2 {unacc=2}
+│   │       │   ├── buying=med:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   └── buying=high:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── maint=vhigh:1 {unacc=1}
+│   │       │   └── buying=med:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── doors=3:6 {unacc=6}
+│   │       │   ├── maint=med:2 {unacc=2}
+│   │       │   │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   ├── buying=vhigh:2 {unacc=2}
+│   │       │   │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── maint=low:1 {unacc=1}
+│   │       │   └── buying=high:1 {unacc=1}
+│   │       │       └── maint=vhigh:1 {unacc=1}
+│   │       ├── doors=2:5 {unacc=5}
+│   │       │   ├── buying=high:2 {unacc=2}
+│   │       │   │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── maint=low:1 {unacc=1}
+│   │       │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   └── maint=med:2 {unacc=2}
+│   │       │       ├── buying=med:1 {unacc=1}
+│   │       │       └── buying=high:1 {unacc=1}
+│   │       └── maint=low:1 {unacc=1}
+│   │           └── buying=med:1 {unacc=1}
+│   │               └── doors=4:1 {unacc=1}
+│   ├── safety=med:56 {acc=18, unacc=38}
+│   │   └── lug_boot=small:56 {acc=18, unacc=38}
+│   │       ├── doors=5more:8 {acc=2, unacc=6}
+│   │       │   ├── buying=high:2 {unacc=2}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   ├── buying=vhigh:2 {unacc=2}
+│   │       │   │   ├── maint=med:1 {unacc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   ├── maint=low:1 {acc=1}
+│   │       │   │   └── buying=med:1 {acc=1}
+│   │       │   └── maint=med:2 {acc=1, unacc=1}
+│   │       │       ├── buying=med:1 {acc=1}
+│   │       │       └── buying=high:1 {unacc=1}
+│   │       ├── doors=3:7 {acc=1, unacc=6}
+│   │       │   ├── buying=high:2 {unacc=2}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   ├── maint=med:2 {acc=1, unacc=1}
+│   │       │   │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {acc=1}
+│   │       │   ├── buying=vhigh:2 {unacc=2}
+│   │       │   │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── maint=low:1 {unacc=1}
+│   │       │   └── maint=vhigh:1 {unacc=1}
+│   │       │       └── buying=med:1 {unacc=1}
+│   │       ├── maint=high:14 {acc=4, unacc=10}
+│   │       │   ├── doors=3:2 {unacc=2}
+│   │       │   │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   ├── buying=low:4 {acc=4}
+│   │       │   │   ├── doors=3:1 {acc=1}
+│   │       │   │   ├── doors=2:1 {acc=1}
+│   │       │   │   ├── doors=4:1 {acc=1}
+│   │       │   │   └── doors=5more:1 {acc=1}
+│   │       │   ├── buying=vhigh:2 {unacc=2}
+│   │       │   │   ├── doors=2:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   ├── doors=5more:2 {unacc=2}
+│   │       │   │   ├── buying=vhigh:1 {unacc=1}
+│   │       │   │   └── buying=high:1 {unacc=1}
+│   │       │   ├── buying=med:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   ├── doors=2:2 {unacc=2}
+│   │       │   │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   └── buying=high:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── buying=high:1 {unacc=1}
+│   │       │   └── maint=low:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── buying=low:10 {acc=7, unacc=3}
+│   │       │   ├── doors=5more:3 {acc=2, unacc=1}
+│   │       │   │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   ├── maint=med:1 {acc=1}
+│   │       │   │   └── maint=low:1 {acc=1}
+│   │       │   ├── doors=2:2 {acc=2}
+│   │       │   │   ├── maint=med:1 {acc=1}
+│   │       │   │   └── maint=low:1 {acc=1}
+│   │       │   ├── maint=low:1 {acc=1}
+│   │       │   │   └── doors=4:1 {acc=1}
+│   │       │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   └── doors=3:3 {acc=2, unacc=1}
+│   │       │       ├── maint=vhigh:1 {unacc=1}
+│   │       │       ├── maint=low:1 {acc=1}
+│   │       │       └── maint=med:1 {acc=1}
+│   │       ├── buying=vhigh:6 {unacc=6}
+│   │       │   ├── doors=2:3 {unacc=3}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   ├── maint=med:1 {unacc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   ├── maint=med:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   └── maint=low:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── doors=2:6 {acc=2, unacc=4}
+│   │       │   ├── maint=med:2 {acc=1, unacc=1}
+│   │       │   │   ├── buying=med:1 {acc=1}
+│   │       │   │   └── buying=high:1 {unacc=1}
+│   │       │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   ├── buying=high:2 {unacc=2}
+│   │       │   │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── maint=low:1 {unacc=1}
+│   │       │   └── maint=low:1 {acc=1}
+│   │       │       └── buying=med:1 {acc=1}
+│   │       ├── maint=med:2 {acc=1, unacc=1}
+│   │       │   ├── buying=med:1 {acc=1}
+│   │       │   │   └── doors=4:1 {acc=1}
+│   │       │   └── buying=high:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── maint=vhigh:1 {unacc=1}
+│   │       │   └── buying=med:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       └── maint=low:1 {acc=1}
+│   │           └── buying=med:1 {acc=1}
+│   │               └── doors=4:1 {acc=1}
+│   ├── safety=high:56 {acc=34, unacc=10, good=12}
+│   │   └── lug_boot=small:56 {acc=34, unacc=10, good=12}
+│   │       ├── buying=low:11 {acc=3, good=8}
+│   │       │   ├── doors=2:3 {acc=1, good=2}
+│   │       │   │   ├── maint=low:1 {good=1}
+│   │       │   │   ├── maint=vhigh:1 {acc=1}
+│   │       │   │   └── maint=med:1 {good=1}
+│   │       │   ├── maint=low:1 {good=1}
+│   │       │   │   └── doors=4:1 {good=1}
+│   │       │   ├── doors=3:3 {acc=1, good=2}
+│   │       │   │   ├── maint=low:1 {good=1}
+│   │       │   │   ├── maint=med:1 {good=1}
+│   │       │   │   └── maint=vhigh:1 {acc=1}
+│   │       │   ├── doors=5more:3 {acc=1, good=2}
+│   │       │   │   ├── maint=low:1 {good=1}
+│   │       │   │   ├── maint=vhigh:1 {acc=1}
+│   │       │   │   └── maint=med:1 {good=1}
+│   │       │   └── maint=med:1 {good=1}
+│   │       │       └── doors=4:1 {good=1}
+│   │       ├── buying=vhigh:5 {acc=4, unacc=1}
+│   │       │   ├── maint=low:1 {acc=1}
+│   │       │   │   └── doors=4:1 {acc=1}
+│   │       │   ├── maint=med:1 {acc=1}
+│   │       │   │   └── doors=4:1 {acc=1}
+│   │       │   └── doors=2:3 {acc=2, unacc=1}
+│   │       │       ├── maint=vhigh:1 {unacc=1}
+│   │       │       ├── maint=low:1 {acc=1}
+│   │       │       └── maint=med:1 {acc=1}
+│   │       ├── maint=high:14 {acc=10, unacc=4}
+│   │       │   ├── doors=2:2 {acc=2}
+│   │       │   │   ├── buying=med:1 {acc=1}
+│   │       │   │   └── buying=high:1 {acc=1}
+│   │       │   ├── buying=vhigh:2 {unacc=2}
+│   │       │   │   ├── doors=4:1 {unacc=1}
+│   │       │   │   └── doors=2:1 {unacc=1}
+│   │       │   ├── buying=high:1 {acc=1}
+│   │       │   │   └── doors=4:1 {acc=1}
+│   │       │   ├── buying=med:1 {acc=1}
+│   │       │   │   └── doors=4:1 {acc=1}
+│   │       │   ├── buying=low:4 {acc=4}
+│   │       │   │   ├── doors=3:1 {acc=1}
+│   │       │   │   ├── doors=2:1 {acc=1}
+│   │       │   │   ├── doors=4:1 {acc=1}
+│   │       │   │   └── doors=5more:1 {acc=1}
+│   │       │   ├── doors=3:2 {acc=1, unacc=1}
+│   │       │   │   ├── buying=vhigh:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {acc=1}
+│   │       │   └── doors=5more:2 {acc=1, unacc=1}
+│   │       │       ├── buying=high:1 {acc=1}
+│   │       │       └── buying=vhigh:1 {unacc=1}
+│   │       ├── doors=2:5 {acc=4, good=1}
+│   │       │   ├── maint=low:1 {good=1}
+│   │       │   │   └── buying=med:1 {good=1}
+│   │       │   ├── maint=vhigh:1 {acc=1}
+│   │       │   │   └── buying=med:1 {acc=1}
+│   │       │   ├── maint=med:2 {acc=2}
+│   │       │   │   ├── buying=high:1 {acc=1}
+│   │       │   │   └── buying=med:1 {acc=1}
+│   │       │   └── buying=high:1 {acc=1}
+│   │       │       └── maint=low:1 {acc=1}
+│   │       ├── doors=5more:8 {acc=5, unacc=2, good=1}
+│   │       │   ├── buying=vhigh:3 {acc=2, unacc=1}
+│   │       │   │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   ├── maint=med:1 {acc=1}
+│   │       │   │   └── maint=low:1 {acc=1}
+│   │       │   ├── buying=high:2 {acc=1, unacc=1}
+│   │       │   │   ├── maint=low:1 {acc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   ├── maint=med:1 {acc=1}
+│   │       │   │   └── buying=high:1 {acc=1}
+│   │       │   ├── maint=low:1 {good=1}
+│   │       │   │   └── buying=med:1 {good=1}
+│   │       │   └── maint=vhigh:1 {acc=1}
+│   │       │       └── buying=med:1 {acc=1}
+│   │       ├── maint=med:1 {acc=1}
+│   │       │   └── buying=med:1 {acc=1}
+│   │       │       └── doors=4:1 {acc=1}
+│   │       ├── doors=3:9 {acc=6, unacc=2, good=1}
+│   │       │   ├── maint=vhigh:1 {acc=1}
+│   │       │   │   └── buying=med:1 {acc=1}
+│   │       │   ├── buying=high:2 {acc=1, unacc=1}
+│   │       │   │   ├── maint=low:1 {acc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   ├── buying=vhigh:3 {acc=2, unacc=1}
+│   │       │   │   ├── maint=low:1 {acc=1}
+│   │       │   │   ├── maint=med:1 {acc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   ├── maint=med:2 {acc=2}
+│   │       │   │   ├── buying=high:1 {acc=1}
+│   │       │   │   └── buying=med:1 {acc=1}
+│   │       │   └── maint=low:1 {good=1}
+│   │       │       └── buying=med:1 {good=1}
+│   │       ├── maint=low:1 {good=1}
+│   │       │   └── buying=med:1 {good=1}
+│   │       │       └── doors=4:1 {good=1}
+│   │       ├── buying=high:1 {unacc=1}
+│   │       │   └── maint=vhigh:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       └── maint=vhigh:1 {acc=1}
+│   │           └── buying=med:1 {acc=1}
+│   │               └── doors=4:1 {acc=1}
+│   ├── lug_boot=big:102 {acc=55, unacc=20, vgood=16, good=11}
+│   │   ├── safety=med:53 {acc=31, unacc=11, good=11}
+│   │   │   ├── maint=high:13 {acc=9, unacc=4}
+│   │   │   │   ├── doors=5more:3 {acc=2, unacc=1}
+│   │   │   │   │   ├── buying=high:1 {acc=1}
+│   │   │   │   │   ├── buying=med:1 {acc=1}
+│   │   │   │   │   └── buying=vhigh:1 {unacc=1}
+│   │   │   │   ├── doors=3:2 {acc=1, unacc=1}
+│   │   │   │   │   ├── buying=high:1 {acc=1}
+│   │   │   │   │   └── buying=vhigh:1 {unacc=1}
+│   │   │   │   ├── buying=low:3 {acc=3}
+│   │   │   │   │   ├── doors=2:1 {acc=1}
+│   │   │   │   │   ├── doors=3:1 {acc=1}
+│   │   │   │   │   └── doors=4:1 {acc=1}
+│   │   │   │   ├── buying=high:1 {acc=1}
+│   │   │   │   │   └── doors=4:1 {acc=1}
+│   │   │   │   ├── doors=2:1 {acc=1}
+│   │   │   │   │   └── buying=high:1 {acc=1}
+│   │   │   │   ├── buying=vhigh:2 {unacc=2}
+│   │   │   │   │   ├── doors=4:1 {unacc=1}
+│   │   │   │   │   └── doors=2:1 {unacc=1}
+│   │   │   │   └── buying=med:1 {acc=1}
+│   │   │   │       └── doors=4:1 {acc=1}
+│   │   │   ├── doors=5more:5 {acc=4, unacc=1}
+│   │   │   │   ├── maint=med:2 {acc=2}
+│   │   │   │   │   ├── buying=med:1 {acc=1}
+│   │   │   │   │   └── buying=high:1 {acc=1}
+│   │   │   │   ├── buying=vhigh:1 {acc=1}
+│   │   │   │   │   └── maint=med:1 {acc=1}
+│   │   │   │   ├── buying=high:1 {unacc=1}
+│   │   │   │   │   └── maint=vhigh:1 {unacc=1}
+│   │   │   │   └── maint=vhigh:1 {acc=1}
+│   │   │   │       └── buying=med:1 {acc=1}
+│   │   │   ├── doors=3:8 {acc=5, unacc=2, good=1}
+│   │   │   │   ├── maint=vhigh:1 {acc=1}
+│   │   │   │   │   └── buying=med:1 {acc=1}
+│   │   │   │   ├── buying=high:2 {acc=1, unacc=1}
+│   │   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   └── maint=low:1 {acc=1}
+│   │   │   │   ├── buying=vhigh:3 {acc=2, unacc=1}
+│   │   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   ├── maint=med:1 {acc=1}
+│   │   │   │   │   └── maint=low:1 {acc=1}
+│   │   │   │   ├── maint=low:1 {good=1}
+│   │   │   │   │   └── buying=med:1 {good=1}
+│   │   │   │   └── maint=med:1 {acc=1}
+│   │   │   │       └── buying=high:1 {acc=1}
+│   │   │   ├── buying=vhigh:5 {acc=3, unacc=2}
+│   │   │   │   ├── maint=med:1 {acc=1}
+│   │   │   │   │   └── doors=4:1 {acc=1}
+│   │   │   │   ├── doors=2:2 {acc=1, unacc=1}
+│   │   │   │   │   ├── maint=med:1 {acc=1}
+│   │   │   │   │   └── maint=vhigh:1 {unacc=1}
+│   │   │   │   ├── maint=low:1 {acc=1}
+│   │   │   │   │   └── doors=4:1 {acc=1}
+│   │   │   │   └── maint=vhigh:1 {unacc=1}
+│   │   │   │       └── doors=4:1 {unacc=1}
+│   │   │   ├── doors=2:5 {acc=3, unacc=1, good=1}
+│   │   │   │   ├── maint=low:1 {good=1}
+│   │   │   │   │   └── buying=med:1 {good=1}
+│   │   │   │   ├── buying=high:2 {acc=1, unacc=1}
+│   │   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   └── maint=low:1 {acc=1}
+│   │   │   │   └── maint=med:2 {acc=2}
+│   │   │   │       ├── buying=med:1 {acc=1}
+│   │   │   │       └── buying=high:1 {acc=1}
+│   │   │   ├── buying=low:12 {acc=4, good=8}
+│   │   │   │   ├── doors=5more:3 {acc=1, good=2}
+│   │   │   │   │   ├── maint=low:1 {good=1}
+│   │   │   │   │   ├── maint=med:1 {good=1}
+│   │   │   │   │   └── maint=vhigh:1 {acc=1}
+│   │   │   │   ├── maint=med:1 {good=1}
+│   │   │   │   │   └── doors=4:1 {good=1}
+│   │   │   │   ├── doors=3:3 {acc=1, good=2}
+│   │   │   │   │   ├── maint=vhigh:1 {acc=1}
+│   │   │   │   │   ├── maint=med:1 {good=1}
+│   │   │   │   │   └── maint=low:1 {good=1}
+│   │   │   │   ├── maint=vhigh:1 {acc=1}
+│   │   │   │   │   └── doors=4:1 {acc=1}
+│   │   │   │   ├── maint=low:1 {good=1}
+│   │   │   │   │   └── doors=4:1 {good=1}
+│   │   │   │   └── doors=2:3 {acc=1, good=2}
+│   │   │   │       ├── maint=med:1 {good=1}
+│   │   │   │       ├── maint=vhigh:1 {acc=1}
+│   │   │   │       └── maint=low:1 {good=1}
+│   │   │   ├── maint=med:1 {acc=1}
+│   │   │   │   └── buying=med:1 {acc=1}
+│   │   │   │       └── doors=4:1 {acc=1}
+│   │   │   ├── buying=high:2 {acc=1, unacc=1}
+│   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   └── doors=4:1 {unacc=1}
+│   │   │   │   └── maint=low:1 {acc=1}
+│   │   │   │       └── doors=4:1 {acc=1}
+│   │   │   ├── maint=low:1 {good=1}
+│   │   │   │   └── buying=med:1 {good=1}
+│   │   │   │       └── doors=4:1 {good=1}
+│   │   │   └── maint=vhigh:1 {acc=1}
+│   │   │       └── buying=med:1 {acc=1}
+│   │   │           └── doors=4:1 {acc=1}
+│   │   └── safety=high:49 {acc=24, unacc=9, vgood=16}
+│   │       ├── buying=low:9 {acc=2, vgood=7}
+│   │       │   ├── doors=5more:2 {vgood=2}
+│   │       │   │   ├── maint=low:1 {vgood=1}
+│   │       │   │   └── maint=med:1 {vgood=1}
+│   │       │   ├── doors=2:2 {acc=1, vgood=1}
+│   │       │   │   ├── maint=vhigh:1 {acc=1}
+│   │       │   │   └── maint=low:1 {vgood=1}
+│   │       │   ├── maint=med:1 {vgood=1}
+│   │       │   │   └── doors=4:1 {vgood=1}
+│   │       │   ├── doors=3:3 {acc=1, vgood=2}
+│   │       │   │   ├── maint=med:1 {vgood=1}
+│   │       │   │   ├── maint=vhigh:1 {acc=1}
+│   │       │   │   └── maint=low:1 {vgood=1}
+│   │       │   └── maint=low:1 {vgood=1}
+│   │       │       └── doors=4:1 {vgood=1}
+│   │       ├── doors=5more:6 {acc=5, vgood=1}
+│   │       │   ├── buying=vhigh:2 {acc=2}
+│   │       │   │   ├── maint=low:1 {acc=1}
+│   │       │   │   └── maint=med:1 {acc=1}
+│   │       │   ├── buying=high:1 {acc=1}
+│   │       │   │   └── maint=low:1 {acc=1}
+│   │       │   ├── maint=med:1 {acc=1}
+│   │       │   │   └── buying=high:1 {acc=1}
+│   │       │   ├── maint=vhigh:1 {acc=1}
+│   │       │   │   └── buying=med:1 {acc=1}
+│   │       │   └── maint=low:1 {vgood=1}
+│   │       │       └── buying=med:1 {vgood=1}
+│   │       ├── maint=high:12 {acc=6, unacc=3, vgood=3}
+│   │       │   ├── buying=low:3 {vgood=3}
+│   │       │   │   ├── doors=3:1 {vgood=1}
+│   │       │   │   ├── doors=4:1 {vgood=1}
+│   │       │   │   └── doors=2:1 {vgood=1}
+│   │       │   ├── doors=5more:3 {acc=2, unacc=1}
+│   │       │   │   ├── buying=med:1 {acc=1}
+│   │       │   │   ├── buying=vhigh:1 {unacc=1}
+│   │       │   │   └── buying=high:1 {acc=1}
+│   │       │   ├── doors=2:2 {acc=2}
+│   │       │   │   ├── buying=high:1 {acc=1}
+│   │       │   │   └── buying=med:1 {acc=1}
+│   │       │   ├── doors=3:1 {acc=1}
+│   │       │   │   └── buying=med:1 {acc=1}
+│   │       │   ├── buying=high:1 {acc=1}
+│   │       │   │   └── doors=4:1 {acc=1}
+│   │       │   └── buying=vhigh:2 {unacc=2}
+│   │       │       ├── doors=2:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── buying=vhigh:5 {acc=3, unacc=2}
+│   │       │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   ├── doors=2:3 {acc=2, unacc=1}
+│   │       │   │   ├── maint=low:1 {acc=1}
+│   │       │   │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── maint=med:1 {acc=1}
+│   │       │   └── maint=low:1 {acc=1}
+│   │       │       └── doors=4:1 {acc=1}
+│   │       ├── buying=high:2 {acc=1, unacc=1}
+│   │       │   ├── maint=low:1 {acc=1}
+│   │       │   │   └── doors=4:1 {acc=1}
+│   │       │   └── maint=vhigh:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── doors=3:7 {acc=4, vgood=1, unacc=2}
+│   │       │   ├── buying=vhigh:2 {acc=1, unacc=1}
+│   │       │   │   ├── maint=low:1 {acc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   ├── buying=high:2 {acc=1, unacc=1}
+│   │       │   │   ├── maint=low:1 {acc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   ├── maint=med:2 {acc=1, vgood=1}
+│   │       │   │   ├── buying=high:1 {acc=1}
+│   │       │   │   └── buying=med:1 {vgood=1}
+│   │       │   └── maint=vhigh:1 {acc=1}
+│   │       │       └── buying=med:1 {acc=1}
+│   │       ├── maint=low:1 {vgood=1}
+│   │       │   └── buying=med:1 {vgood=1}
+│   │       │       └── doors=4:1 {vgood=1}
+│   │       ├── doors=2:6 {acc=3, unacc=1, vgood=2}
+│   │       │   ├── maint=vhigh:1 {acc=1}
+│   │       │   │   └── buying=med:1 {acc=1}
+│   │       │   ├── maint=med:2 {acc=1, vgood=1}
+│   │       │   │   ├── buying=med:1 {vgood=1}
+│   │       │   │   └── buying=high:1 {acc=1}
+│   │       │   ├── buying=high:2 {acc=1, unacc=1}
+│   │       │   │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── maint=low:1 {acc=1}
+│   │       │   └── maint=low:1 {vgood=1}
+│   │       │       └── buying=med:1 {vgood=1}
+│   │       └── maint=med:1 {vgood=1}
+│   │           └── buying=med:1 {vgood=1}
+│   │               └── doors=4:1 {vgood=1}
+│   └── lug_boot=med:153 {acc=57, unacc=83, vgood=5, good=8}
+│       ├── safety=high:49 {acc=30, unacc=10, vgood=5, good=4}
+│       │   ├── maint=med:1 {acc=1}
+│       │   │   └── buying=high:1 {acc=1}
+│       │   │       └── doors=4:1 {acc=1}
+│       │   ├── buying=low:9 {acc=3, vgood=3, good=3}
+│       │   │   ├── maint=med:1 {vgood=1}
+│       │   │   │   └── doors=4:1 {vgood=1}
+│       │   │   ├── doors=5more:3 {acc=1, vgood=2}
+│       │   │   │   ├── maint=vhigh:1 {acc=1}
+│       │   │   │   ├── maint=med:1 {vgood=1}
+│       │   │   │   └── maint=low:1 {vgood=1}
+│       │   │   ├── doors=3:2 {acc=1, good=1}
+│       │   │   │   ├── maint=vhigh:1 {acc=1}
+│       │   │   │   └── maint=med:1 {good=1}
+│       │   │   ├── doors=2:2 {good=2}
+│       │   │   │   ├── maint=low:1 {good=1}
+│       │   │   │   └── maint=med:1 {good=1}
+│       │   │   └── maint=vhigh:1 {acc=1}
+│       │   │       └── doors=4:1 {acc=1}
+│       │   ├── maint=vhigh:1 {acc=1}
+│       │   │   └── buying=med:1 {acc=1}
+│       │   │       └── doors=4:1 {acc=1}
+│       │   ├── doors=3:7 {acc=5, unacc=2}
+│       │   │   ├── buying=vhigh:3 {acc=2, unacc=1}
+│       │   │   │   ├── maint=med:1 {acc=1}
+│       │   │   │   ├── maint=low:1 {acc=1}
+│       │   │   │   └── maint=vhigh:1 {unacc=1}
+│       │   │   ├── maint=med:2 {acc=2}
+│       │   │   │   ├── buying=high:1 {acc=1}
+│       │   │   │   └── buying=med:1 {acc=1}
+│       │   │   ├── maint=vhigh:1 {acc=1}
+│       │   │   │   └── buying=med:1 {acc=1}
+│       │   │   └── buying=high:1 {unacc=1}
+│       │   │       └── maint=vhigh:1 {unacc=1}
+│       │   ├── maint=high:14 {acc=10, unacc=3, vgood=1}
+│       │   │   ├── doors=3:3 {acc=2, unacc=1}
+│       │   │   │   ├── buying=high:1 {acc=1}
+│       │   │   │   ├── buying=med:1 {acc=1}
+│       │   │   │   └── buying=vhigh:1 {unacc=1}
+│       │   │   ├── buying=low:3 {acc=2, vgood=1}
+│       │   │   │   ├── doors=2:1 {acc=1}
+│       │   │   │   ├── doors=5more:1 {vgood=1}
+│       │   │   │   └── doors=3:1 {acc=1}
+│       │   │   ├── buying=med:1 {acc=1}
+│       │   │   │   └── doors=4:1 {acc=1}
+│       │   │   ├── doors=5more:3 {acc=2, unacc=1}
+│       │   │   │   ├── buying=vhigh:1 {unacc=1}
+│       │   │   │   ├── buying=high:1 {acc=1}
+│       │   │   │   └── buying=med:1 {acc=1}
+│       │   │   ├── doors=2:2 {acc=2}
+│       │   │   │   ├── buying=high:1 {acc=1}
+│       │   │   │   └── buying=med:1 {acc=1}
+│       │   │   ├── buying=vhigh:1 {unacc=1}
+│       │   │   │   └── doors=4:1 {unacc=1}
+│       │   │   └── buying=high:1 {acc=1}
+│       │   │       └── doors=4:1 {acc=1}
+│       │   ├── doors=5more:6 {acc=3, vgood=1, unacc=2}
+│       │   │   ├── maint=med:2 {acc=1, vgood=1}
+│       │   │   │   ├── buying=high:1 {acc=1}
+│       │   │   │   └── buying=med:1 {vgood=1}
+│       │   │   ├── buying=vhigh:3 {acc=2, unacc=1}
+│       │   │   │   ├── maint=low:1 {acc=1}
+│       │   │   │   ├── maint=med:1 {acc=1}
+│       │   │   │   └── maint=vhigh:1 {unacc=1}
+│       │   │   └── buying=high:1 {unacc=1}
+│       │   │       └── maint=vhigh:1 {unacc=1}
+│       │   ├── buying=high:2 {acc=1, unacc=1}
+│       │   │   ├── maint=vhigh:1 {unacc=1}
+│       │   │   │   └── doors=4:1 {unacc=1}
+│       │   │   └── maint=low:1 {acc=1}
+│       │   │       └── doors=4:1 {acc=1}
+│       │   ├── buying=vhigh:4 {acc=3, unacc=1}
+│       │   │   ├── maint=low:1 {acc=1}
+│       │   │   │   └── doors=4:1 {acc=1}
+│       │   │   ├── maint=med:1 {acc=1}
+│       │   │   │   └── doors=4:1 {acc=1}
+│       │   │   └── doors=2:2 {acc=1, unacc=1}
+│       │   │       ├── maint=low:1 {acc=1}
+│       │   │       └── maint=vhigh:1 {unacc=1}
+│       │   └── doors=2:5 {acc=3, unacc=1, good=1}
+│       │       ├── maint=vhigh:1 {acc=1}
+│       │       │   └── buying=med:1 {acc=1}
+│       │       ├── maint=low:1 {good=1}
+│       │       │   └── buying=med:1 {good=1}
+│       │       ├── maint=med:1 {acc=1}
+│       │       │   └── buying=high:1 {acc=1}
+│       │       └── buying=high:2 {acc=1, unacc=1}
+│       │           ├── maint=low:1 {acc=1}
+│       │           └── maint=vhigh:1 {unacc=1}
+│       ├── safety=med:52 {acc=27, unacc=21, good=4}
+│       │   ├── buying=low:10 {acc=6, unacc=1, good=3}
+│       │   │   ├── doors=2:2 {acc=2}
+│       │   │   │   ├── maint=low:1 {acc=1}
+│       │   │   │   └── maint=med:1 {acc=1}
+│       │   │   ├── maint=low:1 {good=1}
+│       │   │   │   └── doors=4:1 {good=1}
+│       │   │   ├── doors=5more:2 {acc=1, good=1}
+│       │   │   │   ├── maint=vhigh:1 {acc=1}
+│       │   │   │   └── maint=low:1 {good=1}
+│       │   │   ├── doors=3:3 {acc=2, unacc=1}
+│       │   │   │   ├── maint=low:1 {acc=1}
+│       │   │   │   ├── maint=med:1 {acc=1}
+│       │   │   │   └── maint=vhigh:1 {unacc=1}
+│       │   │   ├── maint=vhigh:1 {acc=1}
+│       │   │   │   └── doors=4:1 {acc=1}
+│       │   │   └── maint=med:1 {good=1}
+│       │   │       └── doors=4:1 {good=1}
+│       │   ├── buying=vhigh:5 {acc=2, unacc=3}
+│       │   │   ├── doors=2:2 {unacc=2}
+│       │   │   │   ├── maint=med:1 {unacc=1}
+│       │   │   │   └── maint=low:1 {unacc=1}
+│       │   │   ├── maint=vhigh:1 {unacc=1}
+│       │   │   │   └── doors=4:1 {unacc=1}
+│       │   │   ├── maint=med:1 {acc=1}
+│       │   │   │   └── doors=4:1 {acc=1}
+│       │   │   └── maint=low:1 {acc=1}
+│       │   │       └── doors=4:1 {acc=1}
+│       │   ├── doors=5more:6 {acc=4, unacc=2}
+│       │   │   ├── maint=vhigh:1 {acc=1}
+│       │   │   │   └── buying=med:1 {acc=1}
+│       │   │   ├── buying=vhigh:2 {acc=1, unacc=1}
+│       │   │   │   ├── maint=med:1 {acc=1}
+│       │   │   │   └── maint=vhigh:1 {unacc=1}
+│       │   │   ├── maint=med:1 {acc=1}
+│       │   │   │   └── buying=high:1 {acc=1}
+│       │   │   └── buying=high:2 {acc=1, unacc=1}
+│       │   │       ├── maint=vhigh:1 {unacc=1}
+│       │   │       └── maint=low:1 {acc=1}
+│       │   ├── maint=med:2 {acc=2}
+│       │   │   ├── buying=med:1 {acc=1}
+│       │   │   │   └── doors=4:1 {acc=1}
+│       │   │   └── buying=high:1 {acc=1}
+│       │   │       └── doors=4:1 {acc=1}
+│       │   ├── maint=high:14 {acc=8, unacc=6}
+│       │   │   ├── doors=5more:3 {acc=2, unacc=1}
+│       │   │   │   ├── buying=high:1 {acc=1}
+│       │   │   │   ├── buying=med:1 {acc=1}
+│       │   │   │   └── buying=vhigh:1 {unacc=1}
+│       │   │   ├── buying=vhigh:1 {unacc=1}
+│       │   │   │   └── doors=2:1 {unacc=1}
+│       │   │   ├── doors=3:2 {unacc=2}
+│       │   │   │   ├── buying=high:1 {unacc=1}
+│       │   │   │   └── buying=vhigh:1 {unacc=1}
+│       │   │   ├── buying=med:1 {acc=1}
+│       │   │   │   └── doors=4:1 {acc=1}
+│       │   │   ├── buying=low:4 {acc=4}
+│       │   │   │   ├── doors=3:1 {acc=1}
+│       │   │   │   ├── doors=4:1 {acc=1}
+│       │   │   │   ├── doors=5more:1 {acc=1}
+│       │   │   │   └── doors=2:1 {acc=1}
+│       │   │   ├── doors=2:2 {unacc=2}
+│       │   │   │   ├── buying=med:1 {unacc=1}
+│       │   │   │   └── buying=high:1 {unacc=1}
+│       │   │   └── buying=high:1 {acc=1}
+│       │   │       └── doors=4:1 {acc=1}
+│       │   ├── buying=high:2 {acc=1, unacc=1}
+│       │   │   ├── maint=vhigh:1 {unacc=1}
+│       │   │   │   └── doors=4:1 {unacc=1}
+│       │   │   └── maint=low:1 {acc=1}
+│       │   │       └── doors=4:1 {acc=1}
+│       │   ├── maint=low:1 {good=1}
+│       │   │   └── buying=med:1 {good=1}
+│       │   │       └── doors=4:1 {good=1}
+│       │   ├── doors=2:4 {acc=2, unacc=2}
+│       │   │   ├── maint=low:1 {acc=1}
+│       │   │   │   └── buying=med:1 {acc=1}
+│       │   │   ├── maint=med:2 {acc=1, unacc=1}
+│       │   │   │   ├── buying=med:1 {acc=1}
+│       │   │   │   └── buying=high:1 {unacc=1}
+│       │   │   └── buying=high:1 {unacc=1}
+│       │   │       └── maint=low:1 {unacc=1}
+│       │   ├── doors=3:7 {acc=1, unacc=6}
+│       │   │   ├── maint=vhigh:1 {unacc=1}
+│       │   │   │   └── buying=med:1 {unacc=1}
+│       │   │   ├── maint=med:2 {acc=1, unacc=1}
+│       │   │   │   ├── buying=med:1 {acc=1}
+│       │   │   │   └── buying=high:1 {unacc=1}
+│       │   │   ├── buying=vhigh:2 {unacc=2}
+│       │   │   │   ├── maint=vhigh:1 {unacc=1}
+│       │   │   │   └── maint=low:1 {unacc=1}
+│       │   │   └── buying=high:2 {unacc=2}
+│       │   │       ├── maint=low:1 {unacc=1}
+│       │   │       └── maint=vhigh:1 {unacc=1}
+│       │   └── maint=vhigh:1 {acc=1}
+│       │       └── buying=med:1 {acc=1}
+│       │           └── doors=4:1 {acc=1}
+│       └── safety=low:52 {unacc=52}
+│           ├── doors=5more:8 {unacc=8}
+│           │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   └── buying=med:1 {unacc=1}
+│           │   ├── maint=low:1 {unacc=1}
+│           │   │   └── buying=med:1 {unacc=1}
+│           │   ├── buying=vhigh:2 {unacc=2}
+│           │   │   ├── maint=med:1 {unacc=1}
+│           │   │   └── maint=vhigh:1 {unacc=1}
+│           │   ├── maint=med:2 {unacc=2}
+│           │   │   ├── buying=high:1 {unacc=1}
+│           │   │   └── buying=med:1 {unacc=1}
+│           │   └── buying=high:2 {unacc=2}
+│           │       ├── maint=vhigh:1 {unacc=1}
+│           │       └── maint=low:1 {unacc=1}
+│           ├── buying=low:10 {unacc=10}
+│           │   ├── doors=3:2 {unacc=2}
+│           │   │   ├── maint=med:1 {unacc=1}
+│           │   │   └── maint=vhigh:1 {unacc=1}
+│           │   ├── doors=2:2 {unacc=2}
+│           │   │   ├── maint=med:1 {unacc=1}
+│           │   │   └── maint=vhigh:1 {unacc=1}
+│           │   ├── maint=low:1 {unacc=1}
+│           │   │   └── doors=4:1 {unacc=1}
+│           │   ├── doors=5more:3 {unacc=3}
+│           │   │   ├── maint=low:1 {unacc=1}
+│           │   │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   └── maint=med:1 {unacc=1}
+│           │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   └── doors=4:1 {unacc=1}
+│           │   └── maint=med:1 {unacc=1}
+│           │       └── doors=4:1 {unacc=1}
+│           ├── maint=high:12 {unacc=12}
+│           │   ├── doors=3:3 {unacc=3}
+│           │   │   ├── buying=med:1 {unacc=1}
+│           │   │   ├── buying=vhigh:1 {unacc=1}
+│           │   │   └── buying=high:1 {unacc=1}
+│           │   ├── buying=low:2 {unacc=2}
+│           │   │   ├── doors=5more:1 {unacc=1}
+│           │   │   └── doors=2:1 {unacc=1}
+│           │   ├── buying=med:1 {unacc=1}
+│           │   │   └── doors=4:1 {unacc=1}
+│           │   ├── buying=high:1 {unacc=1}
+│           │   │   └── doors=4:1 {unacc=1}
+│           │   ├── buying=vhigh:1 {unacc=1}
+│           │   │   └── doors=2:1 {unacc=1}
+│           │   ├── doors=2:2 {unacc=2}
+│           │   │   ├── buying=high:1 {unacc=1}
+│           │   │   └── buying=med:1 {unacc=1}
+│           │   └── doors=5more:2 {unacc=2}
+│           │       ├── buying=vhigh:1 {unacc=1}
+│           │       └── buying=med:1 {unacc=1}
+│           ├── doors=3:7 {unacc=7}
+│           │   ├── maint=med:2 {unacc=2}
+│           │   │   ├── buying=high:1 {unacc=1}
+│           │   │   └── buying=med:1 {unacc=1}
+│           │   ├── buying=high:2 {unacc=2}
+│           │   │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   └── maint=low:1 {unacc=1}
+│           │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   └── buying=med:1 {unacc=1}
+│           │   ├── maint=low:1 {unacc=1}
+│           │   │   └── buying=med:1 {unacc=1}
+│           │   └── buying=vhigh:1 {unacc=1}
+│           │       └── maint=vhigh:1 {unacc=1}
+│           ├── maint=vhigh:1 {unacc=1}
+│           │   └── buying=med:1 {unacc=1}
+│           │       └── doors=4:1 {unacc=1}
+│           ├── maint=low:1 {unacc=1}
+│           │   └── buying=med:1 {unacc=1}
+│           │       └── doors=4:1 {unacc=1}
+│           ├── buying=vhigh:5 {unacc=5}
+│           │   ├── maint=med:1 {unacc=1}
+│           │   │   └── doors=4:1 {unacc=1}
+│           │   ├── doors=2:3 {unacc=3}
+│           │   │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   ├── maint=med:1 {unacc=1}
+│           │   │   └── maint=low:1 {unacc=1}
+│           │   └── maint=low:1 {unacc=1}
+│           │       └── doors=4:1 {unacc=1}
+│           ├── doors=2:4 {unacc=4}
+│           │   ├── buying=high:1 {unacc=1}
+│           │   │   └── maint=vhigh:1 {unacc=1}
+│           │   ├── maint=med:2 {unacc=2}
+│           │   │   ├── buying=med:1 {unacc=1}
+│           │   │   └── buying=high:1 {unacc=1}
+│           │   └── maint=low:1 {unacc=1}
+│           │       └── buying=med:1 {unacc=1}
+│           ├── maint=med:2 {unacc=2}
+│           │   ├── buying=med:1 {unacc=1}
+│           │   │   └── doors=4:1 {unacc=1}
+│           │   └── buying=high:1 {unacc=1}
+│           │       └── doors=4:1 {unacc=1}
+│           └── buying=high:2 {unacc=2}
+│               ├── maint=vhigh:1 {unacc=1}
+│               │   └── doors=4:1 {unacc=1}
+│               └── maint=low:1 {unacc=1}
+│                   └── doors=4:1 {unacc=1}
+├── safety=high:47 {acc=23, unacc=20, good=4}
+│   └── lug_boot=small:47 {acc=23, unacc=20, good=4}
+│       └── persons=more:47 {acc=23, unacc=20, good=4}
+│           ├── buying=vhigh:6 {acc=2, unacc=4}
+│           │   ├── doors=2:3 {unacc=3}
+│           │   │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   ├── maint=low:1 {unacc=1}
+│           │   │   └── maint=med:1 {unacc=1}
+│           │   ├── maint=med:1 {acc=1}
+│           │   │   └── doors=4:1 {acc=1}
+│           │   ├── maint=low:1 {acc=1}
+│           │   │   └── doors=4:1 {acc=1}
+│           │   └── maint=vhigh:1 {unacc=1}
+│           │       └── doors=4:1 {unacc=1}
+│           ├── doors=2:3 {unacc=3}
+│           │   ├── maint=med:2 {unacc=2}
+│           │   │   ├── buying=high:1 {unacc=1}
+│           │   │   └── buying=med:1 {unacc=1}
+│           │   └── buying=high:1 {unacc=1}
+│           │       └── maint=vhigh:1 {unacc=1}
+│           ├── buying=low:5 {acc=1, unacc=2, good=2}
+│           │   ├── doors=2:2 {unacc=2}
+│           │   │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   └── maint=low:1 {unacc=1}
+│           │   ├── doors=3:1 {good=1}
+│           │   │   └── maint=med:1 {good=1}
+│           │   └── doors=5more:2 {acc=1, good=1}
+│           │       ├── maint=vhigh:1 {acc=1}
+│           │       └── maint=low:1 {good=1}
+│           ├── doors=5more:8 {acc=5, unacc=2, good=1}
+│           │   ├── buying=vhigh:3 {acc=2, unacc=1}
+│           │   │   ├── maint=low:1 {acc=1}
+│           │   │   ├── maint=med:1 {acc=1}
+│           │   │   └── maint=vhigh:1 {unacc=1}
+│           │   ├── maint=vhigh:1 {acc=1}
+│           │   │   └── buying=med:1 {acc=1}
+│           │   ├── maint=med:1 {acc=1}
+│           │   │   └── buying=med:1 {acc=1}
+│           │   ├── buying=high:2 {acc=1, unacc=1}
+│           │   │   ├── maint=low:1 {acc=1}
+│           │   │   └── maint=vhigh:1 {unacc=1}
+│           │   └── maint=low:1 {good=1}
+│           │       └── buying=med:1 {good=1}
+│           ├── maint=high:13 {acc=7, unacc=6}
+│           │   ├── buying=high:1 {acc=1}
+│           │   │   └── doors=4:1 {acc=1}
+│           │   ├── doors=5more:2 {acc=2}
+│           │   │   ├── buying=high:1 {acc=1}
+│           │   │   └── buying=med:1 {acc=1}
+│           │   ├── doors=3:3 {acc=2, unacc=1}
+│           │   │   ├── buying=med:1 {acc=1}
+│           │   │   ├── buying=vhigh:1 {unacc=1}
+│           │   │   └── buying=high:1 {acc=1}
+│           │   ├── buying=low:2 {acc=1, unacc=1}
+│           │   │   ├── doors=2:1 {unacc=1}
+│           │   │   └── doors=3:1 {acc=1}
+│           │   ├── doors=2:2 {unacc=2}
+│           │   │   ├── buying=med:1 {unacc=1}
+│           │   │   └── buying=high:1 {unacc=1}
+│           │   ├── buying=vhigh:2 {unacc=2}
+│           │   │   ├── doors=4:1 {unacc=1}
+│           │   │   └── doors=2:1 {unacc=1}
+│           │   └── buying=med:1 {acc=1}
+│           │       └── doors=4:1 {acc=1}
+│           ├── maint=med:2 {acc=2}
+│           │   ├── buying=high:1 {acc=1}
+│           │   │   └── doors=4:1 {acc=1}
+│           │   └── buying=med:1 {acc=1}
+│           │       └── doors=4:1 {acc=1}
+│           ├── doors=3:8 {acc=5, unacc=2, good=1}
+│           │   ├── buying=high:2 {acc=1, unacc=1}
+│           │   │   ├── maint=low:1 {acc=1}
+│           │   │   └── maint=vhigh:1 {unacc=1}
+│           │   ├── maint=vhigh:1 {acc=1}
+│           │   │   └── buying=med:1 {acc=1}
+│           │   ├── maint=med:1 {acc=1}
+│           │   │   └── buying=high:1 {acc=1}
+│           │   ├── buying=vhigh:3 {acc=2, unacc=1}
+│           │   │   ├── maint=low:1 {acc=1}
+│           │   │   ├── maint=med:1 {acc=1}
+│           │   │   └── maint=vhigh:1 {unacc=1}
+│           │   └── maint=low:1 {good=1}
+│           │       └── buying=med:1 {good=1}
+│           ├── maint=vhigh:1 {acc=1}
+│           │   └── buying=med:1 {acc=1}
+│           │       └── doors=4:1 {acc=1}
+│           └── buying=high:1 {unacc=1}
+│               └── maint=vhigh:1 {unacc=1}
+│                   └── doors=4:1 {unacc=1}
+├── lug_boot=big:196 {acc=53, unacc=119, vgood=16, good=8}
+│   ├── safety=high:51 {acc=25, unacc=10, vgood=16}
+│   │   └── persons=more:51 {acc=25, unacc=10, vgood=16}
+│   │       ├── buying=low:11 {acc=3, vgood=8}
+│   │       │   ├── doors=3:3 {acc=1, vgood=2}
+│   │       │   │   ├── maint=med:1 {vgood=1}
+│   │       │   │   ├── maint=low:1 {vgood=1}
+│   │       │   │   └── maint=vhigh:1 {acc=1}
+│   │       │   ├── doors=5more:3 {acc=1, vgood=2}
+│   │       │   │   ├── maint=med:1 {vgood=1}
+│   │       │   │   ├── maint=vhigh:1 {acc=1}
+│   │       │   │   └── maint=low:1 {vgood=1}
+│   │       │   ├── doors=2:3 {acc=1, vgood=2}
+│   │       │   │   ├── maint=med:1 {vgood=1}
+│   │       │   │   ├── maint=low:1 {vgood=1}
+│   │       │   │   └── maint=vhigh:1 {acc=1}
+│   │       │   ├── maint=med:1 {vgood=1}
+│   │       │   │   └── doors=4:1 {vgood=1}
+│   │       │   └── maint=low:1 {vgood=1}
+│   │       │       └── doors=4:1 {vgood=1}
+│   │       ├── doors=3:8 {acc=4, unacc=2, vgood=2}
+│   │       │   ├── buying=high:2 {acc=1, unacc=1}
+│   │       │   │   ├── maint=low:1 {acc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   ├── maint=med:1 {vgood=1}
+│   │       │   │   └── buying=med:1 {vgood=1}
+│   │       │   ├── maint=low:1 {vgood=1}
+│   │       │   │   └── buying=med:1 {vgood=1}
+│   │       │   ├── buying=vhigh:3 {acc=2, unacc=1}
+│   │       │   │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   ├── maint=med:1 {acc=1}
+│   │       │   │   └── maint=low:1 {acc=1}
+│   │       │   └── maint=vhigh:1 {acc=1}
+│   │       │       └── buying=med:1 {acc=1}
+│   │       ├── doors=5more:6 {acc=4, unacc=2}
+│   │       │   ├── maint=med:1 {acc=1}
+│   │       │   │   └── buying=high:1 {acc=1}
+│   │       │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   ├── buying=vhigh:3 {acc=2, unacc=1}
+│   │       │   │   ├── maint=med:1 {acc=1}
+│   │       │   │   ├── maint=low:1 {acc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   └── maint=vhigh:1 {acc=1}
+│   │       │       └── buying=med:1 {acc=1}
+│   │       ├── maint=vhigh:1 {acc=1}
+│   │       │   └── buying=med:1 {acc=1}
+│   │       │       └── doors=4:1 {acc=1}
+│   │       ├── doors=2:4 {acc=1, vgood=2, unacc=1}
+│   │       │   ├── maint=med:2 {acc=1, vgood=1}
+│   │       │   │   ├── buying=high:1 {acc=1}
+│   │       │   │   └── buying=med:1 {vgood=1}
+│   │       │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   └── maint=low:1 {vgood=1}
+│   │       │       └── buying=med:1 {vgood=1}
+│   │       ├── maint=high:15 {acc=7, vgood=4, unacc=4}
+│   │       │   ├── doors=3:3 {acc=2, unacc=1}
+│   │       │   │   ├── buying=vhigh:1 {unacc=1}
+│   │       │   │   ├── buying=high:1 {acc=1}
+│   │       │   │   └── buying=med:1 {acc=1}
+│   │       │   ├── buying=low:4 {vgood=4}
+│   │       │   │   ├── doors=4:1 {vgood=1}
+│   │       │   │   ├── doors=2:1 {vgood=1}
+│   │       │   │   ├── doors=5more:1 {vgood=1}
+│   │       │   │   └── doors=3:1 {vgood=1}
+│   │       │   ├── doors=5more:3 {acc=2, unacc=1}
+│   │       │   │   ├── buying=med:1 {acc=1}
+│   │       │   │   ├── buying=high:1 {acc=1}
+│   │       │   │   └── buying=vhigh:1 {unacc=1}
+│   │       │   ├── buying=med:1 {acc=1}
+│   │       │   │   └── doors=4:1 {acc=1}
+│   │       │   ├── buying=vhigh:2 {unacc=2}
+│   │       │   │   ├── doors=2:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   └── doors=2:2 {acc=2}
+│   │       │       ├── buying=high:1 {acc=1}
+│   │       │       └── buying=med:1 {acc=1}
+│   │       ├── buying=high:1 {acc=1}
+│   │       │   └── maint=low:1 {acc=1}
+│   │       │       └── doors=4:1 {acc=1}
+│   │       ├── buying=vhigh:4 {acc=3, unacc=1}
+│   │       │   ├── maint=med:1 {acc=1}
+│   │       │   │   └── doors=4:1 {acc=1}
+│   │       │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   ├── doors=2:1 {acc=1}
+│   │       │   │   └── maint=med:1 {acc=1}
+│   │       │   └── maint=low:1 {acc=1}
+│   │       │       └── doors=4:1 {acc=1}
+│   │       └── maint=med:1 {acc=1}
+│   │           └── buying=high:1 {acc=1}
+│   │               └── doors=4:1 {acc=1}
+│   ├── persons=2:100 {unacc=100}
+│   │   ├── safety=high:50 {unacc=50}
+│   │   │   ├── buying=low:9 {unacc=9}
+│   │   │   │   ├── doors=5more:3 {unacc=3}
+│   │   │   │   │   ├── maint=med:1 {unacc=1}
+│   │   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   └── maint=low:1 {unacc=1}
+│   │   │   │   ├── doors=3:3 {unacc=3}
+│   │   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   ├── maint=med:1 {unacc=1}
+│   │   │   │   │   └── maint=low:1 {unacc=1}
+│   │   │   │   ├── doors=2:1 {unacc=1}
+│   │   │   │   │   └── maint=med:1 {unacc=1}
+│   │   │   │   ├── maint=med:1 {unacc=1}
+│   │   │   │   │   └── doors=4:1 {unacc=1}
+│   │   │   │   └── maint=low:1 {unacc=1}
+│   │   │   │       └── doors=4:1 {unacc=1}
+│   │   │   ├── maint=high:14 {unacc=14}
+│   │   │   │   ├── buying=med:1 {unacc=1}
+│   │   │   │   │   └── doors=4:1 {unacc=1}
+│   │   │   │   ├── doors=3:3 {unacc=3}
+│   │   │   │   │   ├── buying=med:1 {unacc=1}
+│   │   │   │   │   ├── buying=vhigh:1 {unacc=1}
+│   │   │   │   │   └── buying=high:1 {unacc=1}
+│   │   │   │   ├── doors=5more:1 {unacc=1}
+│   │   │   │   │   └── buying=vhigh:1 {unacc=1}
+│   │   │   │   ├── buying=vhigh:2 {unacc=2}
+│   │   │   │   │   ├── doors=4:1 {unacc=1}
+│   │   │   │   │   └── doors=2:1 {unacc=1}
+│   │   │   │   ├── buying=low:4 {unacc=4}
+│   │   │   │   │   ├── doors=5more:1 {unacc=1}
+│   │   │   │   │   ├── doors=3:1 {unacc=1}
+│   │   │   │   │   ├── doors=2:1 {unacc=1}
+│   │   │   │   │   └── doors=4:1 {unacc=1}
+│   │   │   │   ├── doors=2:2 {unacc=2}
+│   │   │   │   │   ├── buying=high:1 {unacc=1}
+│   │   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │   └── buying=high:1 {unacc=1}
+│   │   │   │       └── doors=4:1 {unacc=1}
+│   │   │   ├── doors=5more:9 {unacc=9}
+│   │   │   │   ├── buying=vhigh:3 {unacc=3}
+│   │   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   ├── maint=med:1 {unacc=1}
+│   │   │   │   │   └── maint=low:1 {unacc=1}
+│   │   │   │   ├── buying=high:2 {unacc=2}
+│   │   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   └── maint=low:1 {unacc=1}
+│   │   │   │   ├── maint=med:2 {unacc=2}
+│   │   │   │   │   ├── buying=high:1 {unacc=1}
+│   │   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │   └── maint=low:1 {unacc=1}
+│   │   │   │       └── buying=med:1 {unacc=1}
+│   │   │   ├── buying=high:1 {unacc=1}
+│   │   │   │   └── maint=low:1 {unacc=1}
+│   │   │   │       └── doors=4:1 {unacc=1}
+│   │   │   ├── buying=vhigh:5 {unacc=5}
+│   │   │   │   ├── doors=2:2 {unacc=2}
+│   │   │   │   │   ├── maint=low:1 {unacc=1}
+│   │   │   │   │   └── maint=med:1 {unacc=1}
+│   │   │   │   ├── maint=med:1 {unacc=1}
+│   │   │   │   │   └── doors=4:1 {unacc=1}
+│   │   │   │   ├── maint=low:1 {unacc=1}
+│   │   │   │   │   └── doors=4:1 {unacc=1}
+│   │   │   │   └── maint=vhigh:1 {unacc=1}
+│   │   │   │       └── doors=4:1 {unacc=1}
+│   │   │   ├── doors=3:7 {unacc=7}
+│   │   │   │   ├── maint=med:2 {unacc=2}
+│   │   │   │   │   ├── buying=high:1 {unacc=1}
+│   │   │   │   │   └── buying=med:1 {unacc=1}
+│   │   │   │   ├── buying=high:2 {unacc=2}
+│   │   │   │   │   ├── maint=low:1 {unacc=1}
+│   │   │   │   │   └── maint=vhigh:1 {unacc=1}
+│   │   │   │   ├── buying=vhigh:2 {unacc=2}
+│   │   │   │   │   ├── maint=med:1 {unacc=1}
+│   │   │   │   │   └── maint=low:1 {unacc=1}
+│   │   │   │   └── maint=low:1 {unacc=1}
+│   │   │   │       └── buying=med:1 {unacc=1}
+│   │   │   ├── doors=2:4 {unacc=4}
+│   │   │   │   ├── maint=med:1 {unacc=1}
+│   │   │   │   │   └── buying=high:1 {unacc=1}
+│   │   │   │   ├── buying=high:2 {unacc=2}
+│   │   │   │   │   ├── maint=vhigh:1 {unacc=1}
+│   │   │   │   │   └── maint=low:1 {unacc=1}
+│   │   │   │   └── maint=low:1 {unacc=1}
+│   │   │   │       └── buying=med:1 {unacc=1}
+│   │   │   └── maint=med:1 {unacc=1}
+│   │   │       └── buying=med:1 {unacc=1}
+│   │   │           └── doors=4:1 {unacc=1}
+│   │   └── safety=med:50 {unacc=50}
+│   │       ├── buying=low:7 {unacc=7}
+│   │       │   ├── doors=3:3 {unacc=3}
+│   │       │   │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── maint=med:1 {unacc=1}
+│   │       │   ├── doors=5more:3 {unacc=3}
+│   │       │   │   ├── maint=med:1 {unacc=1}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   └── doors=2:1 {unacc=1}
+│   │       │       └── maint=med:1 {unacc=1}
+│   │       ├── maint=high:15 {unacc=15}
+│   │       │   ├── buying=low:4 {unacc=4}
+│   │       │   │   ├── doors=5more:1 {unacc=1}
+│   │       │   │   ├── doors=4:1 {unacc=1}
+│   │       │   │   ├── doors=3:1 {unacc=1}
+│   │       │   │   └── doors=2:1 {unacc=1}
+│   │       │   ├── doors=5more:3 {unacc=3}
+│   │       │   │   ├── buying=med:1 {unacc=1}
+│   │       │   │   ├── buying=vhigh:1 {unacc=1}
+│   │       │   │   └── buying=high:1 {unacc=1}
+│   │       │   ├── doors=2:2 {unacc=2}
+│   │       │   │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   ├── buying=med:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   ├── buying=vhigh:2 {unacc=2}
+│   │       │   │   ├── doors=4:1 {unacc=1}
+│   │       │   │   └── doors=2:1 {unacc=1}
+│   │       │   ├── doors=3:2 {unacc=2}
+│   │       │   │   ├── buying=med:1 {unacc=1}
+│   │       │   │   └── buying=vhigh:1 {unacc=1}
+│   │       │   └── buying=high:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── doors=3:8 {unacc=8}
+│   │       │   ├── maint=med:2 {unacc=2}
+│   │       │   │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   ├── buying=vhigh:2 {unacc=2}
+│   │       │   │   ├── maint=med:1 {unacc=1}
+│   │       │   │   └── maint=low:1 {unacc=1}
+│   │       │   ├── buying=high:2 {unacc=2}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   └── maint=vhigh:1 {unacc=1}
+│   │       │       └── buying=med:1 {unacc=1}
+│   │       ├── doors=5more:6 {unacc=6}
+│   │       │   ├── buying=high:2 {unacc=2}
+│   │       │   │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── maint=low:1 {unacc=1}
+│   │       │   ├── buying=vhigh:2 {unacc=2}
+│   │       │   │   ├── maint=med:1 {unacc=1}
+│   │       │   │   └── maint=low:1 {unacc=1}
+│   │       │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   └── maint=med:1 {unacc=1}
+│   │       │       └── buying=high:1 {unacc=1}
+│   │       ├── maint=vhigh:1 {unacc=1}
+│   │       │   └── buying=med:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── doors=2:6 {unacc=6}
+│   │       │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   ├── buying=high:2 {unacc=2}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   └── maint=med:2 {unacc=2}
+│   │       │       ├── buying=med:1 {unacc=1}
+│   │       │       └── buying=high:1 {unacc=1}
+│   │       ├── buying=vhigh:4 {unacc=4}
+│   │       │   ├── doors=2:2 {unacc=2}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── maint=med:1 {unacc=1}
+│   │       │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   └── maint=vhigh:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── maint=med:1 {unacc=1}
+│   │       │   └── buying=med:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── buying=high:1 {unacc=1}
+│   │       │   └── maint=low:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       └── maint=low:1 {unacc=1}
+│   │           └── buying=med:1 {unacc=1}
+│   │               └── doors=4:1 {unacc=1}
+│   └── safety=med:45 {acc=28, unacc=9, good=8}
+│       └── persons=more:45 {acc=28, unacc=9, good=8}
+│           ├── doors=3:7 {acc=6, unacc=1}
+│           │   ├── buying=vhigh:3 {acc=2, unacc=1}
+│           │   │   ├── maint=low:1 {acc=1}
+│           │   │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   └── maint=med:1 {acc=1}
+│           │   ├── maint=med:2 {acc=2}
+│           │   │   ├── buying=high:1 {acc=1}
+│           │   │   └── buying=med:1 {acc=1}
+│           │   ├── buying=high:1 {acc=1}
+│           │   │   └── maint=low:1 {acc=1}
+│           │   └── maint=vhigh:1 {acc=1}
+│           │       └── buying=med:1 {acc=1}
+│           ├── buying=low:9 {acc=3, good=6}
+│           │   ├── maint=med:1 {good=1}
+│           │   │   └── doors=4:1 {good=1}
+│           │   ├── doors=5more:3 {acc=1, good=2}
+│           │   │   ├── maint=med:1 {good=1}
+│           │   │   ├── maint=low:1 {good=1}
+│           │   │   └── maint=vhigh:1 {acc=1}
+│           │   ├── maint=vhigh:1 {acc=1}
+│           │   │   └── doors=4:1 {acc=1}
+│           │   ├── doors=2:2 {good=2}
+│           │   │   ├── maint=med:1 {good=1}
+│           │   │   └── maint=low:1 {good=1}
+│           │   └── doors=3:2 {acc=1, good=1}
+│           │       ├── maint=low:1 {good=1}
+│           │       └── maint=vhigh:1 {acc=1}
+│           ├── buying=vhigh:5 {acc=3, unacc=2}
+│           │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   └── doors=4:1 {unacc=1}
+│           │   ├── maint=low:1 {acc=1}
+│           │   │   └── doors=4:1 {acc=1}
+│           │   ├── doors=2:2 {acc=1, unacc=1}
+│           │   │   ├── maint=low:1 {acc=1}
+│           │   │   └── maint=vhigh:1 {unacc=1}
+│           │   └── maint=med:1 {acc=1}
+│           │       └── doors=4:1 {acc=1}
+│           ├── doors=2:4 {acc=3, good=1}
+│           │   ├── buying=high:1 {acc=1}
+│           │   │   └── maint=low:1 {acc=1}
+│           │   ├── maint=med:1 {acc=1}
+│           │   │   └── buying=med:1 {acc=1}
+│           │   ├── maint=low:1 {good=1}
+│           │   │   └── buying=med:1 {good=1}
+│           │   └── maint=vhigh:1 {acc=1}
+│           │       └── buying=med:1 {acc=1}
+│           ├── doors=5more:7 {acc=4, unacc=2, good=1}
+│           │   ├── buying=vhigh:2 {acc=1, unacc=1}
+│           │   │   ├── maint=low:1 {acc=1}
+│           │   │   └── maint=vhigh:1 {unacc=1}
+│           │   ├── maint=med:1 {acc=1}
+│           │   │   └── buying=med:1 {acc=1}
+│           │   ├── buying=high:2 {acc=1, unacc=1}
+│           │   │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   └── maint=low:1 {acc=1}
+│           │   ├── maint=vhigh:1 {acc=1}
+│           │   │   └── buying=med:1 {acc=1}
+│           │   └── maint=low:1 {good=1}
+│           │       └── buying=med:1 {good=1}
+│           ├── maint=high:10 {acc=7, unacc=3}
+│           │   ├── buying=vhigh:1 {unacc=1}
+│           │   │   └── doors=2:1 {unacc=1}
+│           │   ├── doors=5more:3 {acc=2, unacc=1}
+│           │   │   ├── buying=high:1 {acc=1}
+│           │   │   ├── buying=vhigh:1 {unacc=1}
+│           │   │   └── buying=med:1 {acc=1}
+│           │   ├── doors=3:2 {acc=1, unacc=1}
+│           │   │   ├── buying=high:1 {acc=1}
+│           │   │   └── buying=vhigh:1 {unacc=1}
+│           │   ├── buying=low:3 {acc=3}
+│           │   │   ├── doors=5more:1 {acc=1}
+│           │   │   ├── doors=3:1 {acc=1}
+│           │   │   └── doors=2:1 {acc=1}
+│           │   └── doors=2:1 {acc=1}
+│           │       └── buying=med:1 {acc=1}
+│           ├── buying=high:1 {unacc=1}
+│           │   └── maint=vhigh:1 {unacc=1}
+│           │       └── doors=4:1 {unacc=1}
+│           └── maint=med:2 {acc=2}
+│               ├── buying=high:1 {acc=1}
+│               │   └── doors=4:1 {acc=1}
+│               └── buying=med:1 {acc=1}
+│                   └── doors=4:1 {acc=1}
+├── safety=med:47 {acc=13, unacc=34}
+│   └── lug_boot=small:47 {acc=13, unacc=34}
+│       └── persons=more:47 {acc=13, unacc=34}
+│           ├── doors=3:5 {acc=1, unacc=4}
+│           │   ├── buying=high:1 {unacc=1}
+│           │   │   └── maint=low:1 {unacc=1}
+│           │   ├── buying=vhigh:2 {unacc=2}
+│           │   │   ├── maint=med:1 {unacc=1}
+│           │   │   └── maint=low:1 {unacc=1}
+│           │   ├── maint=med:1 {acc=1}
+│           │   │   └── buying=med:1 {acc=1}
+│           │   └── maint=vhigh:1 {unacc=1}
+│           │       └── buying=med:1 {unacc=1}
+│           ├── doors=2:6 {unacc=6}
+│           │   ├── maint=med:2 {unacc=2}
+│           │   │   ├── buying=high:1 {unacc=1}
+│           │   │   └── buying=med:1 {unacc=1}
+│           │   ├── buying=high:2 {unacc=2}
+│           │   │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   └── maint=low:1 {unacc=1}
+│           │   ├── maint=low:1 {unacc=1}
+│           │   │   └── buying=med:1 {unacc=1}
+│           │   └── maint=vhigh:1 {unacc=1}
+│           │       └── buying=med:1 {unacc=1}
+│           ├── buying=low:9 {acc=5, unacc=4}
+│           │   ├── maint=med:1 {acc=1}
+│           │   │   └── doors=4:1 {acc=1}
+│           │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   └── doors=4:1 {unacc=1}
+│           │   ├── doors=3:3 {acc=2, unacc=1}
+│           │   │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   ├── maint=low:1 {acc=1}
+│           │   │   └── maint=med:1 {acc=1}
+│           │   ├── doors=5more:3 {acc=2, unacc=1}
+│           │   │   ├── maint=low:1 {acc=1}
+│           │   │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   └── maint=med:1 {acc=1}
+│           │   └── doors=2:1 {unacc=1}
+│           │       └── maint=vhigh:1 {unacc=1}
+│           ├── doors=5more:7 {acc=2, unacc=5}
+│           │   ├── buying=vhigh:3 {unacc=3}
+│           │   │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   ├── maint=low:1 {unacc=1}
+│           │   │   └── maint=med:1 {unacc=1}
+│           │   ├── buying=high:1 {unacc=1}
+│           │   │   └── maint=low:1 {unacc=1}
+│           │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   └── buying=med:1 {unacc=1}
+│           │   ├── maint=low:1 {acc=1}
+│           │   │   └── buying=med:1 {acc=1}
+│           │   └── maint=med:1 {acc=1}
+│           │       └── buying=med:1 {acc=1}
+│           ├── maint=high:12 {acc=3, unacc=9}
+│           │   ├── buying=high:1 {unacc=1}
+│           │   │   └── doors=4:1 {unacc=1}
+│           │   ├── doors=3:2 {unacc=2}
+│           │   │   ├── buying=high:1 {unacc=1}
+│           │   │   └── buying=vhigh:1 {unacc=1}
+│           │   ├── buying=vhigh:1 {unacc=1}
+│           │   │   └── doors=4:1 {unacc=1}
+│           │   ├── buying=low:4 {acc=3, unacc=1}
+│           │   │   ├── doors=4:1 {acc=1}
+│           │   │   ├── doors=5more:1 {acc=1}
+│           │   │   ├── doors=2:1 {unacc=1}
+│           │   │   └── doors=3:1 {acc=1}
+│           │   ├── doors=5more:1 {unacc=1}
+│           │   │   └── buying=high:1 {unacc=1}
+│           │   ├── buying=med:1 {unacc=1}
+│           │   │   └── doors=4:1 {unacc=1}
+│           │   └── doors=2:2 {unacc=2}
+│           │       ├── buying=med:1 {unacc=1}
+│           │       └── buying=high:1 {unacc=1}
+│           ├── buying=vhigh:3 {unacc=3}
+│           │   ├── maint=low:1 {unacc=1}
+│           │   │   └── doors=4:1 {unacc=1}
+│           │   ├── doors=2:1 {unacc=1}
+│           │   │   └── maint=med:1 {unacc=1}
+│           │   └── maint=med:1 {unacc=1}
+│           │       └── doors=4:1 {unacc=1}
+│           ├── maint=med:2 {acc=1, unacc=1}
+│           │   ├── buying=high:1 {unacc=1}
+│           │   │   └── doors=4:1 {unacc=1}
+│           │   └── buying=med:1 {acc=1}
+│           │       └── doors=4:1 {acc=1}
+│           ├── buying=high:2 {unacc=2}
+│           │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   └── doors=4:1 {unacc=1}
+│           │   └── maint=low:1 {unacc=1}
+│           │       └── doors=4:1 {unacc=1}
+│           └── maint=low:1 {acc=1}
+│               └── buying=med:1 {acc=1}
+│                   └── doors=4:1 {acc=1}
+├── persons=2:100 {unacc=100}
+│   ├── safety=med:49 {unacc=49}
+│   │   └── lug_boot=small:49 {unacc=49}
+│   │       ├── doors=3:8 {unacc=8}
+│   │       │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   ├── buying=vhigh:3 {unacc=3}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   ├── maint=med:1 {unacc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   ├── maint=med:2 {unacc=2}
+│   │       │   │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   └── maint=low:1 {unacc=1}
+│   │       │       └── buying=med:1 {unacc=1}
+│   │       ├── doors=2:6 {unacc=6}
+│   │       │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   ├── buying=high:2 {unacc=2}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   └── maint=med:2 {unacc=2}
+│   │       │       ├── buying=high:1 {unacc=1}
+│   │       │       └── buying=med:1 {unacc=1}
+│   │       ├── doors=5more:7 {unacc=7}
+│   │       │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   ├── buying=vhigh:2 {unacc=2}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── maint=vhigh:1 {unacc=1}
+│   │       │   ├── maint=med:2 {unacc=2}
+│   │       │   │   ├── buying=med:1 {unacc=1}
+│   │       │   │   └── buying=high:1 {unacc=1}
+│   │       │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── maint=low:1 {unacc=1}
+│   │       │   └── maint=low:1 {unacc=1}
+│   │       │       └── buying=med:1 {unacc=1}
+│   │       ├── maint=high:11 {unacc=11}
+│   │       │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   ├── doors=5more:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   ├── buying=vhigh:1 {unacc=1}
+│   │       │   │   └── doors=2:1 {unacc=1}
+│   │       │   ├── doors=3:2 {unacc=2}
+│   │       │   │   ├── buying=med:1 {unacc=1}
+│   │       │   │   └── buying=vhigh:1 {unacc=1}
+│   │       │   ├── doors=2:2 {unacc=2}
+│   │       │   │   ├── buying=high:1 {unacc=1}
+│   │       │   │   └── buying=med:1 {unacc=1}
+│   │       │   └── buying=low:4 {unacc=4}
+│   │       │       ├── doors=3:1 {unacc=1}
+│   │       │       ├── doors=5more:1 {unacc=1}
+│   │       │       ├── doors=2:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── buying=low:10 {unacc=10}
+│   │       │   ├── doors=3:3 {unacc=3}
+│   │       │   │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── maint=med:1 {unacc=1}
+│   │       │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   ├── maint=low:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   ├── doors=5more:3 {unacc=3}
+│   │       │   │   ├── maint=low:1 {unacc=1}
+│   │       │   │   ├── maint=vhigh:1 {unacc=1}
+│   │       │   │   └── maint=med:1 {unacc=1}
+│   │       │   └── doors=2:2 {unacc=2}
+│   │       │       ├── maint=low:1 {unacc=1}
+│   │       │       └── maint=med:1 {unacc=1}
+│   │       ├── buying=high:1 {unacc=1}
+│   │       │   └── maint=vhigh:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── maint=low:1 {unacc=1}
+│   │       │   └── buying=med:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── buying=vhigh:3 {unacc=3}
+│   │       │   ├── maint=med:1 {unacc=1}
+│   │       │   │   └── doors=4:1 {unacc=1}
+│   │       │   ├── doors=2:1 {unacc=1}
+│   │       │   │   └── maint=med:1 {unacc=1}
+│   │       │   └── maint=low:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       ├── maint=med:1 {unacc=1}
+│   │       │   └── buying=high:1 {unacc=1}
+│   │       │       └── doors=4:1 {unacc=1}
+│   │       └── maint=vhigh:1 {unacc=1}
+│   │           └── buying=med:1 {unacc=1}
+│   │               └── doors=4:1 {unacc=1}
+│   └── safety=high:51 {unacc=51}
+│       └── lug_boot=small:51 {unacc=51}
+│           ├── buying=low:10 {unacc=10}
+│           │   ├── doors=5more:3 {unacc=3}
+│           │   │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   ├── maint=low:1 {unacc=1}
+│           │   │   └── maint=med:1 {unacc=1}
+│           │   ├── doors=3:3 {unacc=3}
+│           │   │   ├── maint=med:1 {unacc=1}
+│           │   │   ├── maint=low:1 {unacc=1}
+│           │   │   └── maint=vhigh:1 {unacc=1}
+│           │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   └── doors=4:1 {unacc=1}
+│           │   ├── doors=2:2 {unacc=2}
+│           │   │   ├── maint=med:1 {unacc=1}
+│           │   │   └── maint=low:1 {unacc=1}
+│           │   └── maint=low:1 {unacc=1}
+│           │       └── doors=4:1 {unacc=1}
+│           ├── maint=med:1 {unacc=1}
+│           │   └── buying=med:1 {unacc=1}
+│           │       └── doors=4:1 {unacc=1}
+│           ├── doors=3:3 {unacc=3}
+│           │   ├── maint=low:1 {unacc=1}
+│           │   │   └── buying=med:1 {unacc=1}
+│           │   ├── maint=med:1 {unacc=1}
+│           │   │   └── buying=high:1 {unacc=1}
+│           │   └── maint=vhigh:1 {unacc=1}
+│           │       └── buying=med:1 {unacc=1}
+│           ├── buying=high:2 {unacc=2}
+│           │   ├── maint=low:1 {unacc=1}
+│           │   │   └── doors=4:1 {unacc=1}
+│           │   └── maint=vhigh:1 {unacc=1}
+│           │       └── doors=4:1 {unacc=1}
+│           ├── doors=5more:8 {unacc=8}
+│           │   ├── maint=med:2 {unacc=2}
+│           │   │   ├── buying=med:1 {unacc=1}
+│           │   │   └── buying=high:1 {unacc=1}
+│           │   ├── buying=vhigh:3 {unacc=3}
+│           │   │   ├── maint=low:1 {unacc=1}
+│           │   │   ├── maint=med:1 {unacc=1}
+│           │   │   └── maint=vhigh:1 {unacc=1}
+│           │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   └── buying=med:1 {unacc=1}
+│           │   ├── maint=low:1 {unacc=1}
+│           │   │   └── buying=med:1 {unacc=1}
+│           │   └── buying=high:1 {unacc=1}
+│           │       └── maint=vhigh:1 {unacc=1}
+│           ├── maint=low:1 {unacc=1}
+│           │   └── buying=med:1 {unacc=1}
+│           │       └── doors=4:1 {unacc=1}
+│           ├── maint=high:14 {unacc=14}
+│           │   ├── buying=vhigh:2 {unacc=2}
+│           │   │   ├── doors=4:1 {unacc=1}
+│           │   │   └── doors=2:1 {unacc=1}
+│           │   ├── doors=3:3 {unacc=3}
+│           │   │   ├── buying=vhigh:1 {unacc=1}
+│           │   │   ├── buying=high:1 {unacc=1}
+│           │   │   └── buying=med:1 {unacc=1}
+│           │   ├── buying=high:1 {unacc=1}
+│           │   │   └── doors=4:1 {unacc=1}
+│           │   ├── buying=low:3 {unacc=3}
+│           │   │   ├── doors=2:1 {unacc=1}
+│           │   │   ├── doors=3:1 {unacc=1}
+│           │   │   └── doors=5more:1 {unacc=1}
+│           │   ├── doors=5more:2 {unacc=2}
+│           │   │   ├── buying=med:1 {unacc=1}
+│           │   │   └── buying=high:1 {unacc=1}
+│           │   ├── doors=2:2 {unacc=2}
+│           │   │   ├── buying=med:1 {unacc=1}
+│           │   │   └── buying=high:1 {unacc=1}
+│           │   └── buying=med:1 {unacc=1}
+│           │       └── doors=4:1 {unacc=1}
+│           ├── doors=2:6 {unacc=6}
+│           │   ├── buying=high:2 {unacc=2}
+│           │   │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   └── maint=low:1 {unacc=1}
+│           │   ├── maint=med:2 {unacc=2}
+│           │   │   ├── buying=high:1 {unacc=1}
+│           │   │   └── buying=med:1 {unacc=1}
+│           │   ├── maint=vhigh:1 {unacc=1}
+│           │   │   └── buying=med:1 {unacc=1}
+│           │   └── maint=low:1 {unacc=1}
+│           │       └── buying=med:1 {unacc=1}
+│           ├── maint=vhigh:1 {unacc=1}
+│           │   └── buying=med:1 {unacc=1}
+│           │       └── doors=4:1 {unacc=1}
+│           └── buying=vhigh:5 {unacc=5}
+│               ├── maint=med:1 {unacc=1}
+│               │   └── doors=4:1 {unacc=1}
+│               ├── maint=vhigh:1 {unacc=1}
+│               │   └── doors=4:1 {unacc=1}
+│               ├── doors=2:2 {unacc=2}
+│               │   ├── maint=low:1 {unacc=1}
+│               │   └── maint=vhigh:1 {unacc=1}
+│               └── maint=low:1 {unacc=1}
+│                   └── doors=4:1 {unacc=1}
+└── safety=low:207 {unacc=207}
+    ├── persons=2:48 {unacc=48}
+    │   └── lug_boot=small:48 {unacc=48}
+    │       ├── maint=med:2 {unacc=2}
+    │       │   ├── buying=high:1 {unacc=1}
+    │       │   │   └── doors=4:1 {unacc=1}
+    │       │   └── buying=med:1 {unacc=1}
+    │       │       └── doors=4:1 {unacc=1}
+    │       ├── doors=5more:7 {unacc=7}
+    │       │   ├── buying=vhigh:3 {unacc=3}
+    │       │   │   ├── maint=vhigh:1 {unacc=1}
+    │       │   │   ├── maint=med:1 {unacc=1}
+    │       │   │   └── maint=low:1 {unacc=1}
+    │       │   ├── maint=vhigh:1 {unacc=1}
+    │       │   │   └── buying=med:1 {unacc=1}
+    │       │   ├── buying=high:2 {unacc=2}
+    │       │   │   ├── maint=low:1 {unacc=1}
+    │       │   │   └── maint=vhigh:1 {unacc=1}
+    │       │   └── maint=med:1 {unacc=1}
+    │       │       └── buying=high:1 {unacc=1}
+    │       ├── maint=vhigh:1 {unacc=1}
+    │       │   └── buying=med:1 {unacc=1}
+    │       │       └── doors=4:1 {unacc=1}
+    │       ├── buying=low:9 {unacc=9}
+    │       │   ├── doors=5more:1 {unacc=1}
+    │       │   │   └── maint=vhigh:1 {unacc=1}
+    │       │   ├── doors=2:3 {unacc=3}
+    │       │   │   ├── maint=vhigh:1 {unacc=1}
+    │       │   │   ├── maint=low:1 {unacc=1}
+    │       │   │   └── maint=med:1 {unacc=1}
+    │       │   ├── maint=med:1 {unacc=1}
+    │       │   │   └── doors=4:1 {unacc=1}
+    │       │   ├── doors=3:3 {unacc=3}
+    │       │   │   ├── maint=low:1 {unacc=1}
+    │       │   │   ├── maint=med:1 {unacc=1}
+    │       │   │   └── maint=vhigh:1 {unacc=1}
+    │       │   └── maint=low:1 {unacc=1}
+    │       │       └── doors=4:1 {unacc=1}
+    │       ├── maint=high:11 {unacc=11}
+    │       │   ├── doors=5more:2 {unacc=2}
+    │       │   │   ├── buying=med:1 {unacc=1}
+    │       │   │   └── buying=high:1 {unacc=1}
+    │       │   ├── doors=3:3 {unacc=3}
+    │       │   │   ├── buying=high:1 {unacc=1}
+    │       │   │   ├── buying=med:1 {unacc=1}
+    │       │   │   └── buying=vhigh:1 {unacc=1}
+    │       │   ├── buying=low:3 {unacc=3}
+    │       │   │   ├── doors=4:1 {unacc=1}
+    │       │   │   ├── doors=3:1 {unacc=1}
+    │       │   │   └── doors=5more:1 {unacc=1}
+    │       │   ├── buying=vhigh:1 {unacc=1}
+    │       │   │   └── doors=4:1 {unacc=1}
+    │       │   ├── doors=2:1 {unacc=1}
+    │       │   │   └── buying=med:1 {unacc=1}
+    │       │   └── buying=high:1 {unacc=1}
+    │       │       └── doors=4:1 {unacc=1}
+    │       ├── doors=2:6 {unacc=6}
+    │       │   ├── buying=high:2 {unacc=2}
+    │       │   │   ├── maint=vhigh:1 {unacc=1}
+    │       │   │   └── maint=low:1 {unacc=1}
+    │       │   ├── maint=low:1 {unacc=1}
+    │       │   │   └── buying=med:1 {unacc=1}
+    │       │   ├── maint=med:2 {unacc=2}
+    │       │   │   ├── buying=med:1 {unacc=1}
+    │       │   │   └── buying=high:1 {unacc=1}
+    │       │   └── maint=vhigh:1 {unacc=1}
+    │       │       └── buying=med:1 {unacc=1}
+    │       ├── maint=low:1 {unacc=1}
+    │       │   └── buying=med:1 {unacc=1}
+    │       │       └── doors=4:1 {unacc=1}
+    │       ├── buying=high:2 {unacc=2}
+    │       │   ├── maint=low:1 {unacc=1}
+    │       │   │   └── doors=4:1 {unacc=1}
+    │       │   └── maint=vhigh:1 {unacc=1}
+    │       │       └── doors=4:1 {unacc=1}
+    │       ├── buying=vhigh:4 {unacc=4}
+    │       │   ├── maint=med:1 {unacc=1}
+    │       │   │   └── doors=4:1 {unacc=1}
+    │       │   ├── doors=2:2 {unacc=2}
+    │       │   │   ├── maint=vhigh:1 {unacc=1}
+    │       │   │   └── maint=low:1 {unacc=1}
+    │       │   └── maint=low:1 {unacc=1}
+    │       │       └── doors=4:1 {unacc=1}
+    │       └── doors=3:5 {unacc=5}
+    │           ├── buying=vhigh:2 {unacc=2}
+    │           │   ├── maint=med:1 {unacc=1}
+    │           │   └── maint=low:1 {unacc=1}
+    │           ├── maint=vhigh:1 {unacc=1}
+    │           │   └── buying=med:1 {unacc=1}
+    │           ├── maint=low:1 {unacc=1}
+    │           │   └── buying=med:1 {unacc=1}
+    │           └── buying=high:1 {unacc=1}
+    │               └── maint=low:1 {unacc=1}
+    ├── lug_boot=big:109 {unacc=109}
+    │   ├── persons=2:55 {unacc=55}
+    │   │   ├── maint=high:14 {unacc=14}
+    │   │   │   ├── doors=2:1 {unacc=1}
+    │   │   │   │   └── buying=high:1 {unacc=1}
+    │   │   │   ├── doors=3:3 {unacc=3}
+    │   │   │   │   ├── buying=med:1 {unacc=1}
+    │   │   │   │   ├── buying=high:1 {unacc=1}
+    │   │   │   │   └── buying=vhigh:1 {unacc=1}
+    │   │   │   ├── buying=low:4 {unacc=4}
+    │   │   │   │   ├── doors=3:1 {unacc=1}
+    │   │   │   │   ├── doors=4:1 {unacc=1}
+    │   │   │   │   ├── doors=5more:1 {unacc=1}
+    │   │   │   │   └── doors=2:1 {unacc=1}
+    │   │   │   ├── buying=high:1 {unacc=1}
+    │   │   │   │   └── doors=4:1 {unacc=1}
+    │   │   │   ├── doors=5more:3 {unacc=3}
+    │   │   │   │   ├── buying=vhigh:1 {unacc=1}
+    │   │   │   │   ├── buying=high:1 {unacc=1}
+    │   │   │   │   └── buying=med:1 {unacc=1}
+    │   │   │   ├── buying=med:1 {unacc=1}
+    │   │   │   │   └── doors=4:1 {unacc=1}
+    │   │   │   └── buying=vhigh:1 {unacc=1}
+    │   │   │       └── doors=2:1 {unacc=1}
+    │   │   ├── doors=2:5 {unacc=5}
+    │   │   │   ├── maint=med:2 {unacc=2}
+    │   │   │   │   ├── buying=med:1 {unacc=1}
+    │   │   │   │   └── buying=high:1 {unacc=1}
+    │   │   │   ├── maint=low:1 {unacc=1}
+    │   │   │   │   └── buying=med:1 {unacc=1}
+    │   │   │   ├── buying=high:1 {unacc=1}
+    │   │   │   │   └── maint=low:1 {unacc=1}
+    │   │   │   └── maint=vhigh:1 {unacc=1}
+    │   │   │       └── buying=med:1 {unacc=1}
+    │   │   ├── buying=low:11 {unacc=11}
+    │   │   │   ├── maint=low:1 {unacc=1}
+    │   │   │   │   └── doors=4:1 {unacc=1}
+    │   │   │   ├── doors=5more:3 {unacc=3}
+    │   │   │   │   ├── maint=med:1 {unacc=1}
+    │   │   │   │   ├── maint=vhigh:1 {unacc=1}
+    │   │   │   │   └── maint=low:1 {unacc=1}
+    │   │   │   ├── doors=3:2 {unacc=2}
+    │   │   │   │   ├── maint=med:1 {unacc=1}
+    │   │   │   │   └── maint=low:1 {unacc=1}
+    │   │   │   ├── maint=vhigh:1 {unacc=1}
+    │   │   │   │   └── doors=4:1 {unacc=1}
+    │   │   │   ├── doors=2:3 {unacc=3}
+    │   │   │   │   ├── maint=vhigh:1 {unacc=1}
+    │   │   │   │   ├── maint=low:1 {unacc=1}
+    │   │   │   │   └── maint=med:1 {unacc=1}
+    │   │   │   └── maint=med:1 {unacc=1}
+    │   │   │       └── doors=4:1 {unacc=1}
+    │   │   ├── doors=5more:8 {unacc=8}
+    │   │   │   ├── buying=high:2 {unacc=2}
+    │   │   │   │   ├── maint=vhigh:1 {unacc=1}
+    │   │   │   │   └── maint=low:1 {unacc=1}
+    │   │   │   ├── buying=vhigh:2 {unacc=2}
+    │   │   │   │   ├── maint=med:1 {unacc=1}
+    │   │   │   │   └── maint=low:1 {unacc=1}
+    │   │   │   ├── maint=low:1 {unacc=1}
+    │   │   │   │   └── buying=med:1 {unacc=1}
+    │   │   │   ├── maint=med:2 {unacc=2}
+    │   │   │   │   ├── buying=med:1 {unacc=1}
+    │   │   │   │   └── buying=high:1 {unacc=1}
+    │   │   │   └── maint=vhigh:1 {unacc=1}
+    │   │   │       └── buying=med:1 {unacc=1}
+    │   │   ├── maint=med:2 {unacc=2}
+    │   │   │   ├── buying=med:1 {unacc=1}
+    │   │   │   │   └── doors=4:1 {unacc=1}
+    │   │   │   └── buying=high:1 {unacc=1}
+    │   │   │       └── doors=4:1 {unacc=1}
+    │   │   ├── buying=vhigh:5 {unacc=5}
+    │   │   │   ├── maint=low:1 {unacc=1}
+    │   │   │   │   └── doors=4:1 {unacc=1}
+    │   │   │   ├── maint=vhigh:1 {unacc=1}
+    │   │   │   │   └── doors=4:1 {unacc=1}
+    │   │   │   └── doors=2:3 {unacc=3}
+    │   │   │       ├── maint=low:1 {unacc=1}
+    │   │   │       ├── maint=med:1 {unacc=1}
+    │   │   │       └── maint=vhigh:1 {unacc=1}
+    │   │   ├── doors=3:7 {unacc=7}
+    │   │   │   ├── maint=low:1 {unacc=1}
+    │   │   │   │   └── buying=med:1 {unacc=1}
+    │   │   │   ├── buying=high:1 {unacc=1}
+    │   │   │   │   └── maint=vhigh:1 {unacc=1}
+    │   │   │   ├── buying=vhigh:3 {unacc=3}
+    │   │   │   │   ├── maint=low:1 {unacc=1}
+    │   │   │   │   ├── maint=med:1 {unacc=1}
+    │   │   │   │   └── maint=vhigh:1 {unacc=1}
+    │   │   │   ├── maint=vhigh:1 {unacc=1}
+    │   │   │   │   └── buying=med:1 {unacc=1}
+    │   │   │   └── maint=med:1 {unacc=1}
+    │   │   │       └── buying=med:1 {unacc=1}
+    │   │   ├── buying=high:2 {unacc=2}
+    │   │   │   ├── maint=vhigh:1 {unacc=1}
+    │   │   │   │   └── doors=4:1 {unacc=1}
+    │   │   │   └── maint=low:1 {unacc=1}
+    │   │   │       └── doors=4:1 {unacc=1}
+    │   │   └── maint=vhigh:1 {unacc=1}
+    │   │       └── buying=med:1 {unacc=1}
+    │   │           └── doors=4:1 {unacc=1}
+    │   └── persons=more:54 {unacc=54}
+    │       ├── doors=5more:5 {unacc=5}
+    │       │   ├── maint=low:1 {unacc=1}
+    │       │   │   └── buying=med:1 {unacc=1}
+    │       │   ├── buying=high:2 {unacc=2}
+    │       │   │   ├── maint=vhigh:1 {unacc=1}
+    │       │   │   └── maint=low:1 {unacc=1}
+    │       │   ├── maint=vhigh:1 {unacc=1}
+    │       │   │   └── buying=med:1 {unacc=1}
+    │       │   └── buying=vhigh:1 {unacc=1}
+    │       │       └── maint=low:1 {unacc=1}
+    │       ├── doors=3:9 {unacc=9}
+    │       │   ├── buying=high:2 {unacc=2}
+    │       │   │   ├── maint=low:1 {unacc=1}
+    │       │   │   └── maint=vhigh:1 {unacc=1}
+    │       │   ├── buying=vhigh:3 {unacc=3}
+    │       │   │   ├── maint=low:1 {unacc=1}
+    │       │   │   ├── maint=med:1 {unacc=1}
+    │       │   │   └── maint=vhigh:1 {unacc=1}
+    │       │   ├── maint=vhigh:1 {unacc=1}
+    │       │   │   └── buying=med:1 {unacc=1}
+    │       │   ├── maint=low:1 {unacc=1}
+    │       │   │   └── buying=med:1 {unacc=1}
+    │       │   └── maint=med:2 {unacc=2}
+    │       │       ├── buying=med:1 {unacc=1}
+    │       │       └── buying=high:1 {unacc=1}
+    │       ├── buying=low:9 {unacc=9}
+    │       │   ├── doors=5more:2 {unacc=2}
+    │       │   │   ├── maint=low:1 {unacc=1}
+    │       │   │   └── maint=vhigh:1 {unacc=1}
+    │       │   ├── doors=2:1 {unacc=1}
+    │       │   │   └── maint=vhigh:1 {unacc=1}
+    │       │   ├── doors=3:3 {unacc=3}
+    │       │   │   ├── maint=med:1 {unacc=1}
+    │       │   │   ├── maint=vhigh:1 {unacc=1}
+    │       │   │   └── maint=low:1 {unacc=1}
+    │       │   ├── maint=med:1 {unacc=1}
+    │       │   │   └── doors=4:1 {unacc=1}
+    │       │   ├── maint=low:1 {unacc=1}
+    │       │   │   └── doors=4:1 {unacc=1}
+    │       │   └── maint=vhigh:1 {unacc=1}
+    │       │       └── doors=4:1 {unacc=1}
+    │       ├── maint=high:14 {unacc=14}
+    │       │   ├── buying=vhigh:2 {unacc=2}
+    │       │   │   ├── doors=4:1 {unacc=1}
+    │       │   │   └── doors=2:1 {unacc=1}
+    │       │   ├── doors=5more:2 {unacc=2}
+    │       │   │   ├── buying=vhigh:1 {unacc=1}
+    │       │   │   └── buying=med:1 {unacc=1}
+    │       │   ├── doors=2:1 {unacc=1}
+    │       │   │   └── buying=high:1 {unacc=1}
+    │       │   ├── doors=3:3 {unacc=3}
+    │       │   │   ├── buying=high:1 {unacc=1}
+    │       │   │   ├── buying=vhigh:1 {unacc=1}
+    │       │   │   └── buying=med:1 {unacc=1}
+    │       │   ├── buying=low:4 {unacc=4}
+    │       │   │   ├── doors=5more:1 {unacc=1}
+    │       │   │   ├── doors=4:1 {unacc=1}
+    │       │   │   ├── doors=3:1 {unacc=1}
+    │       │   │   └── doors=2:1 {unacc=1}
+    │       │   ├── buying=med:1 {unacc=1}
+    │       │   │   └── doors=4:1 {unacc=1}
+    │       │   └── buying=high:1 {unacc=1}
+    │       │       └── doors=4:1 {unacc=1}
+    │       ├── maint=med:2 {unacc=2}
+    │       │   ├── buying=med:1 {unacc=1}
+    │       │   │   └── doors=4:1 {unacc=1}
+    │       │   └── buying=high:1 {unacc=1}
+    │       │       └── doors=4:1 {unacc=1}
+    │       ├── buying=vhigh:6 {unacc=6}
+    │       │   ├── maint=med:1 {unacc=1}
+    │       │   │   └── doors=4:1 {unacc=1}
+    │       │   ├── maint=vhigh:1 {unacc=1}
+    │       │   │   └── doors=4:1 {unacc=1}
+    │       │   ├── doors=2:3 {unacc=3}
+    │       │   │   ├── maint=vhigh:1 {unacc=1}
+    │       │   │   ├── maint=med:1 {unacc=1}
+    │       │   │   └── maint=low:1 {unacc=1}
+    │       │   └── maint=low:1 {unacc=1}
+    │       │       └── doors=4:1 {unacc=1}
+    │       ├── doors=2:5 {unacc=5}
+    │       │   ├── buying=high:2 {unacc=2}
+    │       │   │   ├── maint=low:1 {unacc=1}
+    │       │   │   └── maint=vhigh:1 {unacc=1}
+    │       │   ├── maint=vhigh:1 {unacc=1}
+    │       │   │   └── buying=med:1 {unacc=1}
+    │       │   ├── maint=med:1 {unacc=1}
+    │       │   │   └── buying=high:1 {unacc=1}
+    │       │   └── maint=low:1 {unacc=1}
+    │       │       └── buying=med:1 {unacc=1}
+    │       ├── buying=high:2 {unacc=2}
+    │       │   ├── maint=vhigh:1 {unacc=1}
+    │       │   │   └── doors=4:1 {unacc=1}
+    │       │   └── maint=low:1 {unacc=1}
+    │       │       └── doors=4:1 {unacc=1}
+    │       ├── maint=vhigh:1 {unacc=1}
+    │       │   └── buying=med:1 {unacc=1}
+    │       │       └── doors=4:1 {unacc=1}
+    │       └── maint=low:1 {unacc=1}
+    │           └── buying=med:1 {unacc=1}
+    │               └── doors=4:1 {unacc=1}
+    └── lug_boot=small:50 {unacc=50}
+        └── persons=more:50 {unacc=50}
+            ├── buying=low:11 {unacc=11}
+            │   ├── doors=3:2 {unacc=2}
+            │   │   ├── maint=vhigh:1 {unacc=1}
+            │   │   └── maint=med:1 {unacc=1}
+            │   ├── maint=low:1 {unacc=1}
+            │   │   └── doors=4:1 {unacc=1}
+            │   ├── maint=vhigh:1 {unacc=1}
+            │   │   └── doors=4:1 {unacc=1}
+            │   ├── doors=2:3 {unacc=3}
+            │   │   ├── maint=vhigh:1 {unacc=1}
+            │   │   ├── maint=low:1 {unacc=1}
+            │   │   └── maint=med:1 {unacc=1}
+            │   ├── doors=5more:3 {unacc=3}
+            │   │   ├── maint=low:1 {unacc=1}
+            │   │   ├── maint=vhigh:1 {unacc=1}
+            │   │   └── maint=med:1 {unacc=1}
+            │   └── maint=med:1 {unacc=1}
+            │       └── doors=4:1 {unacc=1}
+            ├── doors=2:3 {unacc=3}
+            │   ├── maint=med:1 {unacc=1}
+            │   │   └── buying=med:1 {unacc=1}
+            │   ├── maint=low:1 {unacc=1}
+            │   │   └── buying=med:1 {unacc=1}
+            │   └── buying=high:1 {unacc=1}
+            │       └── maint=low:1 {unacc=1}
+            ├── maint=med:1 {unacc=1}
+            │   └── buying=high:1 {unacc=1}
+            │       └── doors=4:1 {unacc=1}
+            ├── maint=high:14 {unacc=14}
+            │   ├── buying=vhigh:2 {unacc=2}
+            │   │   ├── doors=4:1 {unacc=1}
+            │   │   └── doors=2:1 {unacc=1}
+            │   ├── buying=low:3 {unacc=3}
+            │   │   ├── doors=5more:1 {unacc=1}
+            │   │   ├── doors=2:1 {unacc=1}
+            │   │   └── doors=3:1 {unacc=1}
+            │   ├── doors=5more:3 {unacc=3}
+            │   │   ├── buying=med:1 {unacc=1}
+            │   │   ├── buying=high:1 {unacc=1}
+            │   │   └── buying=vhigh:1 {unacc=1}
+            │   ├── buying=high:1 {unacc=1}
+            │   │   └── doors=4:1 {unacc=1}
+            │   ├── doors=2:2 {unacc=2}
+            │   │   ├── buying=high:1 {unacc=1}
+            │   │   └── buying=med:1 {unacc=1}
+            │   ├── doors=3:2 {unacc=2}
+            │   │   ├── buying=high:1 {unacc=1}
+            │   │   └── buying=vhigh:1 {unacc=1}
+            │   └── buying=med:1 {unacc=1}
+            │       └── doors=4:1 {unacc=1}
+            ├── buying=vhigh:5 {unacc=5}
+            │   ├── doors=2:2 {unacc=2}
+            │   │   ├── maint=med:1 {unacc=1}
+            │   │   └── maint=low:1 {unacc=1}
+            │   ├── maint=vhigh:1 {unacc=1}
+            │   │   └── doors=4:1 {unacc=1}
+            │   ├── maint=low:1 {unacc=1}
+            │   │   └── doors=4:1 {unacc=1}
+            │   └── maint=med:1 {unacc=1}
+            │       └── doors=4:1 {unacc=1}
+            ├── doors=5more:7 {unacc=7}
+            │   ├── maint=vhigh:1 {unacc=1}
+            │   │   └── buying=med:1 {unacc=1}
+            │   ├── buying=high:2 {unacc=2}
+            │   │   ├── maint=vhigh:1 {unacc=1}
+            │   │   └── maint=low:1 {unacc=1}
+            │   ├── buying=vhigh:2 {unacc=2}
+            │   │   ├── maint=med:1 {unacc=1}
+            │   │   └── maint=low:1 {unacc=1}
+            │   └── maint=med:2 {unacc=2}
+            │       ├── buying=high:1 {unacc=1}
+            │       └── buying=med:1 {unacc=1}
+            ├── doors=3:6 {unacc=6}
+            │   ├── buying=vhigh:3 {unacc=3}
+            │   │   ├── maint=low:1 {unacc=1}
+            │   │   ├── maint=vhigh:1 {unacc=1}
+            │   │   └── maint=med:1 {unacc=1}
+            │   ├── maint=med:1 {unacc=1}
+            │   │   └── buying=high:1 {unacc=1}
+            │   ├── maint=vhigh:1 {unacc=1}
+            │   │   └── buying=med:1 {unacc=1}
+            │   └── buying=high:1 {unacc=1}
+            │       └── maint=low:1 {unacc=1}
+            ├── maint=low:1 {unacc=1}
+            │   └── buying=med:1 {unacc=1}
+            │       └── doors=4:1 {unacc=1}
+            ├── maint=vhigh:1 {unacc=1}
+            │   └── buying=med:1 {unacc=1}
+            │       └── doors=4:1 {unacc=1}
+            └── buying=high:1 {unacc=1}
+                └── maint=low:1 {unacc=1}
+                    └── doors=4:1 {unacc=1}
+
+----------------------------------------------------------
+TAT CA FREQUENT PATTERNS (223 patterns)
+----------------------------------------------------------
+
+1. [persons=4] [sup=473]
+2. [safety=low] [sup=465]
+3. [lug_boot=med] [sup=465]
+4. [persons=2] [sup=461]
+5. [lug_boot=big] [sup=461]
+6. [safety=high] [sup=460]
+7. [safety=med] [sup=457]
+8. [lug_boot=small] [sup=456]
+9. [persons=more] [sup=448]
+10. [maint=high] [sup=356]
+11. [buying=low] [sup=353]
+12. [doors=3] [sup=353]
+13. [doors=5more] [sup=348]
+14. [buying=vhigh] [sup=347]
+15. [doors=2] [sup=347]
+16. [maint=med] [sup=346]
+17. [buying=high] [sup=345]
+18. [maint=low] [sup=342]
+19. [maint=vhigh] [sup=338]
+20. [buying=med] [sup=337]
+21. [doors=4] [sup=334]
+22. [lug_boot=small, persons=4] [sup=164]
+23. [safety=low, lug_boot=big] [sup=163]
+24. [safety=med, persons=4] [sup=161]
+25. [persons=2, lug_boot=med] [sup=158]
+26. [safety=low, persons=4] [sup=158]
+27. [safety=med, lug_boot=med] [sup=157]
+28. [safety=high, lug_boot=med] [sup=156]
+29. [safety=low, persons=2] [sup=156]
+30. [lug_boot=big, persons=4] [sup=156]
+31. [persons=2, lug_boot=big] [sup=155]
+32. [persons=more, lug_boot=med] [sup=154]
+33. [lug_boot=small, safety=high] [sup=154]
+34. [safety=high, persons=2] [sup=154]
+35. [safety=high, persons=4] [sup=154]
+36. [lug_boot=med, persons=4] [sup=153]
+37. [persons=more, safety=high] [sup=152]
+38. [safety=med, lug_boot=small] [sup=152]
+39. [safety=low, lug_boot=med] [sup=152]
+40. [persons=more, safety=low] [sup=151]
+41. [safety=med, persons=2] [sup=151]
+42. [persons=more, lug_boot=big] [sup=150]
+43. [lug_boot=small, safety=low] [sup=150]
+44. [safety=high, lug_boot=big] [sup=150]
+45. [lug_boot=small, persons=2] [sup=148]
+46. [safety=med, lug_boot=big] [sup=148]
+47. [safety=med, persons=more] [sup=145]
+48. [persons=more, lug_boot=small] [sup=144]
+49. [buying=high, persons=4] [sup=124]
+50. [safety=high, buying=vhigh] [sup=123]
+51. [doors=2, persons=4] [sup=123]
+52. [doors=5more, persons=2] [sup=123]
+53. [doors=3, lug_boot=big] [sup=123]
+54. [safety=high, maint=high] [sup=123]
+55. [maint=med, persons=4] [sup=121]
+56. [persons=more, buying=vhigh] [sup=121]
+57. [safety=low, buying=low] [sup=121]
+58. [buying=med, persons=2] [sup=120]
+59. [maint=med, lug_boot=med] [sup=120]
+60. [buying=low, persons=4] [sup=120]
+61. [doors=3, safety=high] [sup=120]
+62. [persons=2, maint=high] [sup=120]
+63. [lug_boot=med, maint=high] [sup=120]
+64. [maint=vhigh, lug_boot=med] [sup=119]
+65. [maint=low, lug_boot=big] [sup=119]
+66. [doors=2, lug_boot=small] [sup=119]
+67. [lug_boot=med, buying=low] [sup=119]
+68. [buying=low, lug_boot=big] [sup=119]
+69. [safety=low, maint=high] [sup=119]
+70. [maint=high, lug_boot=big] [sup=119]
+71. [maint=high, persons=4] [sup=119]
+72. [maint=vhigh, persons=4] [sup=118]
+73. [lug_boot=med, buying=high] [sup=118]
+74. [buying=vhigh, lug_boot=big] [sup=118]
+75. [doors=5more, lug_boot=med] [sup=118]
+76. [safety=med, buying=low] [sup=118]
+77. [persons=2, buying=low] [sup=118]
+78. [safety=med, doors=3] [sup=118]
+79. [doors=3, persons=more] [sup=118]
+80. [doors=3, lug_boot=med] [sup=118]
+81. [doors=3, persons=4] [sup=118]
+82. [doors=4, persons=4] [sup=117]
+83. [lug_boot=small, maint=low] [sup=117]
+84. [safety=low, maint=low] [sup=117]
+85. [safety=low, buying=high] [sup=117]
+86. [safety=med, maint=med] [sup=117]
+87. [lug_boot=med, buying=vhigh] [sup=117]
+88. [doors=2, safety=high] [sup=117]
+89. [doors=2, safety=low] [sup=117]
+90. [doors=5more, safety=low] [sup=117]
+91. [doors=3, persons=2] [sup=117]
+92. [lug_boot=small, maint=high] [sup=117]
+93. [persons=more, maint=high] [sup=117]
+94. [doors=4, safety=low] [sup=116]
+95. [buying=med, lug_boot=small] [sup=116]
+96. [maint=vhigh, safety=low] [sup=116]
+97. [maint=med, persons=2] [sup=116]
+98. [maint=med, safety=high] [sup=116]
+99. [doors=5more, safety=med] [sup=116]
+100. [doors=5more, lug_boot=small] [sup=116]
+101. [doors=4, lug_boot=med] [sup=115]
+102. [safety=med, buying=med] [sup=115]
+103. [persons=2, maint=low] [sup=115]
+104. [maint=low, persons=4] [sup=115]
+105. [safety=med, maint=low] [sup=115]
+106. [safety=med, buying=high] [sup=115]
+107. [buying=vhigh, persons=4] [sup=115]
+108. [safety=low, buying=vhigh] [sup=115]
+109. [doors=2, persons=2] [sup=115]
+110. [doors=5more, safety=high] [sup=115]
+111. [doors=5more, persons=4] [sup=115]
+112. [persons=more, buying=low] [sup=115]
+113. [lug_boot=small, buying=low] [sup=115]
+114. [doors=3, safety=low] [sup=115]
+115. [buying=med, persons=4] [sup=114]
+116. [buying=high, lug_boot=big] [sup=114]
+117. [maint=med, lug_boot=big] [sup=114]
+118. [doors=2, lug_boot=big] [sup=114]
+119. [doors=2, lug_boot=med] [sup=114]
+120. [doors=5more, lug_boot=big] [sup=114]
+121. [safety=high, buying=low] [sup=114]
+122. [safety=med, maint=high] [sup=114]
+123. [safety=high, buying=high] [sup=113]
+124. [lug_boot=small, buying=high] [sup=113]
+125. [maint=med, safety=low] [sup=113]
+126. [doors=2, safety=med] [sup=113]
+127. [buying=med, safety=low] [sup=112]
+128. [persons=more, maint=low] [sup=112]
+129. [persons=2, buying=high] [sup=112]
+130. [maint=med, lug_boot=small] [sup=112]
+131. [lug_boot=small, buying=vhigh] [sup=112]
+132. [doors=3, lug_boot=small] [sup=112]
+133. [persons=more, doors=4] [sup=111]
+134. [buying=med, lug_boot=med] [sup=111]
+135. [maint=vhigh, safety=high] [sup=111]
+136. [safety=med, maint=vhigh] [sup=111]
+137. [persons=2, buying=vhigh] [sup=111]
+138. [doors=4, lug_boot=big] [sup=110]
+139. [safety=med, doors=4] [sup=110]
+140. [buying=med, safety=high] [sup=110]
+141. [buying=med, lug_boot=big] [sup=110]
+142. [maint=vhigh, persons=2] [sup=110]
+143. [persons=more, maint=vhigh] [sup=110]
+144. [lug_boot=small, maint=vhigh] [sup=110]
+145. [safety=high, maint=low] [sup=110]
+146. [doors=5more, persons=more] [sup=110]
+147. [lug_boot=small, doors=4] [sup=109]
+148. [maint=vhigh, lug_boot=big] [sup=109]
+149. [persons=more, buying=high] [sup=109]
+150. [maint=med, persons=more] [sup=109]
+151. [safety=med, buying=vhigh] [sup=109]
+152. [doors=2, persons=more] [sup=109]
+153. [doors=4, safety=high] [sup=108]
+154. [doors=4, persons=2] [sup=106]
+155. [maint=low, lug_boot=med] [sup=106]
+156. [buying=med, persons=more] [sup=103]
+157. [doors=2, maint=high] [sup=96]
+158. [maint=low, buying=vhigh] [sup=95]
+159. [doors=3, buying=low] [sup=95]
+160. [buying=low, maint=high] [sup=94]
+161. [doors=5more, buying=low] [sup=93]
+162. [doors=3, maint=vhigh] [sup=91]
+163. [doors=3, maint=high] [sup=91]
+164. [doors=2, buying=high] [sup=90]
+165. [doors=2, maint=med] [sup=90]
+166. [doors=2, buying=med] [sup=89]
+167. [doors=5more, maint=vhigh] [sup=89]
+168. [maint=med, buying=high] [sup=89]
+169. [buying=high, maint=high] [sup=89]
+170. [doors=4, buying=vhigh] [sup=88]
+171. [doors=5more, buying=high] [sup=88]
+172. [maint=med, buying=low] [sup=88]
+173. [doors=5more, maint=med] [sup=88]
+174. [doors=5more, buying=vhigh] [sup=88]
+175. [doors=3, buying=vhigh] [sup=88]
+176. [doors=4, maint=low] [sup=87]
+177. [buying=med, maint=vhigh] [sup=87]
+178. [buying=med, maint=high] [sup=87]
+179. [doors=3, buying=med] [sup=86]
+180. [maint=low, buying=low] [sup=86]
+181. [doors=3, maint=med] [sup=86]
+182. [buying=vhigh, maint=high] [sup=86]
+183. [doors=5more, maint=high] [sup=86]
+184. [maint=vhigh, buying=low] [sup=85]
+185. [maint=vhigh, buying=high] [sup=85]
+186. [doors=2, maint=low] [sup=85]
+187. [doors=5more, maint=low] [sup=85]
+188. [doors=3, maint=low] [sup=85]
+189. [maint=med, buying=vhigh] [sup=85]
+190. [doors=2, buying=low] [sup=85]
+191. [maint=med, buying=med] [sup=84]
+192. [doors=3, buying=high] [sup=84]
+193. [doors=4, buying=high] [sup=83]
+194. [buying=med, doors=4] [sup=83]
+195. [doors=4, maint=high] [sup=83]
+196. [doors=2, buying=vhigh] [sup=83]
+197. [maint=med, doors=4] [sup=82]
+198. [doors=4, maint=vhigh] [sup=82]
+199. [maint=low, buying=high] [sup=82]
+200. [maint=vhigh, buying=vhigh] [sup=81]
+201. [doors=4, buying=low] [sup=80]
+202. [buying=med, maint=low] [sup=79]
+203. [doors=5more, buying=med] [sup=79]
+204. [doors=2, maint=vhigh] [sup=76]
+205. [safety=med, lug_boot=small, persons=4] [sup=56]
+206. [lug_boot=small, safety=high, persons=4] [sup=56]
+207. [safety=low, persons=2, lug_boot=big] [sup=55]
+208. [persons=more, safety=low, lug_boot=big] [sup=54]
+209. [persons=more, safety=high, lug_boot=med] [sup=54]
+210. [safety=low, lug_boot=big, persons=4] [sup=54]
+211. [safety=med, persons=more, lug_boot=med] [sup=53]
+212. [safety=med, lug_boot=big, persons=4] [sup=53]
+213. [safety=high, persons=2, lug_boot=med] [sup=53]
+214. [safety=low, persons=2, lug_boot=med] [sup=53]
+215. [lug_boot=small, safety=low, persons=4] [sup=52]
+216. [safety=med, persons=2, lug_boot=med] [sup=52]
+217. [safety=med, lug_boot=med, persons=4] [sup=52]
+218. [safety=low, lug_boot=med, persons=4] [sup=52]
+219. [persons=more, safety=high, lug_boot=big] [sup=51]
+220. [lug_boot=small, persons=2, safety=high] [sup=51]
+221. [persons=more, lug_boot=small, safety=low] [sup=50]
+222. [safety=med, persons=2, lug_boot=big] [sup=50]
+223. [safety=high, persons=2, lug_boot=big] [sup=50]
