@@ -72,6 +72,7 @@ public class ResultWriter {
 
     /**
      * Writes per-class precision, recall, F1, and overall accuracy.
+     * Delegates metric computation to {@link EvalMetrics#compute}.
      */
     public static void writeEvaluation(
             List<Transaction> testData,
@@ -79,55 +80,26 @@ public class ResultWriter {
             String filePath) throws IOException {
         ensureParentDir(filePath);
 
-        // Collect classes in order of first appearance
-        Set<String> classes = new LinkedHashSet<>();
-        for (Transaction t : testData) classes.add(t.getClassLabel());
-
-        Map<String, Integer> tp = new LinkedHashMap<>();
-        Map<String, Integer> fp = new LinkedHashMap<>();
-        Map<String, Integer> fn = new LinkedHashMap<>();
-        for (String cls : classes) {
-            tp.put(cls, 0); fp.put(cls, 0); fn.put(cls, 0);
-        }
-
-        for (int i = 0; i < testData.size(); i++) {
-            String actual = testData.get(i).getClassLabel();
-            String pred   = predictions.get(i);
-            if (actual.equals(pred)) {
-                tp.merge(actual, 1, Integer::sum);
-            } else {
-                fn.merge(actual, 1, Integer::sum);
-                fp.merge(pred,   1, Integer::sum);
-            }
-        }
-
-        int totalCorrect = tp.values().stream().mapToInt(Integer::intValue).sum();
-        double accuracy  = testData.isEmpty() ? 0.0
-                         : (double) totalCorrect / testData.size();
+        EvalMetrics m = EvalMetrics.compute(testData, predictions);
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write("=== Evaluation Metrics ===\n\n");
             bw.write(String.format("Overall Accuracy: %.4f (%.2f%%)%n%n",
-                accuracy, accuracy * 100));
+                m.accuracy, m.accuracy * 100));
 
             bw.write(String.format("%-15s %4s %4s %4s %10s %10s %10s%n",
                 "Class", "TP", "FP", "FN", "Precision", "Recall", "F1"));
             bw.write("-".repeat(60) + "\n");
 
-            double macroF1 = 0.0;
-            for (String cls : classes) {
-                int tpV = tp.get(cls), fpV = fp.get(cls), fnV = fn.get(cls);
-                double prec = (tpV + fpV) == 0 ? 0.0 : (double) tpV / (tpV + fpV);
-                double rec  = (tpV + fnV) == 0 ? 0.0 : (double) tpV / (tpV + fnV);
-                double f1   = (prec + rec) == 0 ? 0.0 : 2 * prec * rec / (prec + rec);
-                macroF1 += f1;
+            for (EvalMetrics.ClassMetrics cm : m.perClass.values()) {
                 bw.write(String.format("%-15s %4d %4d %4d %10.4f %10.4f %10.4f%n",
-                    cls, tpV, fpV, fnV, prec, rec, f1));
+                    cm.className, cm.tp, cm.fp, cm.fn,
+                    cm.precision, cm.recall, cm.f1));
             }
 
             bw.write("-".repeat(60) + "\n");
-            bw.write(String.format("Macro-F1: %.4f%n",
-                classes.isEmpty() ? 0.0 : macroF1 / classes.size()));
+            bw.write(String.format("Macro-F1: %.4f%n", m.macroF1));
+            bw.write(String.format("Weighted-F1: %.4f%n", m.weightedF1));
         }
     }
 
@@ -315,46 +287,22 @@ public class ResultWriter {
             bw.write("----------------------------------------------------------\n");
             bw.write("DANH GIA HIEU SUAT\n");
             bw.write("----------------------------------------------------------\n\n");
-            double accuracy = testData.isEmpty() ? 0.0
-                            : (double) correct / testData.size();
-            bw.write(String.format("Accuracy: %d/%d = %.4f (%.2f%%)%n%n",
-                correct, testData.size(), accuracy, accuracy * 100));
 
-            // Per-class metrics
-            Set<String> classes = new LinkedHashSet<>();
-            for (Transaction t : testData) classes.add(t.getClassLabel());
-            Map<String, Integer> tp = new LinkedHashMap<>();
-            Map<String, Integer> fp = new LinkedHashMap<>();
-            Map<String, Integer> fn = new LinkedHashMap<>();
-            for (String cls : classes) { tp.put(cls, 0); fp.put(cls, 0); fn.put(cls, 0); }
-            for (int i = 0; i < testData.size(); i++) {
-                String actual = testData.get(i).getClassLabel();
-                String pred = predictions.get(i);
-                if (actual.equals(pred)) {
-                    tp.merge(actual, 1, Integer::sum);
-                } else {
-                    fn.merge(actual, 1, Integer::sum);
-                    fp.merge(pred, 1, Integer::sum);
-                }
-            }
+            EvalMetrics m = EvalMetrics.compute(testData, predictions);
+            bw.write(String.format("Accuracy: %d/%d = %.4f (%.2f%%)%n%n",
+                correct, testData.size(), m.accuracy, m.accuracy * 100));
+
             bw.write(String.format("%-12s %4s %4s %4s %10s %10s %10s%n",
                 "Class", "TP", "FP", "FN", "Precision", "Recall", "F1"));
             bw.write("-".repeat(56) + "\n");
-            double macroF1 = 0.0;
-            for (String cls : classes) {
-                int tpV = tp.getOrDefault(cls, 0);
-                int fpV = fp.getOrDefault(cls, 0);
-                int fnV = fn.getOrDefault(cls, 0);
-                double prec = (tpV + fpV) == 0 ? 0.0 : (double) tpV / (tpV + fpV);
-                double rec  = (tpV + fnV) == 0 ? 0.0 : (double) tpV / (tpV + fnV);
-                double f1   = (prec + rec) == 0 ? 0.0 : 2 * prec * rec / (prec + rec);
-                macroF1 += f1;
+            for (EvalMetrics.ClassMetrics cm : m.perClass.values()) {
                 bw.write(String.format("%-12s %4d %4d %4d %10.4f %10.4f %10.4f%n",
-                    cls, tpV, fpV, fnV, prec, rec, f1));
+                    cm.className, cm.tp, cm.fp, cm.fn,
+                    cm.precision, cm.recall, cm.f1));
             }
             bw.write("-".repeat(56) + "\n");
-            bw.write(String.format("Macro-F1: %.4f%n",
-                classes.isEmpty() ? 0.0 : macroF1 / classes.size()));
+            bw.write(String.format("Macro-F1: %.4f%n", m.macroF1));
+            bw.write(String.format("Weighted-F1: %.4f%n", m.weightedF1));
         }
     }
 
@@ -496,6 +444,71 @@ public class ResultWriter {
             bw.write("sunny,hot,high,false,no\n");
             bw.write("overcast,hot,high,false,yes\n");
             bw.write("```\n");
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // CSV exports — for cross-experiment comparison (baseline vs improvements)
+    // -----------------------------------------------------------------------
+
+    /**
+     * Writes one row per dataset with aggregated metrics:
+     *   dataset, records, classes, minSupPct, accuracy, accStd, macroF1, macroF1Std, weightedF1
+     * Uses Locale.US (dot decimal) for stable parsing.
+     *
+     * @param byDataset  ordered map datasetName -> aggregated EvalMetrics
+     * @param datasetInfo optional map datasetName -> "records|classes|minSupPct" (may be null)
+     * @param filePath   output CSV path
+     */
+    public static void writeMetricsCsv(
+            Map<String, EvalMetrics> byDataset,
+            Map<String, String> datasetInfo,
+            String filePath) throws IOException {
+        ensureParentDir(filePath);
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            bw.write("dataset,records,classes,minSupPct,accuracy,accStd,macroF1,macroF1Std,weightedF1\n");
+            for (Map.Entry<String, EvalMetrics> e : byDataset.entrySet()) {
+                String name = e.getKey();
+                EvalMetrics m = e.getValue();
+                String info = datasetInfo != null ? datasetInfo.getOrDefault(name, "|||") : "|||";
+                String[] parts = info.split("\\|", -1);
+                String records    = parts.length > 0 ? parts[0] : "";
+                String classes    = parts.length > 1 ? parts[1] : String.valueOf(m.perClass.size());
+                String minSupPct  = parts.length > 2 ? parts[2] : "";
+                bw.write(String.format(java.util.Locale.US,
+                    "%s,%s,%s,%s,%.4f,%.4f,%.4f,%.4f,%.4f%n",
+                    name, records, classes, minSupPct,
+                    m.accuracy, m.accuracyStd,
+                    m.macroF1, m.macroF1Std,
+                    m.weightedF1));
+            }
+        }
+    }
+
+    /**
+     * Writes one row per (dataset, class) with per-class metrics:
+     *   dataset, class, support, tp, fp, fn, precision, recall, f1
+     *
+     * @param byDataset ordered map datasetName -> aggregated EvalMetrics
+     * @param filePath  output CSV path
+     */
+    public static void writePerClassCsv(
+            Map<String, EvalMetrics> byDataset,
+            String filePath) throws IOException {
+        ensureParentDir(filePath);
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            bw.write("dataset,class,support,tp,fp,fn,precision,recall,f1\n");
+            for (Map.Entry<String, EvalMetrics> e : byDataset.entrySet()) {
+                String name = e.getKey();
+                EvalMetrics m = e.getValue();
+                for (EvalMetrics.ClassMetrics cm : m.perClass.values()) {
+                    bw.write(String.format(java.util.Locale.US,
+                        "%s,%s,%d,%d,%d,%d,%.4f,%.4f,%.4f%n",
+                        name, cm.className,
+                        cm.support, cm.tp, cm.fp, cm.fn,
+                        cm.precision, cm.recall, cm.f1));
+                }
+            }
         }
     }
 }

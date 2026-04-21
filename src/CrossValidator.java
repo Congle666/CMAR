@@ -38,6 +38,37 @@ public class CrossValidator {
                                 double minSupportPct, double minConfidence,
                                 double chiSqThreshold, int coverageDelta,
                                 long seed, int maxPatternLength) {
+        List<EvalMetrics> foldMetrics = runWithMetrics(
+            data, k, minSupportPct, minConfidence,
+            chiSqThreshold, coverageDelta, seed, maxPatternLength);
+        double[] accs = new double[foldMetrics.size()];
+        for (int i = 0; i < foldMetrics.size(); i++) {
+            accs[i] = foldMetrics.get(i).accuracy;
+        }
+        return accs;
+    }
+
+    /**
+     * Like {@link #run}, but returns full per-fold {@link EvalMetrics}
+     * (accuracy + per-class Precision/Recall/F1 + Macro-F1 + Weighted-F1).
+     *
+     * This is the preferred method for benchmarking improvements — it lets
+     * callers aggregate F1 and per-class stats across folds.
+     */
+    public static List<EvalMetrics> runWithMetrics(
+            List<Transaction> data, int k,
+            double minSupportPct, double minConfidence,
+            double chiSqThreshold, int coverageDelta,
+            long seed) {
+        return runWithMetrics(data, k, minSupportPct, minConfidence,
+            chiSqThreshold, coverageDelta, seed, Integer.MAX_VALUE);
+    }
+
+    public static List<EvalMetrics> runWithMetrics(
+            List<Transaction> data, int k,
+            double minSupportPct, double minConfidence,
+            double chiSqThreshold, int coverageDelta,
+            long seed, int maxPatternLength) {
 
         // --- Stratified split: group by class, then distribute ---
         List<Transaction> shuffled = new ArrayList<>(data);
@@ -61,7 +92,7 @@ public class CrossValidator {
         }
 
         // --- Run k iterations ---
-        double[] accuracies = new double[k];
+        List<EvalMetrics> results = new ArrayList<>();
 
         for (int fold = 0; fold < k; fold++) {
             // Build train and test sets
@@ -85,15 +116,18 @@ public class CrossValidator {
             classifier.setCoverageThreshold(coverageDelta);
             classifier.train(candidates, trainData);
 
-            // Evaluate
-            accuracies[fold] = classifier.evaluate(testData);
+            // Predict & evaluate
+            List<String> predictions = classifier.predict(testData);
+            EvalMetrics metrics = EvalMetrics.compute(testData, predictions);
+            results.add(metrics);
 
-            System.out.printf("    Fold %2d: accuracy=%.4f  (train=%d, test=%d, minSup=%d, rules=%d)%n",
-                fold + 1, accuracies[fold], trainData.size(), testData.size(),
+            System.out.printf("    Fold %2d: acc=%.4f macroF1=%.4f  (train=%d, test=%d, minSup=%d, rules=%d)%n",
+                fold + 1, metrics.accuracy, metrics.macroF1,
+                trainData.size(), testData.size(),
                 minSupport, classifier.getRules().size());
         }
 
-        return accuracies;
+        return results;
     }
 
     /** Computes mean of an array. */
