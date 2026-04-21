@@ -2670,26 +2670,26 @@ Moi nut hien thi dang `item:count` — ten item va so lan xuat hien tren nhanh d
 
 | # | Condset -> Class | Support | Confidence |
 |---|-----------------|---------|------------|
-| 1 | [safety=low] -> unacc | 0.33646888567293776 | 1.0000 |
-| 2 | [persons=2] -> unacc | 0.33357452966714907 | 1.0000 |
-| 3 | [safety=low, lug_boot=big] -> unacc | 0.11794500723589002 | 1.0000 |
-| 4 | [persons=2, lug_boot=med] -> unacc | 0.11432706222865413 | 1.0000 |
-| 5 | [safety=low, persons=4] -> unacc | 0.11432706222865413 | 1.0000 |
-| 6 | [safety=low, persons=2] -> unacc | 0.11287988422575977 | 1.0000 |
-| 7 | [persons=2, lug_boot=big] -> unacc | 0.11215629522431259 | 1.0000 |
-| 8 | [safety=high, persons=2] -> unacc | 0.11143270622286541 | 1.0000 |
-| 9 | [safety=low, lug_boot=med] -> unacc | 0.10998552821997105 | 1.0000 |
-| 10 | [persons=more, safety=low] -> unacc | 0.10926193921852388 | 1.0000 |
-| 11 | [safety=med, persons=2] -> unacc | 0.10926193921852388 | 1.0000 |
-| 12 | [lug_boot=small, safety=low] -> unacc | 0.1085383502170767 | 1.0000 |
-| 13 | [lug_boot=small, persons=2] -> unacc | 0.10709117221418235 | 1.0000 |
-| 14 | [doors=5more, persons=2] -> unacc | 0.08900144717800289 | 1.0000 |
-| 15 | [safety=low, buying=low] -> unacc | 0.08755426917510854 | 1.0000 |
-| 16 | [buying=med, persons=2] -> unacc | 0.08683068017366136 | 1.0000 |
-| 17 | [persons=2, maint=high] -> unacc | 0.08683068017366136 | 1.0000 |
-| 18 | [safety=low, maint=high] -> unacc | 0.08610709117221418 | 1.0000 |
-| 19 | [persons=2, buying=low] -> unacc | 0.085383502170767 | 1.0000 |
-| 20 | [safety=low, maint=low] -> unacc | 0.08465991316931983 | 1.0000 |
+| 1 | [safety=low] -> unacc | 0.33646888567293776 | 1,0000 |
+| 2 | [persons=2] -> unacc | 0.33357452966714907 | 1,0000 |
+| 3 | [safety=low, lug_boot=big] -> unacc | 0.11794500723589002 | 1,0000 |
+| 4 | [persons=2, lug_boot=med] -> unacc | 0.11432706222865413 | 1,0000 |
+| 5 | [safety=low, persons=4] -> unacc | 0.11432706222865413 | 1,0000 |
+| 6 | [safety=low, persons=2] -> unacc | 0.11287988422575977 | 1,0000 |
+| 7 | [persons=2, lug_boot=big] -> unacc | 0.11215629522431259 | 1,0000 |
+| 8 | [safety=high, persons=2] -> unacc | 0.11143270622286541 | 1,0000 |
+| 9 | [safety=low, lug_boot=med] -> unacc | 0.10998552821997105 | 1,0000 |
+| 10 | [persons=more, safety=low] -> unacc | 0.10926193921852388 | 1,0000 |
+| 11 | [safety=med, persons=2] -> unacc | 0.10926193921852388 | 1,0000 |
+| 12 | [lug_boot=small, safety=low] -> unacc | 0.1085383502170767 | 1,0000 |
+| 13 | [lug_boot=small, persons=2] -> unacc | 0.10709117221418235 | 1,0000 |
+| 14 | [doors=5more, persons=2] -> unacc | 0.08900144717800289 | 1,0000 |
+| 15 | [safety=low, buying=low] -> unacc | 0.08755426917510854 | 1,0000 |
+| 16 | [buying=med, persons=2] -> unacc | 0.08683068017366136 | 1,0000 |
+| 17 | [persons=2, maint=high] -> unacc | 0.08683068017366136 | 1,0000 |
+| 18 | [safety=low, maint=high] -> unacc | 0.08610709117221418 | 1,0000 |
+| 19 | [persons=2, buying=low] -> unacc | 0.085383502170767 | 1,0000 |
+| 20 | [safety=low, maint=low] -> unacc | 0.08465991316931983 | 1,0000 |
 
 ## 8. Huong Dan Thay Doi Dataset
 
