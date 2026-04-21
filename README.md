@@ -5,26 +5,25 @@ Java implementation of **CMAR** (Li, Han & Pei — ICDM 2001). Plain `javac` bui
 ## Project Structure
 
 ```
-src/
-├── Main.java              # Entry point
-├── core/                  # CMAR classifier + rule/record types
-│   ├── CMARClassifier.java
-│   ├── AssociationRule.java
-│   └── Transaction.java
-├── datastructure/         # CR-tree, FP-tree, nodes
-│   ├── CRTree.java
-│   ├── FPTree.java
-│   ├── FPNode.java
-│   └── FrequentPattern.java
-├── mining/                # FP-Growth mining engine
-│   └── FPGrowth.java
-├── io/                    # CSV loader + result writers
-│   ├── DatasetLoader.java
-│   └── ResultWriter.java
-└── benchmark/             # Cross-validation harnesses
-    ├── Benchmark.java
-    ├── BenchmarkOne.java
-    └── CrossValidator.java
+src/                          # 14 Java files, flat layout (default package)
+├── Main.java                 # Entry point
+│
+├── CMARClassifier.java       # Core: 3-stage pruning + weighted χ² classify
+├── AssociationRule.java      # Core: CAR data structure
+├── Transaction.java          # Core: record + class label
+│
+├── FPGrowth.java             # Mining: FP-Growth with class distribution
+├── FPTree.java               # Data struct: CR-tree for mining
+├── FPNode.java               # Data struct: tree node (with classCount)
+├── CRTree.java               # Data struct: CR-tree for rule storage
+├── FrequentPattern.java      # DTO: pattern + support
+│
+├── DatasetLoader.java        # I/O: CSV loader
+├── ResultWriter.java         # I/O: output formatters
+│
+├── Benchmark.java            # Benchmark: 10-fold CV on all datasets
+├── BenchmarkOne.java         # Benchmark: single-dataset CV
+└── CrossValidator.java       # Benchmark: K-fold CV implementation
 
 data/      # UCI datasets (CSV)
 report/    # Reports (Vietnamese)
@@ -34,9 +33,9 @@ result/    # Runtime output files
 ## Build
 
 ```bash
-# Bash (Git Bash on Windows)
+# Bash (Git Bash on Windows) or PowerShell
 mkdir -p out
-javac -d out $(find src -name "*.java")
+javac -d out src/*.java
 ```
 
 ## Run
