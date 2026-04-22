@@ -230,7 +230,7 @@ public class CMARClassifier {
     // Chi-square computation (shared by pruning and classification)
     // -----------------------------------------------------------------------
 
-    private double computeChiSquare(AssociationRule rule, String cls) {
+    protected double computeChiSquare(AssociationRule rule, String cls) {
         double n = totalTransactions;
         double a = rule.getSupportCount();
         double b = rule.getCondsetSupportCount() - a;
@@ -242,7 +242,7 @@ public class CMARClassifier {
         return n * Math.pow(a * d - b * c, 2) / denom;
     }
 
-    private double computeMaxChiSquare(AssociationRule rule, String cls) {
+    protected double computeMaxChiSquare(AssociationRule rule, String cls) {
         double n    = totalTransactions;
         double supP = rule.getCondsetSupportCount();
         double supC = classFreq.getOrDefault(cls, 0);

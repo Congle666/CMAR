@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Supplier;
 
 /**
  * Stratified K-Fold Cross-Validation for CMAR.
@@ -69,6 +70,22 @@ public class CrossValidator {
             double minSupportPct, double minConfidence,
             double chiSqThreshold, int coverageDelta,
             long seed, int maxPatternLength) {
+        return runWithMetrics(data, k, minSupportPct, minConfidence,
+            chiSqThreshold, coverageDelta, seed, maxPatternLength,
+            CMARClassifier::new);
+    }
+
+    /**
+     * Overload with pluggable classifier factory. Pass
+     * {@code CMARClassifierWeighted::new} to benchmark the weighted variant,
+     * or any other subclass of {@link CMARClassifier}.
+     */
+    public static List<EvalMetrics> runWithMetrics(
+            List<Transaction> data, int k,
+            double minSupportPct, double minConfidence,
+            double chiSqThreshold, int coverageDelta,
+            long seed, int maxPatternLength,
+            Supplier<CMARClassifier> classifierFactory) {
 
         // --- Stratified split: group by class, then distribute ---
         List<Transaction> shuffled = new ArrayList<>(data);
@@ -110,8 +127,8 @@ public class CrossValidator {
             fpGrowth.setMaxPatternLength(maxPatternLength);
             List<AssociationRule> candidates = fpGrowth.mine(trainData, minConfidence);
 
-            // Train CMAR
-            CMARClassifier classifier = new CMARClassifier();
+            // Train — build the classifier via the supplied factory
+            CMARClassifier classifier = classifierFactory.get();
             classifier.setChiSquareThreshold(chiSqThreshold);
             classifier.setCoverageThreshold(coverageDelta);
             classifier.train(candidates, trainData);
