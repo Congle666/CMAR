@@ -7,33 +7,39 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * CMAR rule-mining engine — Li, Han & Pei (2001) §3.2.
+ * Thành phần khai thác luật của CMAR — Li, Han & Pei (2001) §3.2.
  *
- * Unlike plain FP-Growth (which treats class items as regular items and
- * requires a post-hoc rule extraction pass), this miner works on a
- * class-distribution-aware CR-tree: every node keeps per-class counts,
- * and Class Association Rules are emitted directly during the recursive
- * mining step without an intermediate "class=..." item hack.
+ * Khác với FP-Growth thuần (coi item lớp như item bình thường và cần
+ * một pass hậu kỳ để trích luật), bộ miner này làm việc trên CR-tree
+ * có nhận thức về phân phối lớp: mỗi nút lưu số đếm theo từng lớp,
+ * và các Class Association Rule được sinh trực tiếp trong lúc đệ quy
+ * mà không cần đến thủ thuật chèn item "class=...".
  *
  * Pipeline:
- *   1. Count item and class frequencies; drop items below minSupport.
- *   2. Build the initial CR-tree (each path carries its transaction's class).
- *   3. Recursively mine: for every frequent pattern P, read its per-class
- *      support directly from the header-chain's accumulated classCounts
- *      and emit one CAR per class c whose supCount(P, c) ≥ minSupport and
- *      confidence ≥ minConfidence.
+ *   1. Đếm tần suất item và tần suất lớp; loại bỏ item dưới ngưỡng minSupport.
+ *   2. Xây CR-tree ban đầu (mỗi path mang theo lớp của transaction sinh ra nó).
+ *   3. Mining đệ quy: với mỗi frequent pattern P, lấy trực tiếp support theo
+ *      lớp của P từ classCount tích luỹ dọc chuỗi header-table, rồi sinh một
+ *      CAR cho mỗi lớp c có supCount(P, c) ≥ minSupport và confidence ≥ minConfidence.
  */
 public class FPGrowth {
 
     private final int minSupport;
     private int maxPatternLength = Integer.MAX_VALUE;
 
+    /**
+     * Ngưỡng minSup theo từng lớp (Hướng 2). Khi có, bước sinh luật dùng
+     * {@code classMinSupMap.getOrDefault(cls, minSupport)} thay cho
+     * minSupport toàn cục. Null = hành vi baseline.
+     */
+    private Map<String, Integer> classMinSupMap;
+
     private final List<FrequentPattern> patterns = new ArrayList<>();
     private final List<AssociationRule> rules    = new ArrayList<>();
 
     private FPTree initialTree;
 
-    // Cached during mine() so mineTree() can emit CARs without long parameter lists.
+    // Cache trong mine() để mineTree() không phải nhận tham số dài dòng.
     private double minConfidence;
     private int    totalTransactions;
 
@@ -41,32 +47,50 @@ public class FPGrowth {
         this.minSupport = minSupport;
     }
 
-    /** Sets max pattern length to limit memory usage on high-dimensional data. */
+    /** Đặt độ dài tối đa của pattern, giới hạn bộ nhớ trên dữ liệu nhiều chiều. */
     public void setMaxPatternLength(int maxLen) {
         this.maxPatternLength = maxLen;
     }
 
-    /** Initial CR-tree built during the last mine() call. */
+    /**
+     * Đặt ngưỡng minSup theo từng lớp. Khi có, việc sinh luật sẽ kiểm tra
+     * {@code classSup >= classMinSupMap.getOrDefault(cls, minSupport)}
+     * thay cho minSupport toàn cục. Cho phép sinh luật cho các lớp thiểu số
+     * mà support tuyệt đối không thể đạt ngưỡng toàn cục.
+     *
+     * <p>Truyền null (mặc định) để dùng ngưỡng toàn cục (hành vi baseline).</p>
+     */
+    public void setClassMinSupMap(Map<String, Integer> classMinSupMap) {
+        this.classMinSupMap = classMinSupMap;
+    }
+
+    /** Trả về ngưỡng dùng để sinh luật cho lớp c (fallback về giá trị toàn cục). */
+    private int classThreshold(String cls) {
+        if (classMinSupMap == null) return minSupport;
+        return classMinSupMap.getOrDefault(cls, minSupport);
+    }
+
+    /** CR-tree ban đầu được xây trong lần mine() gần nhất. */
     public FPTree getInitialTree() {
         return initialTree;
     }
 
-    /** Frequent patterns discovered during the last mine() call (for reports). */
+    /** Các frequent pattern tìm được trong lần mine() gần nhất (dùng cho báo cáo). */
     public List<FrequentPattern> getPatterns() {
         return patterns;
     }
 
-    /** Class Association Rules produced directly during the last mine() call. */
+    /** Các CAR sinh trực tiếp trong lần mine() gần nhất. */
     public List<AssociationRule> getRules() {
         return rules;
     }
 
     /**
-     * Mines Class Association Rules from training transactions.
+     * Khai thác Class Association Rule từ các transaction huấn luyện.
      *
-     * @param trainData     training transactions (items + class label)
-     * @param minConfidence minimum rule confidence threshold
-     * @return list of CARs (sorted by rule precedence)
+     * @param trainData     các transaction huấn luyện (item + nhãn lớp)
+     * @param minConfidence ngưỡng confidence tối thiểu của luật
+     * @return danh sách CAR (đã sắp theo thứ tự ưu tiên)
      */
     public List<AssociationRule> mine(List<Transaction> trainData,
                                       double minConfidence) {
@@ -75,7 +99,7 @@ public class FPGrowth {
         this.minConfidence     = minConfidence;
         this.totalTransactions = trainData.size();
 
-        // --- Step 1: global item frequencies (non-class attributes only) ---
+        // --- Bước 1: tần suất item toàn cục (chỉ thuộc tính, không tính class) ---
         Map<String, Integer> freq = new HashMap<>();
         for (Transaction t : trainData) {
             for (String item : t.getItems()) {
@@ -88,7 +112,7 @@ public class FPGrowth {
             return rules;
         }
 
-        // --- Step 2: build initial CR-tree ---
+        // --- Bước 2: xây CR-tree ban đầu ---
         FPTree tree = new FPTree(minSupport);
         tree.headerFreq.putAll(freq);
 
@@ -109,15 +133,15 @@ public class FPGrowth {
         }
         this.initialTree = tree;
 
-        // --- Step 3: recursive mining ---
+        // --- Bước 3: khai thác đệ quy ---
         mineTree(tree, new ArrayList<>());
 
-        Collections.sort(rules);  // CMAR precedence ordering
+        Collections.sort(rules);  // thứ tự ưu tiên luật theo CMAR
         return rules;
     }
 
     // -----------------------------------------------------------------------
-    // Recursive mining — class-aware
+    // Khai thác đệ quy — có nhận thức về lớp
     // -----------------------------------------------------------------------
 
     private void mineTree(FPTree tree, List<String> prefix) {
@@ -132,7 +156,7 @@ public class FPGrowth {
             HashSet<String> patternSet = new HashSet<>(newPattern);
             patterns.add(new FrequentPattern(patternSet, itemSupport));
 
-            // --- Collect per-class distribution for P via header chain ---
+            // --- Gom phân phối lớp của P qua chuỗi header ---
             Map<String, Integer> classDistForP = new HashMap<>();
             FPNode node = tree.headerFirst.get(item);
             while (node != null) {
@@ -142,11 +166,13 @@ public class FPGrowth {
                 node = node.nodeLink;
             }
 
-            // --- Emit one CAR per class that meets minSupport and minConfidence ---
+            // --- Sinh một CAR cho mỗi lớp đạt ngưỡng và đạt minConfidence ---
+            // Hướng 2: dùng ngưỡng theo từng lớp nếu classMinSupMap đã được đặt;
+            //         ngược lại fallback về minSupport toàn cục.
             for (Map.Entry<String, Integer> e : classDistForP.entrySet()) {
                 String cls       = e.getKey();
                 int    classSup  = e.getValue();
-                if (classSup < minSupport) continue;
+                if (classSup < classThreshold(cls)) continue;
 
                 double confidence = (double) classSup / itemSupport;
                 if (confidence < minConfidence) continue;
@@ -160,7 +186,7 @@ public class FPGrowth {
                 ));
             }
 
-            // --- Build conditional pattern base with class distributions ---
+            // --- Xây conditional pattern base kèm phân phối lớp ---
             List<List<String>>            condBase       = new ArrayList<>();
             List<Integer>                 condCounts     = new ArrayList<>();
             List<Map<String, Integer>>    condClassDists = new ArrayList<>();
@@ -176,7 +202,7 @@ public class FPGrowth {
                 if (!prefixPath.isEmpty()) {
                     condBase.add(prefixPath);
                     condCounts.add(node.count);
-                    // Copy classCount so later mutations don't leak back to this node
+                    // Copy classCount để các thao tác sau này không rò rỉ ngược về nút gốc
                     condClassDists.add(new HashMap<>(node.classCount));
                 }
                 node = node.nodeLink;
@@ -184,7 +210,7 @@ public class FPGrowth {
 
             if (condBase.isEmpty()) continue;
 
-            // --- Frequency inside the conditional base ---
+            // --- Tần suất bên trong conditional base ---
             Map<String, Integer> condFreq = new HashMap<>();
             for (int i = 0; i < condBase.size(); i++) {
                 int cnt = condCounts.get(i);
@@ -195,7 +221,7 @@ public class FPGrowth {
             condFreq.entrySet().removeIf(e -> e.getValue() < minSupport);
             if (condFreq.isEmpty()) continue;
 
-            // --- Build conditional CR-tree, propagating class distributions ---
+            // --- Xây CR-tree điều kiện, lan truyền phân phối lớp ---
             FPTree condTree = new FPTree(minSupport);
             condTree.headerFreq.putAll(condFreq);
 
@@ -216,7 +242,7 @@ public class FPGrowth {
                 }
             }
 
-            // --- Recurse with the extended prefix ---
+            // --- Đệ quy với prefix đã mở rộng ---
             mineTree(condTree, newPattern);
         }
     }

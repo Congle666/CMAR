@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Loads a CSV dataset into a list of Transactions.
+ * Nạp dataset từ CSV thành danh sách Transaction.
  *
- * Format:
- *   - First row = header (column names)
- *   - Last column = class label
- *   - Other columns become items: "columnName=value"
- *   - Missing values marked as "?" are silently skipped
+ * Định dạng:
+ *   - Dòng đầu = header (tên cột)
+ *   - Cột cuối = nhãn lớp
+ *   - Các cột khác trở thành item: "tên_cột=giá_trị"
+ *   - Giá trị thiếu đánh dấu "?" sẽ bị bỏ qua
  */
 public class DatasetLoader {
 

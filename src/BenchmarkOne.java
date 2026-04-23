@@ -1,8 +1,8 @@
 import java.util.List;
 
 /**
- * Runs 10-fold CV on a single dataset.
- * Usage: java BenchmarkOne <file> <name> <minSupPct> <paperCMAR> <paperCBA> <paperC45>
+ * Chạy 10-fold CV trên một dataset duy nhất.
+ * Cách dùng: java BenchmarkOne <file> <name> <minSupPct> <paperCMAR> <paperCBA> <paperC45>
  */
 public class BenchmarkOne {
     public static void main(String[] args) throws Exception {
@@ -28,7 +28,7 @@ public class BenchmarkOne {
         double std  = CrossValidator.stddev(accs) * 100;
         double diff = mean - paperCMAR;
 
-        // Output single result line
+        // Xuất một dòng kết quả duy nhất
         System.out.printf("RESULT|%-14s|%5d|%5.1f%%|%6.2f|%5.2f|%6.2f|%6.2f|%6.2f|%+.2f%n",
             name, data.size(), supPct * 100, mean, std, paperCMAR, paperCBA, paperC45, diff);
     }

@@ -2,8 +2,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a single data record as a flat list of attribute-value items
- * (e.g. "outlook=sunny", "temperature=hot") plus a class label.
+ * Biểu diễn một bản ghi dữ liệu dưới dạng danh sách phẳng các item
+ * thuộc tính-giá trị (ví dụ "outlook=sunny", "temperature=hot") kèm
+ * theo nhãn lớp (class label).
  */
 public class Transaction {
 
@@ -15,19 +16,19 @@ public class Transaction {
         this.classLabel = classLabel;
     }
 
-    /** Attribute-value items only (no class). */
+    /** Chỉ gồm các item thuộc tính-giá trị (không kèm class). */
     public List<String> getItems() {
         return items;
     }
 
-    /** The class label for this record. */
+    /** Nhãn lớp của bản ghi này. */
     public String getClassLabel() {
         return classLabel;
     }
 
     /**
-     * Returns all items including the class item "class=&lt;label&gt;".
-     * Used when building the FP-tree.
+     * Trả về toàn bộ item bao gồm cả item lớp dạng "class=&lt;label&gt;".
+     * Dùng khi xây FP-tree.
      */
     public List<String> getAllItems() {
         List<String> all = new ArrayList<>(items);

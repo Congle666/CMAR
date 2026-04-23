@@ -9,12 +9,12 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Writes algorithm results to the result/ and report/ folders.
- * All methods create parent directories automatically.
+ * Ghi kết quả của thuật toán vào các thư mục result/ và report/.
+ * Tất cả các phương thức đều tự động tạo thư mục cha nếu chưa có.
  */
 public class ResultWriter {
 
-    /** Writes all frequent patterns with their support counts. */
+    /** Ghi toàn bộ frequent pattern kèm số đếm support. */
     public static void writeFrequentPatterns(
             List<FrequentPattern> patterns, String filePath) throws IOException {
         ensureParentDir(filePath);
@@ -27,7 +27,7 @@ public class ResultWriter {
         }
     }
 
-    /** Writes all class association rules with support and confidence. */
+    /** Ghi toàn bộ luật kết hợp theo lớp (CAR) kèm support và confidence. */
     public static void writeRules(
             List<AssociationRule> rules, String filePath) throws IOException {
         ensureParentDir(filePath);
@@ -40,7 +40,7 @@ public class ResultWriter {
         }
     }
 
-    /** Writes per-record predictions compared to actual class labels. */
+    /** Ghi dự đoán của từng bản ghi, đối chiếu với nhãn lớp thật. */
     public static void writePredictions(
             List<Transaction> testData,
             List<String> predictions,
@@ -71,8 +71,8 @@ public class ResultWriter {
     }
 
     /**
-     * Writes per-class precision, recall, F1, and overall accuracy.
-     * Delegates metric computation to {@link EvalMetrics#compute}.
+     * Ghi precision, recall, F1 theo từng lớp và accuracy tổng.
+     * Ủy quyền tính toán chỉ số cho {@link EvalMetrics#compute}.
      */
     public static void writeEvaluation(
             List<Transaction> testData,
@@ -104,12 +104,12 @@ public class ResultWriter {
     }
 
     // -----------------------------------------------------------------------
-    // FP-Growth only result file
+    // File kết quả dành riêng cho FP-Growth
     // -----------------------------------------------------------------------
 
     /**
-     * Writes FP-Growth results to a dedicated file:
-     * header table, FP-tree structure, frequent patterns.
+     * Ghi kết quả của FP-Growth vào một file riêng:
+     * bảng header, cấu trúc FP-tree, các frequent pattern.
      */
     public static void writeFPGrowthResult(
             String datasetPath, int trainSize, int minSupport,
@@ -126,7 +126,7 @@ public class ResultWriter {
             bw.write("Min Support:        " + minSupport + "\n");
             bw.write("Frequent patterns:  " + patterns.size() + "\n\n");
 
-            // --- Algorithm explanation ---
+            // --- Giải thích thuật toán ---
             bw.write("----------------------------------------------------------\n");
             bw.write("THUAT TOAN FP-GROWTH\n");
             bw.write("----------------------------------------------------------\n\n");
@@ -142,14 +142,14 @@ public class ResultWriter {
             bw.write("     + Thu thap Conditional Pattern Base\n");
             bw.write("     + Xay Conditional FP-Tree -> de quy\n\n");
 
-            // --- Header Table ---
+            // --- Bảng Header ---
             bw.write("----------------------------------------------------------\n");
             bw.write("HEADER TABLE (Bang Tan Suat Item)\n");
             bw.write("----------------------------------------------------------\n\n");
             bw.write(tree.headerTableToString());
             bw.write("\n");
 
-            // --- FP-Tree ---
+            // --- Cây FP-Tree ---
             bw.write("----------------------------------------------------------\n");
             bw.write("CAU TRUC CAY FP-TREE\n");
             bw.write("----------------------------------------------------------\n");
@@ -157,7 +157,7 @@ public class ResultWriter {
             bw.write(tree.toTreeString());
             bw.write("\n");
 
-            // --- All frequent patterns ---
+            // --- Toàn bộ frequent pattern ---
             bw.write("----------------------------------------------------------\n");
             bw.write("TAT CA FREQUENT PATTERNS (" + patterns.size() + " patterns)\n");
             bw.write("----------------------------------------------------------\n\n");
@@ -170,12 +170,12 @@ public class ResultWriter {
     }
 
     // -----------------------------------------------------------------------
-    // CMAR result file (updated for 3-stage pruning)
+    // File kết quả dành riêng cho CMAR (đã cập nhật cho cắt tỉa 3 tầng)
     // -----------------------------------------------------------------------
 
     /**
-     * Writes CMAR results to a dedicated file:
-     * 3-stage pruning info, all rules after pruning, predictions, evaluation.
+     * Ghi kết quả của CMAR vào một file riêng:
+     * thông tin cắt tỉa 3 tầng, toàn bộ luật sau cắt tỉa, dự đoán và đánh giá.
      */
     public static void writeCMARResult(
             String datasetPath, int trainSize, int testSize,
@@ -205,7 +205,7 @@ public class ResultWriter {
             bw.write("Coverage delta:       " + classifier.getCoverageThreshold() + "\n");
             bw.write("Default class:        " + defaultClass + "\n\n");
 
-            // --- Algorithm explanation ---
+            // --- Giải thích thuật toán ---
             bw.write("----------------------------------------------------------\n");
             bw.write("THUAT TOAN CMAR (Section 3 & 4 of the paper)\n");
             bw.write("----------------------------------------------------------\n\n");
@@ -242,7 +242,7 @@ public class ResultWriter {
             bw.write("   - Class co score cao nhat thang.\n");
             bw.write("   - Khong co luat match -> dung default class.\n\n");
 
-            // --- Pruning results ---
+            // --- Kết quả cắt tỉa ---
             bw.write("----------------------------------------------------------\n");
             bw.write("KET QUA PRUNING (3 giai doan)\n");
             bw.write("----------------------------------------------------------\n\n");
@@ -257,7 +257,7 @@ public class ResultWriter {
             bw.write("Total rules removed:              "
                 + (classifier.getCandidateCount() - prunedRules.size()) + "\n\n");
 
-            // --- All pruned rules ---
+            // --- Toàn bộ luật sau cắt tỉa ---
             bw.write("----------------------------------------------------------\n");
             bw.write("CAC LUAT SAU PRUNING (" + prunedRules.size() + " luat)\n");
             bw.write("----------------------------------------------------------\n\n");
@@ -266,7 +266,7 @@ public class ResultWriter {
             }
             bw.write("\n");
 
-            // --- Predictions ---
+            // --- Dự đoán ---
             bw.write("----------------------------------------------------------\n");
             bw.write("DU DOAN TUNG BAN GHI TEST (" + testData.size() + " records)\n");
             bw.write("----------------------------------------------------------\n\n");
@@ -283,7 +283,7 @@ public class ResultWriter {
             }
             bw.write("-".repeat(40) + "\n\n");
 
-            // --- Evaluation ---
+            // --- Đánh giá ---
             bw.write("----------------------------------------------------------\n");
             bw.write("DANH GIA HIEU SUAT\n");
             bw.write("----------------------------------------------------------\n\n");
@@ -314,8 +314,8 @@ public class ResultWriter {
     }
 
     /**
-     * Writes an FP-Growth Markdown report including tree structure,
-     * header table, configuration, and algorithm explanation.
+     * Ghi báo cáo FP-Growth dạng Markdown bao gồm cấu trúc cây,
+     * bảng header, cấu hình và phần giải thích thuật toán.
      */
     public static void writeFPTreeReport(
             String datasetPath,
@@ -331,7 +331,7 @@ public class ResultWriter {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write("# Bao Cao Ket Qua FP-Growth & CMAR\n\n");
 
-            // --- 1. Config ---
+            // --- 1. Cấu hình ---
             bw.write("## 1. Thong Tin Cau Hinh\n\n");
             bw.write("| Tham so | Gia tri |\n");
             bw.write("|---------|--------|\n");
@@ -341,7 +341,7 @@ public class ResultWriter {
             bw.write("| Min Support | " + minSupport + " |\n");
             bw.write("| Min Confidence | " + minConfidence + " |\n\n");
 
-            // --- 2. Algorithm explanation ---
+            // --- 2. Giải thích thuật toán ---
             bw.write("## 2. Giai Thich Thuat Toan FP-Growth\n\n");
             bw.write("### Buoc 1: Dem tan suat cac item\n");
             bw.write("Duyet qua toan bo tap giao dich, dem so lan xuat hien cua moi item.\n");
@@ -366,13 +366,13 @@ public class ResultWriter {
             bw.write("(`class=label`). Phan con lai la condset (dieu kien), class item la consequent.\n");
             bw.write("Chi giu cac luat co confidence >= **minConfidence** (" + minConfidence + ").\n\n");
 
-            // --- 3. Header Table ---
+            // --- 3. Bảng header ---
             bw.write("## 3. Header Table (Bang Tan Suat Item)\n\n");
             bw.write("```\n");
             bw.write(tree.headerTableToString());
             bw.write("```\n\n");
 
-            // --- 4. FP-Tree Structure ---
+            // --- 4. Cấu trúc cây FP-Tree ---
             bw.write("## 4. Cau Truc Cay FP-Tree\n\n");
             bw.write("Moi nut hien thi dang `item:count` — ten item va so lan xuat hien ");
             bw.write("tren nhanh do.\n\n");
@@ -380,14 +380,14 @@ public class ResultWriter {
             bw.write(tree.toTreeString());
             bw.write("```\n\n");
 
-            // --- 5. Results summary ---
+            // --- 5. Tóm tắt kết quả ---
             bw.write("## 5. Tom Tat Ket Qua\n\n");
             bw.write("| Ket qua | So luong |\n");
             bw.write("|---------|----------|\n");
             bw.write("| Frequent patterns | " + patterns.size() + " |\n");
             bw.write("| Class Association Rules (CARs) | " + rules.size() + " |\n\n");
 
-            // --- 6. Top patterns ---
+            // --- 6. Top pattern ---
             int topN = Math.min(20, patterns.size());
             bw.write("## 6. Top " + topN + " Frequent Patterns (theo support)\n\n");
             List<FrequentPattern> sorted = new java.util.ArrayList<>(patterns);
@@ -400,7 +400,7 @@ public class ResultWriter {
             }
             bw.write("\n");
 
-            // --- 7. Top rules ---
+            // --- 7. Top luật ---
             int topR = Math.min(20, rules.size());
             bw.write("## 7. Top " + topR + " Class Association Rules\n\n");
             bw.write("| # | Condset -> Class | Support | Confidence |\n");
@@ -413,7 +413,7 @@ public class ResultWriter {
             }
             bw.write("\n");
 
-            // --- 8. How to change dataset ---
+            // --- 8. Hướng dẫn đổi dataset ---
             bw.write("## 8. Huong Dan Thay Doi Dataset\n\n");
             bw.write("### Cach 1: Dung tham so dong lenh\n\n");
             bw.write("```bash\n");
@@ -448,17 +448,17 @@ public class ResultWriter {
     }
 
     // -----------------------------------------------------------------------
-    // CSV exports — for cross-experiment comparison (baseline vs improvements)
+    // Xuất CSV — dùng để so sánh giữa các thí nghiệm (baseline vs cải tiến)
     // -----------------------------------------------------------------------
 
     /**
-     * Writes one row per dataset with aggregated metrics:
+     * Ghi một dòng cho mỗi dataset kèm chỉ số tổng hợp:
      *   dataset, records, classes, minSupPct, accuracy, accStd, macroF1, macroF1Std, weightedF1
-     * Uses Locale.US (dot decimal) for stable parsing.
+     * Dùng Locale.US (dấu chấm thập phân) để parse ổn định.
      *
-     * @param byDataset  ordered map datasetName -> aggregated EvalMetrics
-     * @param datasetInfo optional map datasetName -> "records|classes|minSupPct" (may be null)
-     * @param filePath   output CSV path
+     * @param byDataset   map có thứ tự tên_dataset -> EvalMetrics đã tổng hợp
+     * @param datasetInfo map tuỳ chọn tên_dataset -> "records|classes|minSupPct" (có thể null)
+     * @param filePath    đường dẫn file CSV đầu ra
      */
     public static void writeMetricsCsv(
             Map<String, EvalMetrics> byDataset,
@@ -486,11 +486,11 @@ public class ResultWriter {
     }
 
     /**
-     * Writes one row per (dataset, class) with per-class metrics:
+     * Ghi một dòng cho mỗi cặp (dataset, lớp) kèm chỉ số theo lớp:
      *   dataset, class, support, tp, fp, fn, precision, recall, f1
      *
-     * @param byDataset ordered map datasetName -> aggregated EvalMetrics
-     * @param filePath  output CSV path
+     * @param byDataset map có thứ tự tên_dataset -> EvalMetrics đã tổng hợp
+     * @param filePath  đường dẫn file CSV đầu ra
      */
     public static void writePerClassCsv(
             Map<String, EvalMetrics> byDataset,

@@ -1,26 +1,30 @@
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
- * Runs 10-fold stratified cross-validation on all UCI datasets
- * from the CMAR paper (Li, Han, Pei — ICDM 2001, Table 1).
+ * Chạy 10-fold stratified cross-validation trên toàn bộ dataset UCI
+ * dùng trong paper CMAR (Li, Han, Pei — ICDM 2001, Table 1).
  *
- * Collects per-fold {@link EvalMetrics} (Accuracy + Macro-F1 + Weighted-F1
- * + per-class P/R/F1) and emits two CSV files for later comparison:
- *   - result/baseline_metrics.csv       (1 row per dataset)
- *   - result/baseline_per_class.csv     (1 row per (dataset, class))
+ * Gom {@link EvalMetrics} của từng fold (Accuracy + Macro-F1 + Weighted-F1
+ * + P/R/F1 theo lớp) và xuất ra hai file CSV để so sánh sau này:
+ *   - result/baseline_metrics.csv       (1 dòng cho mỗi dataset)
+ *   - result/baseline_per_class.csv     (1 dòng cho mỗi cặp (dataset, lớp))
  *
- * Uses percentage-based minSupport (tuned per dataset) to match paper setup.
+ * Dùng minSupport theo phần trăm (đã tinh chỉnh riêng từng dataset) để
+ * khớp với cấu hình của paper.
  */
 public class Benchmark {
 
-    // Paper results for comparison (from Table 1, ICDM 2001)
-    // minSupportPct tuned per dataset to keep mining tractable.
+    // Kết quả từ paper để so sánh (Table 1, ICDM 2001)
+    // minSupportPct được tinh chỉnh từng dataset để mining khả thi.
     static final String[][] DATASETS = {
         // { file, name, minSupportPct, paperCMAR, paperCBA, paperC45, [maxPatternLength] }
-        // Optional 7th col: cap pattern length to avoid pattern explosion on
-        // high-dimensional datasets (zoo has 16 binary attrs → ~2^16 candidates)
+        // Cột thứ 7 (tuỳ chọn): giới hạn độ dài pattern để tránh bùng nổ
+        // trên dataset nhiều chiều (zoo có 16 thuộc tính nhị phân → ~2^16 ứng viên)
         { "data/breast-w.csv",       "breast-w",    "0.02", "96.42", "96.28", "95.00" },
         { "data/cleve.csv",          "cleve",       "0.02", "82.18", "82.83", "78.24" },
         { "data/crx.csv",            "crx",         "0.04", "85.36", "84.93", "84.94" },
@@ -35,10 +39,10 @@ public class Benchmark {
         { "data/led7.csv",           "led7",        "0.03", "71.90", "71.70", "73.50" },
         { "data/lymph.csv",          "lymph",       "0.05", "82.43", "77.03", "73.51" },
         { "data/mushroom_full.csv",  "mushroom",    "0.15", "100.00","100.00","100.00" },
-        { "data/sonar.csv",          "sonar",       "0.05", "79.33", "76.92", "73.56" },
+        { "data/sonar.csv",          "sonar",       "0.05", "79.33", "76.92", "73.56", "5" },
         { "data/tic-tac-toe.csv",    "tic-tac-toe", "0.003","99.27", "99.06", "99.37" },
-        { "data/vehicle.csv",        "vehicle",     "0.03", "68.68", "67.73", "72.34" },
-        { "data/waveform.csv",       "waveform",    "0.01", "80.17", "79.93", "78.10" },
+        { "data/vehicle.csv",        "vehicle",     "0.03", "68.68", "67.73", "72.34", "5" },
+        { "data/waveform.csv",       "waveform",    "0.01", "80.17", "79.93", "78.10", "5" },
         { "data/wine.csv",           "wine",        "0.03", "95.51", "95.51", "92.70" },
         { "data/zoo_h.csv",          "zoo",         "0.03", "96.04", "97.03", "93.07", "4" },
     };
@@ -53,17 +57,22 @@ public class Benchmark {
         int coverageDelta = 4;
         long seed = 42;
 
+        // Tuỳ chọn lọc dataset: truyền tên qua args để chạy chỉ subset.
+        // Ví dụ: java Benchmark lymph glass german
+        Set<String> filter = args.length > 0 ? new HashSet<>(Arrays.asList(args)) : null;
+
         System.out.println("=================================================================");
         System.out.println("  CMAR Benchmark — 10-Fold Stratified CV + F1 Metrics");
         System.out.println("  Paper: Li, Han, Pei (ICDM 2001)");
+        if (filter != null) System.out.println("  Filter: " + filter);
         System.out.println("=================================================================\n");
 
-        // Header
+        // Header bảng
         System.out.printf("%-14s %5s %6s | %6s %7s %7s %5s | %6s %6s %6s  Diff%n",
             "Dataset", "N", "supPct", "Acc", "MacroF1", "WF1", "Std", "Paper", "CBA", "C4.5");
         System.out.println("-".repeat(90));
 
-        // Aggregate containers for CSV output
+        // Các container tổng hợp để ghi ra CSV
         Map<String, EvalMetrics> aggregated = new LinkedHashMap<>();
         Map<String, String> info = new LinkedHashMap<>();
 
@@ -75,6 +84,7 @@ public class Benchmark {
         for (String[] ds : DATASETS) {
             String file = ds[0];
             String name = ds[1];
+            if (filter != null && !filter.contains(name)) continue;
             double supPct = Double.parseDouble(ds[2]);
             double paperCMAR = Double.parseDouble(ds[3]);
             double paperCBA  = Double.parseDouble(ds[4]);
@@ -86,7 +96,7 @@ public class Benchmark {
             try {
                 List<Transaction> data = DatasetLoader.load(file);
                 if (data.isEmpty()) {
-                    System.out.println("    SKIPPED (empty dataset)");
+                    System.out.println("    BO QUA (dataset rong)");
                     continue;
                 }
 
@@ -114,35 +124,35 @@ public class Benchmark {
                 if (Math.abs(diff) <= 5.0) within5++;
 
             } catch (OutOfMemoryError e) {
-                System.out.println("    OUT OF MEMORY — try increasing -Xmx or raising minSupport");
+                System.out.println("    HET BO NHO — hay tang -Xmx hoac tang minSupport");
             } catch (Exception e) {
-                System.out.println("    ERROR: " + e.getMessage());
+                System.out.println("    LOI: " + e.getMessage());
                 e.printStackTrace(System.out);
             }
         }
 
         // -----------------------------------------------------------------
-        // Write CSV outputs
+        // Ghi các file CSV kết quả
         // -----------------------------------------------------------------
         ResultWriter.writeMetricsCsv(aggregated, info, OUT_METRICS_CSV);
         ResultWriter.writePerClassCsv(aggregated, OUT_PER_CLASS_CSV);
 
         // -----------------------------------------------------------------
-        // Summary
+        // Tổng kết
         // -----------------------------------------------------------------
         System.out.println("\n" + "=".repeat(90));
-        System.out.println("SUMMARY");
+        System.out.println("TONG KET");
         System.out.println("=".repeat(90));
         if (count > 0) {
-            System.out.printf("Datasets evaluated:          %d / %d%n", count, DATASETS.length);
-            System.out.printf("Avg Accuracy (ours):         %.2f%%%n", totalOursAcc / count);
-            System.out.printf("Avg Macro-F1 (ours):         %.4f%n",   totalOursF1 / count);
-            System.out.printf("Avg Accuracy (paper CMAR):   %.2f%%%n", totalPaper / count);
-            System.out.printf("Mean absolute diff vs paper: %.2f%%%n", totalDiff / count);
-            System.out.printf("Within 5%% of paper:          %d / %d%n", within5, count);
+            System.out.printf("So dataset danh gia:          %d / %d%n", count, DATASETS.length);
+            System.out.printf("Accuracy trung binh (ta):     %.2f%%%n", totalOursAcc / count);
+            System.out.printf("Macro-F1 trung binh (ta):     %.4f%n",   totalOursF1 / count);
+            System.out.printf("Accuracy trung binh (paper):  %.2f%%%n", totalPaper / count);
+            System.out.printf("Chenh lech tuyet doi vs paper: %.2f%%%n", totalDiff / count);
+            System.out.printf("Trong khoang 5%% cua paper:   %d / %d%n", within5, count);
         }
         System.out.println();
-        System.out.println("CSV outputs:");
+        System.out.println("File CSV xuat ra:");
         System.out.println("  " + OUT_METRICS_CSV);
         System.out.println("  " + OUT_PER_CLASS_CSV);
     }

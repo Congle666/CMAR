@@ -4,26 +4,26 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Hướng 1 — CMAR với Class-weighted χ² score.
+ * Hướng 1 — CMAR với điểm χ² có trọng số theo lớp (Class-weighted χ²).
  *
- * Mở rộng {@link CMARClassifier}: giữ nguyên mining + 3-tier pruning +
- * CR-tree storage, chỉ thay đổi bước <b>classify</b> bằng cách nhân
- * thêm <em>inverse-frequency class weight</em> vào score mỗi nhóm:
+ * Mở rộng {@link CMARClassifier}: giữ nguyên mining + cắt tỉa 3 tầng +
+ * lưu CR-tree, chỉ thay đổi bước <b>classify</b> bằng cách nhân thêm
+ * <em>trọng số nghịch tần suất lớp</em> vào score mỗi nhóm:
  *
  * <pre>
  *   score(c) = weight(c) * Σ [ χ²(R)² / maxχ²(R) ]
- *   weight(c) = N / ( k * freq(c) )            -- sklearn "balanced"
+ *   weight(c) = N / ( k * freq(c) )            -- công thức "balanced" của sklearn
  * </pre>
  *
- * Ý tưởng: class minority (freq thấp) nhận weight lớn → khi score tổng
- * hợp, minority không bị áp đảo bởi majority → Macro-F1 + Recall tăng.
+ * Ý tưởng: lớp thiểu số (freq thấp) nhận weight lớn → khi tính score
+ * tổng hợp, thiểu số không bị áp đảo bởi đa số → Macro-F1 + Recall tăng.
  *
  * Khi dataset cân bằng (freq xấp xỉ nhau): mọi weight ≈ 1.0 → hành vi
- * giống hệt baseline → an toàn làm fallback.
+ * giống hệt baseline → an toàn khi dùng thay thế.
  */
 public class CMARClassifierWeighted extends CMARClassifier {
 
-    /** Inverse-frequency weight per class label. Populated in train(). */
+    /** Trọng số nghịch tần suất cho mỗi nhãn lớp. Được tính trong train(). */
     private final Map<String, Double> classWeights = new HashMap<>();
 
     // -----------------------------------------------------------------------
@@ -36,9 +36,9 @@ public class CMARClassifierWeighted extends CMARClassifier {
     }
 
     /**
-     * Computes balanced inverse-frequency weights:
+     * Tính trọng số nghịch tần suất cân bằng:
      *   w(c) = N / (k × freq(c))
-     * where N = total training records, k = number of classes.
+     * với N = tổng số bản ghi huấn luyện, k = số lớp.
      */
     private void computeClassWeights() {
         classWeights.clear();
@@ -53,7 +53,7 @@ public class CMARClassifierWeighted extends CMARClassifier {
         }
     }
 
-    /** @return unmodifiable snapshot of class weights (for reporting/debug). */
+    /** @return snapshot bất biến của bảng trọng số lớp (dùng để báo cáo / debug). */
     public Map<String, Double> getClassWeights() {
         return java.util.Collections.unmodifiableMap(classWeights);
     }
@@ -72,12 +72,12 @@ public class CMARClassifierWeighted extends CMARClassifier {
                    .add(rule);
         }
 
-        // Shortcut: all matching rules agree → return that class
+        // Rẽ nhánh: tất cả luật khớp đều cùng một lớp → trả về lớp đó
         if (byClass.size() == 1) {
             return byClass.keySet().iterator().next();
         }
 
-        // Weighted χ² score per class
+        // Tính score χ² có trọng số cho mỗi lớp
         String bestClass = getDefaultClass();
         double bestScore = -1.0;
 
@@ -89,7 +89,7 @@ public class CMARClassifierWeighted extends CMARClassifier {
                 double maxChi2 = computeMaxChiSquare(rule, cls);
                 if (maxChi2 > 0) score += (chi2 * chi2) / maxChi2;
             }
-            // Apply class weight (sklearn "balanced")
+            // Áp dụng trọng số lớp (balanced theo sklearn)
             double weight = classWeights.getOrDefault(cls, 1.0);
             score *= weight;
 

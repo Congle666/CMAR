@@ -6,18 +6,17 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * CR-tree (Class-Association-Rule tree) for compact rule storage —
+ * CR-tree (cây lưu Class Association Rule) dùng để lưu luật nén gọn —
  * Li, Han & Pei (2001) §3.3.
  *
- * Each rule's condset is inserted as a path from the root, with items
- * sorted by global frequency descending so that rules sharing common
- * items share tree nodes. A node holds the rules whose condset ends at
- * that node (a leaf rule, or an intermediate rule if a longer rule
- * extends the path).
+ * Condset của mỗi luật được chèn như một path từ gốc, với các item được
+ * sắp theo tần suất toàn cục giảm dần để các luật dùng chung item có
+ * thể chia sẻ nút cây. Một nút lưu các luật có condset kết thúc tại đó
+ * (luật lá, hoặc luật trung gian nếu có luật dài hơn nối tiếp path).
  *
- * Retrieval for a test record is a DFS that prunes any subtree whose
- * item is not present in the record — saving the linear scan that a
- * flat rule list would require.
+ * Truy vấn cho một bản ghi test được thực hiện bằng DFS, cắt tỉa bất kỳ
+ * subtree nào có item không xuất hiện trong bản ghi — tiết kiệm so với
+ * duyệt tuyến tính toàn bộ danh sách luật.
  */
 public class CRTree {
 
@@ -29,12 +28,12 @@ public class CRTree {
     }
 
     private final Node root = new Node(null);
-    private final Map<String, Integer> itemOrder;  // item -> rank (lower = more frequent)
+    private final Map<String, Integer> itemOrder;  // item -> thứ hạng (thấp = tần suất cao hơn)
     private int size = 0;
 
     /**
-     * @param itemFreq global item frequencies — used to order items along
-     *                 each path (frequency DESC → better prefix sharing)
+     * @param itemFreq tần suất toàn cục của item — dùng để sắp thứ tự item
+     *                 dọc theo mỗi path (tần suất giảm dần → chia sẻ prefix tốt hơn)
      */
     public CRTree(Map<String, Integer> itemFreq) {
         this.itemOrder = new HashMap<>();
@@ -45,7 +44,7 @@ public class CRTree {
         }
     }
 
-    /** Inserts a rule; its condset is sorted by item frequency DESC first. */
+    /** Chèn một luật; condset được sắp theo tần suất item giảm dần trước. */
     public void insert(AssociationRule rule) {
         List<String> sortedItems = new ArrayList<>(rule.getCondset());
         sortedItems.sort((a, b) -> {
@@ -65,20 +64,20 @@ public class CRTree {
         size++;
     }
 
-    /** Inserts all rules. */
+    /** Chèn tất cả các luật. */
     public void insertAll(Collection<AssociationRule> rules) {
         for (AssociationRule r : rules) insert(r);
     }
 
-    /** Number of rules stored. */
+    /** Số lượng luật đang lưu. */
     public int size() { return size; }
 
     /**
-     * Returns every rule whose condset is a subset of the test record's items.
+     * Trả về mọi luật có condset là tập con các item của bản ghi test.
      *
-     * DFS with pruning: at each child node, if its item is absent from the
-     * record we skip the entire subtree — any rule passing through that
-     * node requires the missing item and cannot match.
+     * DFS có cắt tỉa: tại mỗi nút con, nếu item của nó không có trong
+     * bản ghi, toàn bộ subtree được bỏ qua — mọi luật đi qua nút đó đều
+     * cần item này, nên không thể match.
      */
     public List<AssociationRule> findMatching(Transaction record) {
         List<AssociationRule> out = new ArrayList<>();

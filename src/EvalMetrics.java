@@ -4,33 +4,33 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Classification evaluation metrics — Accuracy, Macro-F1, Weighted-F1
- * plus per-class Precision / Recall / F1.
+ * Các chỉ số đánh giá phân lớp — Accuracy, Macro-F1, Weighted-F1
+ * kèm Precision / Recall / F1 theo từng lớp.
  *
- * Usage:
+ * Cách dùng:
  *   EvalMetrics m = EvalMetrics.compute(testData, predictions);
  *   m.accuracy, m.macroF1, m.weightedF1, m.perClass.get("foo").f1, ...
  *
- * For cross-validation:
+ * Dùng cho cross-validation:
  *   List<EvalMetrics> perFold = ...;
  *   EvalMetrics avg = EvalMetrics.average(perFold);   // micro-over-folds
  */
 public final class EvalMetrics {
 
-    /** Overall test set size (= sum of per-class supports). */
+    /** Kích thước tổng của tập test (= tổng support của tất cả các lớp). */
     public int totalSupport;
 
     public double accuracy;
     public double macroF1;
     public double weightedF1;
 
-    /** Per-class metrics, ordered by first appearance in test data. */
+    /** Chỉ số từng lớp, theo thứ tự xuất hiện đầu tiên trong tập test. */
     public Map<String, ClassMetrics> perClass = new LinkedHashMap<>();
 
-    /** Standard deviation of accuracy across folds (only set by average()). */
+    /** Độ lệch chuẩn của accuracy qua các fold (chỉ có khi gọi average()). */
     public double accuracyStd;
 
-    /** Standard deviation of macroF1 across folds (only set by average()). */
+    /** Độ lệch chuẩn của macroF1 qua các fold (chỉ có khi gọi average()). */
     public double macroF1Std;
 
     // -----------------------------------------------------------------------
@@ -40,7 +40,7 @@ public final class EvalMetrics {
         public int tp;
         public int fp;
         public int fn;
-        public int support;       // = tp + fn (actual count of this class in testData)
+        public int support;       // = tp + fn (số lượng thực của lớp này trong testData)
         public double precision;
         public double recall;
         public double f1;
@@ -55,13 +55,13 @@ public final class EvalMetrics {
     // -----------------------------------------------------------------------
 
     /**
-     * Computes Accuracy + Macro-F1 + Weighted-F1 + per-class P/R/F1 from
-     * (testData, predictions) pair. Classes are ordered by first appearance
-     * in testData.
+     * Tính Accuracy + Macro-F1 + Weighted-F1 + P/R/F1 theo lớp từ cặp
+     * (testData, predictions). Các lớp được sắp theo thứ tự xuất hiện
+     * đầu tiên trong testData.
      *
-     * @param testData    ground-truth transactions
-     * @param predictions predicted class labels, same size and order
-     * @return populated EvalMetrics
+     * @param testData    các transaction với nhãn lớp thật
+     * @param predictions các nhãn lớp dự đoán, cùng kích thước và thứ tự
+     * @return EvalMetrics đã được điền đầy đủ
      */
     public static EvalMetrics compute(List<Transaction> testData,
                                        List<String> predictions) {
@@ -73,7 +73,7 @@ public final class EvalMetrics {
 
         EvalMetrics m = new EvalMetrics();
 
-        // --- Collect classes in order of first appearance ---
+        // --- Gom các lớp theo thứ tự xuất hiện đầu tiên ---
         Map<String, ClassMetrics> byClass = new LinkedHashMap<>();
         for (Transaction t : testData) {
             byClass.computeIfAbsent(t.getClassLabel(), c -> {
@@ -82,7 +82,7 @@ public final class EvalMetrics {
                 return cm;
             });
         }
-        // Also include predicted classes that might not be in test set
+        // Bao gồm cả các lớp được dự đoán nhưng có thể không có trong tập test
         for (String p : predictions) {
             byClass.computeIfAbsent(p, c -> {
                 ClassMetrics cm = new ClassMetrics();
@@ -91,7 +91,7 @@ public final class EvalMetrics {
             });
         }
 
-        // --- Count TP/FP/FN ---
+        // --- Đếm TP/FP/FN ---
         int totalCorrect = 0;
         for (int i = 0; i < testData.size(); i++) {
             String actual = testData.get(i).getClassLabel();
@@ -105,7 +105,7 @@ public final class EvalMetrics {
             }
         }
 
-        // --- Per-class P/R/F1 + support ---
+        // --- Tính P/R/F1 + support cho từng lớp ---
         double sumF1 = 0.0;
         double sumF1Weighted = 0.0;
         int totalSupport = 0;
@@ -133,17 +133,17 @@ public final class EvalMetrics {
     // -----------------------------------------------------------------------
 
     /**
-     * Averages metrics across k folds using "micro-over-folds" aggregation:
-     *   - Per-class TP/FP/FN are SUMMED across folds (stable for small folds).
-     *   - Precision/Recall/F1 are then recomputed from the summed counts.
-     *   - Overall accuracy = mean of per-fold accuracies.
-     *   - accuracyStd / macroF1Std are populated.
+     * Tổng hợp chỉ số qua k fold bằng cách "micro-over-folds":
+     *   - TP/FP/FN theo lớp được CỘNG DỒN qua các fold (ổn định với fold nhỏ).
+     *   - Precision/Recall/F1 được tính lại từ các tổng đã cộng dồn.
+     *   - Accuracy tổng = trung bình accuracy của các fold.
+     *   - accuracyStd / macroF1Std được điền.
      *
-     * This is more robust than averaging per-fold F1 directly, since in small
-     * folds a class may be absent entirely (F1 undefined).
+     * Cách này vững hơn trung bình F1 trực tiếp theo từng fold, vì ở các
+     * fold nhỏ có thể có lớp hoàn toàn vắng mặt (F1 không xác định).
      *
-     * @param folds list of per-fold EvalMetrics (non-empty)
-     * @return aggregated EvalMetrics
+     * @param folds danh sách EvalMetrics từng fold (khác rỗng)
+     * @return EvalMetrics đã tổng hợp
      */
     public static EvalMetrics average(List<EvalMetrics> folds) {
         if (folds == null || folds.isEmpty()) {
@@ -152,7 +152,7 @@ public final class EvalMetrics {
 
         EvalMetrics agg = new EvalMetrics();
 
-        // --- Collect all class names seen across folds, ordered ---
+        // --- Gom toàn bộ tên lớp đã thấy qua các fold, theo thứ tự ---
         Map<String, ClassMetrics> byClass = new LinkedHashMap<>();
         for (EvalMetrics f : folds) {
             for (String clsName : f.perClass.keySet()) {
@@ -164,7 +164,7 @@ public final class EvalMetrics {
             }
         }
 
-        // --- Sum tp/fp/fn across folds ---
+        // --- Cộng dồn tp/fp/fn qua các fold ---
         for (EvalMetrics f : folds) {
             for (ClassMetrics foldCm : f.perClass.values()) {
                 ClassMetrics aggCm = byClass.get(foldCm.className);
@@ -174,7 +174,7 @@ public final class EvalMetrics {
             }
         }
 
-        // --- Recompute per-class P/R/F1 from summed counts ---
+        // --- Tính lại P/R/F1 từng lớp từ các tổng đã cộng dồn ---
         double sumF1 = 0.0;
         double sumF1Weighted = 0.0;
         int totalSupport = 0;
@@ -193,7 +193,7 @@ public final class EvalMetrics {
         agg.perClass     = byClass;
         agg.totalSupport = totalSupport;
 
-        // --- Mean accuracy + stddev across folds ---
+        // --- Trung bình accuracy + stddev qua các fold ---
         double[] accs  = folds.stream().mapToDouble(f -> f.accuracy).toArray();
         double[] mf1s  = folds.stream().mapToDouble(f -> f.macroF1).toArray();
         agg.accuracy    = mean(accs);
@@ -206,7 +206,7 @@ public final class EvalMetrics {
     }
 
     // -----------------------------------------------------------------------
-    // Helpers
+    // Hàm tiện ích
     // -----------------------------------------------------------------------
 
     private static double safeDiv(int num, int den) {
@@ -228,7 +228,7 @@ public final class EvalMetrics {
         return Math.sqrt(sq / v.length);
     }
 
-    /** Returns a list of all class names, in appearance order. */
+    /** Trả về danh sách tên các lớp, theo thứ tự xuất hiện. */
     public List<String> classNames() {
         return new ArrayList<>(perClass.keySet());
     }

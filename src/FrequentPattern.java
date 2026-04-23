@@ -2,7 +2,7 @@ import java.util.Collections;
 import java.util.Set;
 
 /**
- * An immutable frequent itemset with its absolute support count.
+ * Một frequent itemset bất biến kèm số đếm support tuyệt đối.
  */
 public class FrequentPattern {
 

@@ -2,16 +2,17 @@ import java.util.Collections;
 import java.util.Set;
 
 /**
- * A Class Association Rule (CAR) of the form: condset => classLabel
+ * Một luật kết hợp theo lớp (Class Association Rule - CAR) dạng:
+ * condset => classLabel
  *
- * Metrics stored:
- *   support          - relative support of (condset ∪ class) over all training records
- *   confidence       - support(condset ∪ class) / support(condset)
- *   supportCount     - absolute count of transactions containing condset ∪ class
- *   condsetSupportCount - absolute count of transactions containing condset
+ * Các chỉ số được lưu:
+ *   support             - support tương đối của (condset ∪ class) trên toàn bộ tập huấn luyện
+ *   confidence          - support(condset ∪ class) / support(condset)
+ *   supportCount        - số tuyệt đối các transaction chứa condset ∪ class
+ *   condsetSupportCount - số tuyệt đối các transaction chứa condset
  *
- * Ordering (Comparable): confidence DESC, support DESC, condset size ASC.
- * This matches the CMAR rule precedence used for pruning and classification.
+ * Thứ tự (Comparable): confidence giảm dần, support giảm dần, độ dài condset tăng dần.
+ * Đây là thứ tự ưu tiên luật (rule precedence) mà CMAR dùng để cắt tỉa và phân lớp.
  */
 public class AssociationRule implements Comparable<AssociationRule> {
 
@@ -43,18 +44,18 @@ public class AssociationRule implements Comparable<AssociationRule> {
     public int getCondsetSupportCount() { return condsetSupportCount; }
 
     /**
-     * Returns true if all items in this rule's condset appear in the given
-     * transaction's item list (condset ⊆ transaction items).
+     * Trả về true nếu mọi item trong condset của luật đều có mặt trong
+     * danh sách item của transaction (condset ⊆ items của transaction).
      */
     public boolean matches(Transaction t) {
         return t.getItems().containsAll(condset);
     }
 
     /**
-     * Rule precedence ordering:
-     *   1. Higher confidence first.
-     *   2. Break ties with higher support.
-     *   3. Break ties with smaller condset (simpler rule).
+     * Thứ tự ưu tiên luật:
+     *   1. Confidence cao hơn xếp trước.
+     *   2. Trùng confidence: support cao hơn xếp trước.
+     *   3. Trùng tiếp: condset nhỏ hơn (luật đơn giản hơn) xếp trước.
      */
     @Override
     public int compareTo(AssociationRule other) {

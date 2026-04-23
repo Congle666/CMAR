@@ -5,23 +5,23 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * CR-tree (class-distribution-aware FP-tree) — Li, Han & Pei (2001) §3.2.
+ * CR-tree (FP-tree mở rộng có phân phối lớp) — Li, Han & Pei (2001) §3.2.
  *
- * Differences vs. a plain FP-tree:
- *   - Each node additionally tracks a per-class count distribution.
- *   - Paths are inserted together with the class label of the contributing
- *     transaction, so at every node we know how many transactions of each
- *     class pass through it. This is what lets FP-Growth emit CARs directly
- *     (no post-hoc scan required).
+ * Khác biệt so với FP-tree chuẩn:
+ *   - Mỗi nút còn lưu thêm phân phối số đếm theo từng lớp.
+ *   - Khi chèn một path, ta kèm theo nhãn lớp của transaction đóng
+ *     góp path đó; nhờ vậy tại mỗi nút ta biết có bao nhiêu transaction
+ *     của mỗi lớp đi qua nó. Đây chính là điểm cho phép FP-Growth
+ *     sinh CAR trực tiếp (không cần pass hậu kỳ để quét lại).
  */
 public class FPTree {
 
     final FPNode root;
 
-    /** Total frequency of each item across all inserted paths. */
+    /** Tần suất toàn cục của mỗi item trên tất cả các path đã chèn. */
     final Map<String, Integer> headerFreq;
 
-    /** First node in the linked chain for each item (header table pointer). */
+    /** Con trỏ tới nút đầu tiên trong chuỗi liên kết của mỗi item (header-table). */
     final Map<String, FPNode> headerFirst;
 
     final int minSupport;
@@ -34,13 +34,13 @@ public class FPTree {
     }
 
     /**
-     * Inserts a pre-sorted, pre-filtered path with a given weight (count)
-     * and a class distribution carried by the contributing transactions.
+     * Chèn một path đã được sắp xếp và lọc trước, với trọng số (count)
+     * và phân phối lớp do các transaction đóng góp mang theo.
      *
-     * For the initial tree, classDist is {classLabel -> 1} for a single row.
-     * For conditional trees, classDist comes from the header-chain node whose
-     * subtree produced this prefix path, so the full per-class counts are
-     * propagated into the conditional tree.
+     * Với cây ban đầu, classDist là {classLabel -> 1} cho một hàng đơn lẻ.
+     * Với cây điều kiện (conditional tree), classDist đến từ nút trên chuỗi
+     * header-table mà subtree của nó sinh ra prefix path này, nhờ đó phân
+     * phối số đếm theo lớp được lan truyền đầy đủ vào cây điều kiện.
      */
     public void insertPath(List<String> path,
                            Map<String, Integer> classDist,
@@ -53,7 +53,7 @@ public class FPTree {
                 child = new FPNode(item, 0, current);
                 current.children.put(item, child);
 
-                // Append to the end of the header-table chain
+                // Nối vào cuối chuỗi header-table
                 FPNode tail = headerFirst.get(item);
                 if (tail == null) {
                     headerFirst.put(item, child);
@@ -70,21 +70,21 @@ public class FPTree {
         }
     }
 
-    /** Items sorted by frequency descending (tree-insertion order). */
+    /** Các item sắp theo tần suất giảm dần (thứ tự chèn vào cây). */
     public List<String> getItemsSortedByFreqDesc() {
         List<String> items = new ArrayList<>(headerFreq.keySet());
         items.sort((a, b) -> headerFreq.get(b) - headerFreq.get(a));
         return items;
     }
 
-    /** Items sorted by frequency ascending (FP-Growth mining order). */
+    /** Các item sắp theo tần suất tăng dần (thứ tự khai thác của FP-Growth). */
     public List<String> getItemsSortedByFreqAsc() {
         List<String> items = new ArrayList<>(headerFreq.keySet());
         items.sort(Comparator.comparingInt(headerFreq::get));
         return items;
     }
 
-    /** Returns true if the tree consists of a single path from root to leaf. */
+    /** Trả về true nếu cây chỉ là một path đơn từ gốc xuống lá. */
     public boolean isSinglePath() {
         FPNode node = root;
         while (!node.children.isEmpty()) {
@@ -94,7 +94,7 @@ public class FPTree {
         return true;
     }
 
-    /** Returns a multi-line text representation of the tree structure. */
+    /** Trả về biểu diễn văn bản nhiều dòng của cấu trúc cây. */
     public String toTreeString() {
         StringBuilder sb = new StringBuilder();
         sb.append("[root]\n");
@@ -116,7 +116,7 @@ public class FPTree {
         }
     }
 
-    /** Returns the header table as a formatted string. */
+    /** Trả về bảng header dưới dạng chuỗi đã định dạng. */
     public String headerTableToString() {
         StringBuilder sb = new StringBuilder();
         List<String> sorted = getItemsSortedByFreqDesc();

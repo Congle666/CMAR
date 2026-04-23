@@ -5,27 +5,28 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * CMAR Classifier — faithful to Li, Han & Pei (2001) ICDM.
+ * Bộ phân lớp CMAR — trung thành theo Li, Han & Pei (2001) ICDM.
  *
- * Training (train):
- *   Pruning 1: General rule pruning — remove more specific rules dominated
- *              by a higher-ranked general rule with the same class.
- *   Pruning 2: Positively correlated rules — keep only rules whose χ²
- *              passes a significance threshold (default 3.841, p=0.05, df=1)
- *              AND whose observed co-occurrence exceeds the expected value.
- *   Pruning 3: Database coverage (Algorithm 1 in paper) — iteratively
- *              select rules that correctly cover training data; remove
- *              data objects once covered by δ rules.
+ * Huấn luyện (train):
+ *   Cắt tỉa 1: General rule pruning — loại bỏ luật cụ thể hơn đang bị
+ *              thống trị bởi một luật tổng quát hơn có hạng cao hơn và
+ *              cùng nhãn lớp.
+ *   Cắt tỉa 2: Luật có tương quan dương — chỉ giữ các luật có χ² vượt
+ *              ngưỡng ý nghĩa (mặc định 3.841, p=0.05, df=1) VÀ có
+ *              đồng xuất hiện quan sát được vượt giá trị kỳ vọng.
+ *   Cắt tỉa 3: Database coverage (Thuật toán 1 trong paper) — lặp đi
+ *              lặp lại việc chọn luật phủ đúng các bản ghi huấn luyện;
+ *              loại bỏ bản ghi khi đã được phủ đủ δ luật.
  *
- * After pruning, surviving rules are inserted into a CR-tree (§3.3) for
- * compact storage and fast subset retrieval at classification time.
+ * Sau cắt tỉa, các luật còn sống được chèn vào CR-tree (§3.3) để lưu
+ * nén gọn và truy vấn subset nhanh khi phân lớp.
  *
- * Classification (classify):
- *   1. Retrieve all CR-tree rules matching the test record.
- *   2. If no rules match → default class.
- *   3. If all matching rules agree on one class → that class.
- *   4. Otherwise group by class, score(G) = Σ [χ²(r)]² / maxχ²(r),
- *      return the class with the largest score.
+ * Phân lớp (classify):
+ *   1. Lấy tất cả các luật trong CR-tree khớp với bản ghi test.
+ *   2. Nếu không có luật nào khớp → trả về lớp mặc định.
+ *   3. Nếu tất cả luật khớp đều cùng một lớp → trả về lớp đó.
+ *   4. Ngược lại nhóm theo lớp, score(G) = Σ [χ²(r)]² / maxχ²(r),
+ *      trả về lớp có score lớn nhất.
  */
 public class CMARClassifier {
 
@@ -34,13 +35,13 @@ public class CMARClassifier {
     private String defaultClass;
     private int totalTransactions;
     private Map<String, Integer> classFreq;
-    private Map<String, Integer> itemFreq;   // for CR-tree path ordering
+    private Map<String, Integer> itemFreq;   // dùng để sắp thứ tự path trong CR-tree
 
-    // --- Pruning parameters (§5) ---
+    // --- Tham số cắt tỉa (§5) ---
     private double chiSquareThreshold = 3.841;
     private int    coverageThreshold  = 4;
 
-    // --- Statistics ---
+    // --- Thống kê ---
     private int candidateCount;
     private int afterGeneralPruneCount;
     private int afterChiPruneCount;
@@ -50,7 +51,7 @@ public class CMARClassifier {
     public void setCoverageThreshold(int delta)         { this.coverageThreshold = delta; }
 
     // -----------------------------------------------------------------------
-    // Training
+    // Huấn luyện
     // -----------------------------------------------------------------------
 
     public void train(List<AssociationRule> candidateRules,
@@ -74,34 +75,34 @@ public class CMARClassifier {
         Collections.sort(candidateRules);
         this.candidateCount = candidateRules.size();
 
-        // --- Pruning 1: General rule pruning ---
+        // --- Cắt tỉa 1: luật tổng quát ---
         List<AssociationRule> afterPrune1 = pruneByGeneralRules(candidateRules);
         this.afterGeneralPruneCount = afterPrune1.size();
-        System.out.println("    Pruning 1 (general rules):     "
+        System.out.println("    Cat tia 1 (luat tong quat):     "
             + candidateRules.size() + " -> " + afterPrune1.size());
 
-        // --- Pruning 2: Chi-square significance + positive correlation ---
+        // --- Cắt tỉa 2: chi-square + tương quan dương ---
         List<AssociationRule> afterPrune2 = pruneByChiSquareSignificance(afterPrune1);
         this.afterChiPruneCount = afterPrune2.size();
-        System.out.println("    Pruning 2 (chi-square >= " + chiSquareThreshold + "): "
+        System.out.println("    Cat tia 2 (chi-square >= " + chiSquareThreshold + "): "
             + afterPrune1.size() + " -> " + afterPrune2.size());
 
-        // --- Pruning 3: Database coverage ---
+        // --- Cắt tỉa 3: database coverage ---
         this.rules = pruneByDatabaseCoverage(afterPrune2, trainData);
         this.afterCoveragePruneCount = this.rules.size();
-        System.out.println("    Pruning 3 (db coverage, delta=" + coverageThreshold + "):  "
+        System.out.println("    Cat tia 3 (db coverage, delta=" + coverageThreshold + "):  "
             + afterPrune2.size() + " -> " + this.rules.size());
 
-        // --- Build CR-tree for compact rule storage and fast retrieval ---
+        // --- Xây CR-tree để lưu luật nén gọn + truy vấn nhanh ---
         this.crTree = new CRTree(itemFreq);
         crTree.insertAll(this.rules);
 
-        System.out.println("    Final rules: " + this.rules.size()
-            + " (from " + candidateRules.size() + " candidates; stored in CR-tree)");
+        System.out.println("    Luat cuoi cung: " + this.rules.size()
+            + " (tu " + candidateRules.size() + " ung vien; luu trong CR-tree)");
     }
 
     // -----------------------------------------------------------------------
-    // Pruning 1: General Rule Pruning
+    // Cắt tỉa 1: General Rule Pruning
     // -----------------------------------------------------------------------
 
     private List<AssociationRule> pruneByGeneralRules(List<AssociationRule> sorted) {
@@ -129,7 +130,7 @@ public class CMARClassifier {
     }
 
     // -----------------------------------------------------------------------
-    // Pruning 2: Chi-Square Significance + Positive Correlation
+    // Cắt tỉa 2: ý nghĩa thống kê chi-square + tương quan dương
     // -----------------------------------------------------------------------
 
     private List<AssociationRule> pruneByChiSquareSignificance(
@@ -152,7 +153,7 @@ public class CMARClassifier {
     }
 
     // -----------------------------------------------------------------------
-    // Pruning 3: Database Coverage (Algorithm 1)
+    // Cắt tỉa 3: Database Coverage (Thuật toán 1)
     // -----------------------------------------------------------------------
 
     private List<AssociationRule> pruneByDatabaseCoverage(
@@ -188,7 +189,7 @@ public class CMARClassifier {
     }
 
     // -----------------------------------------------------------------------
-    // Classification (§4) — CR-tree-based retrieval
+    // Phân lớp (§4) — truy vấn qua CR-tree
     // -----------------------------------------------------------------------
 
     public String classify(Transaction record) {
@@ -227,7 +228,7 @@ public class CMARClassifier {
     }
 
     // -----------------------------------------------------------------------
-    // Chi-square computation (shared by pruning and classification)
+    // Tính chi-square (dùng chung cho cắt tỉa và phân lớp)
     // -----------------------------------------------------------------------
 
     protected double computeChiSquare(AssociationRule rule, String cls) {
@@ -258,7 +259,7 @@ public class CMARClassifier {
     }
 
     // -----------------------------------------------------------------------
-    // Batch predict & evaluate
+    // Dự đoán hàng loạt & đánh giá
     // -----------------------------------------------------------------------
 
     public List<String> predict(List<Transaction> testData) {

@@ -6,26 +6,27 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Benchmark — biến thể Hướng 1 (χ² có trọng số theo lớp).
+ * Benchmark — biến thể Hướng 2 (minSup theo từng lớp).
  *
- * Chạy cùng quy trình 10-fold stratified CV như {@link Benchmark} trên toàn
- * bộ 20 dataset UCI, nhưng dùng {@link CMARClassifierWeighted} — áp dụng
- * trọng số nghịch tần suất lớp vào bước tính score của classify().
+ * Cùng quy trình 10-fold CV trên 20 dataset như {@link Benchmark}, nhưng
+ * dùng minSup theo từng lớp:
+ * <pre>
+ *   minSup(c) = max(2, round(minSupPct × freq(c)))
+ * </pre>
+ * Cho phép sinh luật cho các lớp thiểu số mà support tuyệt đối không thể
+ * đạt ngưỡng toàn cục. Dùng {@link CMARClassifier} baseline (KHÔNG có
+ * trọng số) — để cô lập riêng hiệu ứng của Hướng 2.
  *
  * File kết quả:
- *   result/v2_metrics.csv          — 1 dòng cho mỗi dataset
- *   result/v2_per_class.csv        — 1 dòng cho mỗi cặp (dataset, lớp)
- *
- * Dùng {@code diff baseline_metrics.csv v2_metrics.csv} để so sánh.
+ *   result/v3_metrics.csv
+ *   result/v3_per_class.csv
  */
-public class BenchmarkWeighted {
+public class BenchmarkClassSup {
 
-    // Dùng chung cấu hình dataset với Benchmark.java để kết quả có thể
-    // so sánh trực tiếp. Cần giữ đồng bộ với Benchmark.DATASETS.
     static final String[][] DATASETS = Benchmark.DATASETS;
 
-    static final String OUT_METRICS_CSV   = "result/v2_metrics.csv";
-    static final String OUT_PER_CLASS_CSV = "result/v2_per_class.csv";
+    static final String OUT_METRICS_CSV   = "result/v3_metrics.csv";
+    static final String OUT_PER_CLASS_CSV = "result/v3_per_class.csv";
 
     public static void main(String[] args) throws Exception {
         int K = 10;
@@ -34,15 +35,15 @@ public class BenchmarkWeighted {
         int coverageDelta = 4;
         long seed = 42;
 
+        // Lọc dataset: truyền tên qua args. Ví dụ: java BenchmarkClassSup lymph glass german
         Set<String> filter = args.length > 0 ? new HashSet<>(Arrays.asList(args)) : null;
 
         System.out.println("=================================================================");
-        System.out.println("  CMAR Benchmark — χ² co trong so (Huong 1)");
-        System.out.println("  Cung 10-fold stratified CV nhu baseline, chi khac classify()");
+        System.out.println("  CMAR Benchmark — minSup theo tung lop (Huong 2)");
+        System.out.println("  Classifier baseline, minSup theo lop = minSupPct x freq(c)");
         if (filter != null) System.out.println("  Filter: " + filter);
         System.out.println("=================================================================\n");
 
-        // Header bảng
         System.out.printf("%-14s %5s %6s | %6s %7s %7s %5s | %6s %6s %6s  Diff%n",
             "Dataset", "N", "supPct", "Acc", "MacroF1", "WF1", "Std", "Paper", "CBA", "C4.5");
         System.out.println("-".repeat(90));
@@ -74,10 +75,12 @@ public class BenchmarkWeighted {
                     continue;
                 }
 
-                // Khác biệt chính so với Benchmark: truyền CMARClassifierWeighted::new
+                // Khác biệt chính: classMinSupFraction = supPct
                 List<EvalMetrics> foldMetrics = CrossValidator.runWithMetrics(
                     data, K, supPct, minConfidence, chiSqThreshold, coverageDelta,
-                    seed, maxPatLen, CMARClassifierWeighted::new);
+                    seed, maxPatLen,
+                    CMARClassifier::new,  // classifier baseline
+                    supPct);              // Hướng 2: phần trăm theo từng lớp
 
                 EvalMetrics agg = EvalMetrics.average(foldMetrics);
                 aggregated.put(name, agg);
@@ -111,12 +114,12 @@ public class BenchmarkWeighted {
         ResultWriter.writePerClassCsv(aggregated, OUT_PER_CLASS_CSV);
 
         System.out.println("\n" + "=".repeat(90));
-        System.out.println("TONG KET — Weighted chi-square (Huong 1)");
+        System.out.println("TONG KET — minSup theo tung lop (Huong 2)");
         System.out.println("=".repeat(90));
         if (count > 0) {
             System.out.printf("So dataset danh gia:            %d / %d%n", count, DATASETS.length);
-            System.out.printf("Accuracy trung binh (weighted): %.2f%%%n", totalOursAcc / count);
-            System.out.printf("Macro-F1 trung binh (weighted): %.4f%n",   totalOursF1 / count);
+            System.out.printf("Accuracy trung binh (class-sup):%.2f%%%n", totalOursAcc / count);
+            System.out.printf("Macro-F1 trung binh (class-sup):%.4f%n",   totalOursF1 / count);
             System.out.printf("Accuracy trung binh (paper):    %.2f%%%n", totalPaper / count);
             System.out.printf("Chenh lech tuyet doi vs paper:  %.2f%%%n", totalDiff / count);
             System.out.printf("Trong khoang 5%% cua paper:     %d / %d%n", within5, count);
@@ -125,8 +128,5 @@ public class BenchmarkWeighted {
         System.out.println("File CSV xuat ra:");
         System.out.println("  " + OUT_METRICS_CSV);
         System.out.println("  " + OUT_PER_CLASS_CSV);
-        System.out.println();
-        System.out.println("So sanh voi baseline:");
-        System.out.println("  diff result/baseline_metrics.csv result/v2_metrics.csv");
     }
 }
