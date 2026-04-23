@@ -107,6 +107,33 @@ public class CrossValidator {
             long seed, int maxPatternLength,
             Supplier<CMARClassifier> classifierFactory,
             double classMinSupFraction) {
+        return runWithMetrics(data, k, minSupportPct, minConfidence,
+            chiSqThreshold, coverageDelta, seed, maxPatternLength,
+            classifierFactory, classMinSupFraction,
+            0.0, 0.0);
+    }
+
+    /**
+     * Overload đầy đủ kèm Hướng 3 — Adaptive minConf per class.
+     *
+     * @param adaptiveMinConfFloor  ngưỡng sàn tuyệt đối cho minConf(c). Khi
+     *   > 0, enable Hướng 3 với công thức:
+     *   {@code minConf(c) = min(globalMinConf, max(floor, lift × freq(c)/N))}.
+     *   Giá trị điển hình: 0.3.
+     * @param adaptiveMinConfLift  hệ số khuếch đại baseline class frequency
+     *   (= random-guess confidence). Điển hình 5.0 — rule phải có confidence
+     *   ≥ 5 lần baseline ngẫu nhiên mới được giữ. Chỉ có tác dụng khi
+     *   {@code adaptiveMinConfFloor > 0}.
+     */
+    public static List<EvalMetrics> runWithMetrics(
+            List<Transaction> data, int k,
+            double minSupportPct, double minConfidence,
+            double chiSqThreshold, int coverageDelta,
+            long seed, int maxPatternLength,
+            Supplier<CMARClassifier> classifierFactory,
+            double classMinSupFraction,
+            double adaptiveMinConfFloor,
+            double adaptiveMinConfLift) {
 
         // --- Chia có phân tầng: nhóm theo lớp, rồi phân phối ---
         List<Transaction> shuffled = new ArrayList<>(data);
@@ -143,27 +170,41 @@ public class CrossValidator {
             // Tính minSupport từ phần trăm
             int minSupport = Math.max(2, (int) Math.round(trainData.size() * minSupportPct));
 
-            // minSup theo lớp (Hướng 2)
-            Map<String, Integer> classMinSupMap = null;
-            if (classMinSupFraction > 0) {
-                Map<String, Integer> classFreq = new HashMap<>();
+            // Tính class frequency một lần, dùng cho cả H2 và H3
+            Map<String, Integer> classFreq = null;
+            if (classMinSupFraction > 0 || adaptiveMinConfFloor > 0) {
+                classFreq = new HashMap<>();
                 for (Transaction t : trainData) {
                     classFreq.merge(t.getClassLabel(), 1, Integer::sum);
                 }
+            }
+
+            // minSup theo lớp (Hướng 2)
+            Map<String, Integer> classMinSupMap = null;
+            if (classMinSupFraction > 0) {
                 classMinSupMap = new HashMap<>();
-                int minThreshold = Integer.MAX_VALUE;
                 for (Map.Entry<String, Integer> e : classFreq.entrySet()) {
                     int thr = Math.max(2,
                         (int) Math.round(classMinSupFraction * e.getValue()));
                     classMinSupMap.put(e.getKey(), thr);
-                    if (thr < minThreshold) minThreshold = thr;
                 }
-                // KHÔNG hạ global minSupport — giữ nguyên để đảm bảo tractability
-                // trên dataset nhiều chiều (sonar 60 attrs, waveform 21 attrs).
-                // classMinSupMap chỉ ảnh hưởng đến bước sinh luật, không phải
-                // item-level pruning. Trade-off: item hiếm chỉ xuất hiện trong
-                // 1 class cực thiểu số có thể bị lọc → một phần hiệu ứng H2
-                // bị hạn chế, nhưng tất cả datasets chạy được.
+                // KHÔNG hạ global minSupport — giữ nguyên để tractable trên
+                // dataset nhiều chiều. classMinSupMap chỉ ảnh hưởng sinh luật.
+            }
+
+            // minConf theo lớp (Hướng 3 — Adaptive minConf)
+            Map<String, Double> classMinConfMap = null;
+            if (adaptiveMinConfFloor > 0) {
+                classMinConfMap = new HashMap<>();
+                int N = trainData.size();
+                for (Map.Entry<String, Integer> e : classFreq.entrySet()) {
+                    double classRatio = (double) e.getValue() / N;
+                    // min(globalMinConf, max(floor, lift × freq(c)/N))
+                    double thr = Math.min(minConfidence,
+                        Math.max(adaptiveMinConfFloor,
+                                 adaptiveMinConfLift * classRatio));
+                    classMinConfMap.put(e.getKey(), thr);
+                }
             }
 
             // Khai thác CAR trực tiếp trên CR-tree (FP-Growth có nhận thức về lớp)
@@ -171,6 +212,9 @@ public class CrossValidator {
             fpGrowth.setMaxPatternLength(maxPatternLength);
             if (classMinSupMap != null) {
                 fpGrowth.setClassMinSupMap(classMinSupMap);
+            }
+            if (classMinConfMap != null) {
+                fpGrowth.setClassMinConfMap(classMinConfMap);
             }
             List<AssociationRule> candidates = fpGrowth.mine(trainData, minConfidence);
 

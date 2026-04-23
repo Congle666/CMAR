@@ -34,6 +34,17 @@ public class FPGrowth {
      */
     private Map<String, Integer> classMinSupMap;
 
+    /**
+     * Ngưỡng minConfidence theo từng lớp (Hướng 3 — Adaptive minConf).
+     * Khi có, bước sinh luật dùng {@code classMinConfMap.getOrDefault(cls, minConfidence)}
+     * thay cho minConfidence toàn cục. Null = hành vi baseline.
+     *
+     * <p>Mục đích: class thiểu số có confidence tối đa bị giới hạn bởi
+     * (freq(c) / itemSup) nên ngưỡng 0.5 toàn cục là quá chặt. Adaptive
+     * minConf nới lỏng cho class hiếm, giữ nguyên cho class đa số.</p>
+     */
+    private Map<String, Double> classMinConfMap;
+
     private final List<FrequentPattern> patterns = new ArrayList<>();
     private final List<AssociationRule> rules    = new ArrayList<>();
 
@@ -68,6 +79,24 @@ public class FPGrowth {
     private int classThreshold(String cls) {
         if (classMinSupMap == null) return minSupport;
         return classMinSupMap.getOrDefault(cls, minSupport);
+    }
+
+    /**
+     * Đặt ngưỡng minConfidence theo từng lớp (Hướng 3). Khi có, bước sinh luật
+     * kiểm tra {@code conf >= classMinConfMap.getOrDefault(cls, minConfidence)}.
+     * Cho phép class thiểu số có ngưỡng confidence thấp hơn (vì confidence tối
+     * đa của rule cho class hiếm bị giới hạn bởi tỉ lệ freq(c)/sup(P)).
+     *
+     * <p>Truyền null (mặc định) = dùng ngưỡng toàn cục (baseline).</p>
+     */
+    public void setClassMinConfMap(Map<String, Double> classMinConfMap) {
+        this.classMinConfMap = classMinConfMap;
+    }
+
+    /** Trả về minConfidence cho lớp c (fallback về giá trị toàn cục). */
+    private double classMinConfidence(String cls) {
+        if (classMinConfMap == null) return minConfidence;
+        return classMinConfMap.getOrDefault(cls, minConfidence);
     }
 
     /** CR-tree ban đầu được xây trong lần mine() gần nhất. */
@@ -167,15 +196,15 @@ public class FPGrowth {
             }
 
             // --- Sinh một CAR cho mỗi lớp đạt ngưỡng và đạt minConfidence ---
-            // Hướng 2: dùng ngưỡng theo từng lớp nếu classMinSupMap đã được đặt;
-            //         ngược lại fallback về minSupport toàn cục.
+            // Hướng 2: dùng ngưỡng minSup theo từng lớp nếu classMinSupMap đã được đặt.
+            // Hướng 3: dùng ngưỡng minConf theo từng lớp nếu classMinConfMap đã được đặt.
             for (Map.Entry<String, Integer> e : classDistForP.entrySet()) {
                 String cls       = e.getKey();
                 int    classSup  = e.getValue();
                 if (classSup < classThreshold(cls)) continue;
 
                 double confidence = (double) classSup / itemSupport;
-                if (confidence < minConfidence) continue;
+                if (confidence < classMinConfidence(cls)) continue;
 
                 double support = (double) classSup / totalTransactions;
                 rules.add(new AssociationRule(
