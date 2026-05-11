@@ -31,7 +31,9 @@ import java.util.Map;
 public class CMARClassifier {
 
     private List<AssociationRule> rules;
+    private List<AssociationRule> spareRulesList;  // WCBA: rules không pass coverage nhưng vẫn keep
     private CRTree crTree;
+    private CRTree spareCRTree;                      // WCBA: CR-tree riêng cho spare rules
     private String defaultClass;
     private int totalTransactions;
     private Map<String, Integer> classFreq;
@@ -45,6 +47,9 @@ public class CMARClassifier {
     private boolean useClassWeighting = false;  // HƯỚNG 2: Class weighting for imbalanced data
     private boolean useHMRanking      = false;  // HƯỚNG WCBA: rank Top-K by HM thay vì χ²
     private double minHM              = 0.0;    // HƯỚNG WCBA: filter rules dưới HM threshold
+    private boolean useSpareRules     = false;  // WCBA: enable strong + spare 2-stage prediction
+    private int    stratifiedKMin     = 0;      // Stratified Top-K min (0 = disable)
+    private int    stratifiedKMax     = 0;      // Stratified Top-K max
 
     // --- Thống kê ---
     private int candidateCount;
@@ -61,6 +66,17 @@ public class CMARClassifier {
     public void setUseHMRanking(boolean use)            { this.useHMRanking = use; }
     /** HƯỚNG WCBA: filter rules có HM < threshold trước khi Top-K. */
     public void setMinHM(double minHM)                  { this.minHM = minHM; }
+    /** WCBA: bật chế độ 2-stage prediction strong → spare → default. */
+    public void setUseSpareRules(boolean use)           { this.useSpareRules = use; }
+    /**
+     * Stratified Top-K: K thích nghi theo class size.
+     * Minority class lấy nhiều rules (kMax), majority lấy ít (kMin).
+     * Truyền (0, 0) để tắt và quay về Top-K cố định.
+     */
+    public void setStratifiedTopK(int kMin, int kMax) {
+        this.stratifiedKMin = kMin;
+        this.stratifiedKMax = kMax;
+    }
 
     // -----------------------------------------------------------------------
     // Huấn luyện
@@ -115,6 +131,13 @@ public class CMARClassifier {
         // --- Xây CR-tree để lưu luật nén gọn + truy vấn nhanh ---
         this.crTree = new CRTree(itemFreq);
         crTree.insertAll(this.rules);
+
+        // --- WCBA: xây spare CR-tree nếu có spare rules ---
+        if (useSpareRules && spareRulesList != null && !spareRulesList.isEmpty()) {
+            this.spareCRTree = new CRTree(itemFreq);
+            this.spareCRTree.insertAll(this.spareRulesList);
+            System.out.println("    Spare rules (WCBA fallback): " + spareRulesList.size());
+        }
 
         System.out.println("    Luat cuoi cung: " + this.rules.size()
             + " (tu " + candidateRules.size() + " ung vien; luu trong CR-tree)");
@@ -187,7 +210,6 @@ public class CMARClassifier {
             for (AssociationRule r : rules) {
                 if (r.getHM() >= minHM) filtered.add(r);
             }
-            // Fallback: nếu lọc hết, dùng lại tập gốc
             if (filtered.isEmpty()) filtered = rules;
         }
 
@@ -197,30 +219,51 @@ public class CMARClassifier {
                    .add(r);
         }
 
-        // Sort within each class, then select top-K
+        // Stratified K: K(c) thích nghi theo class size
+        // Minority class lấy K_max, majority class lấy K_min
+        boolean useStratified = (stratifiedKMin > 0 && stratifiedKMax > stratifiedKMin);
+        int maxFreq = 0;
+        int minFreq = Integer.MAX_VALUE;
+        if (useStratified && classFreq != null) {
+            for (int f : classFreq.values()) {
+                if (f > maxFreq) maxFreq = f;
+                if (f < minFreq) minFreq = f;
+            }
+        }
+
         for (Map.Entry<String, List<AssociationRule>> entry : byClass.entrySet()) {
             String cls = entry.getKey();
             List<AssociationRule> rulesForClass = entry.getValue();
 
             if (useHMRanking) {
-                // HƯỚNG WCBA: rank theo HM (harmonic mean of sup & conf)
                 rulesForClass.sort((r1, r2) -> Double.compare(r2.getHM(), r1.getHM()));
             } else {
-                // Mặc định CMAR: rank theo chi-square
                 rulesForClass.sort((r1, r2) -> Double.compare(
                     computeChiSquare(r2, cls),
                     computeChiSquare(r1, cls)
                 ));
             }
 
-            // Take top-K
-            int limit = Math.min(k, rulesForClass.size());
+            // Compute K cho class này
+            int effectiveK = k;
+            if (useStratified && classFreq != null && classFreq.containsKey(cls)) {
+                int freq = classFreq.get(cls);
+                if (maxFreq != minFreq) {
+                    // Minority freq thấp → K cao; majority freq cao → K thấp
+                    double t = (double) (maxFreq - freq) / (maxFreq - minFreq);
+                    effectiveK = stratifiedKMin
+                        + (int) Math.round(t * (stratifiedKMax - stratifiedKMin));
+                } else {
+                    effectiveK = (stratifiedKMin + stratifiedKMax) / 2;
+                }
+            }
+
+            int limit = Math.min(effectiveK, rulesForClass.size());
             for (int i = 0; i < limit; i++) {
                 result.add(rulesForClass.get(i));
             }
         }
 
-        // Re-sort globally by rule precedence (conf, sup, size)
         Collections.sort(result);
         return result;
     }
@@ -238,26 +281,38 @@ public class CMARClassifier {
         int remainingCount = n;
 
         List<AssociationRule> selected = new ArrayList<>();
+        List<AssociationRule> spare = new ArrayList<>();  // WCBA: rules không cover ai mới
 
         for (AssociationRule rule : rules) {
-            if (remainingCount == 0) break;
             boolean coversAny = false;
 
-            for (int i = 0; i < n; i++) {
-                if (removed[i]) continue;
-                Transaction t = trainData.get(i);
-                if (rule.matches(t)
-                        && rule.getClassLabel().equals(t.getClassLabel())) {
-                    coversAny = true;
-                    coverCount[i]++;
-                    if (coverCount[i] >= coverageThreshold) {
-                        removed[i] = true;
-                        remainingCount--;
+            // Vẫn loop qua toàn bộ rules để compute spare (không break sớm)
+            if (remainingCount > 0) {
+                for (int i = 0; i < n; i++) {
+                    if (removed[i]) continue;
+                    Transaction t = trainData.get(i);
+                    if (rule.matches(t)
+                            && rule.getClassLabel().equals(t.getClassLabel())) {
+                        coversAny = true;
+                        coverCount[i]++;
+                        if (coverCount[i] >= coverageThreshold) {
+                            removed[i] = true;
+                            remainingCount--;
+                        }
                     }
                 }
             }
-            if (coversAny) selected.add(rule);
+
+            if (coversAny) {
+                selected.add(rule);
+            } else if (useSpareRules) {
+                // WCBA spare: rule không cover record mới, nhưng có thể vẫn match
+                // bản ghi đã được cover δ lần. Giữ lại cho fallback prediction.
+                spare.add(rule);
+            }
         }
+
+        this.spareRulesList = spare;
         return selected;
     }
 
@@ -266,10 +321,16 @@ public class CMARClassifier {
     // -----------------------------------------------------------------------
 
     public String classify(Transaction record) {
+        // 1. Truy vấn strong CR-tree
         List<AssociationRule> matching = crTree.findMatching(record);
 
+        // 2. WCBA: nếu strong empty → fallback sang spare
+        if (matching.isEmpty() && useSpareRules && spareCRTree != null) {
+            matching = spareCRTree.findMatching(record);
+        }
+
         if (matching.isEmpty()) return defaultClass;
-        
+
         // HƯỚNG 1: Threshold Adjustment - filter rules theo confidence
         matching = filterRulesByThreshold(matching, classificationThreshold);
         if (matching.isEmpty()) return defaultClass;

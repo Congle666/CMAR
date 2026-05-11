@@ -110,7 +110,22 @@ public class CrossValidator {
         return runWithMetrics(data, k, minSupportPct, minConfidence,
             chiSqThreshold, coverageDelta, seed, maxPatternLength,
             classifierFactory, classMinSupFraction,
-            0.0, 0.0);
+            0.0, 0.0, false);
+    }
+
+    public static List<EvalMetrics> runWithMetrics(
+            List<Transaction> data, int k,
+            double minSupportPct, double minConfidence,
+            double chiSqThreshold, int coverageDelta,
+            long seed, int maxPatternLength,
+            Supplier<CMARClassifier> classifierFactory,
+            double classMinSupFraction,
+            double adaptiveMinConfFloor,
+            double adaptiveMinConfLift) {
+        return runWithMetrics(data, k, minSupportPct, minConfidence,
+            chiSqThreshold, coverageDelta, seed, maxPatternLength,
+            classifierFactory, classMinSupFraction,
+            adaptiveMinConfFloor, adaptiveMinConfLift, false);
     }
 
     /**
@@ -133,7 +148,8 @@ public class CrossValidator {
             Supplier<CMARClassifier> classifierFactory,
             double classMinSupFraction,
             double adaptiveMinConfFloor,
-            double adaptiveMinConfLift) {
+            double adaptiveMinConfLift,
+            boolean useWCBAWeights) {
 
         // --- Chia có phân tầng: nhóm theo lớp, rồi phân phối ---
         List<Transaction> shuffled = new ArrayList<>(data);
@@ -207,6 +223,12 @@ public class CrossValidator {
                 }
             }
 
+            // WCBA: compute attribute weights bằng Information Gain
+            AttributeWeights attrWeights = null;
+            if (useWCBAWeights) {
+                attrWeights = AttributeWeights.computeFromTrainData(trainData);
+            }
+
             // Khai thác CAR trực tiếp trên CR-tree (FP-Growth có nhận thức về lớp)
             FPGrowth fpGrowth = new FPGrowth(minSupport);
             fpGrowth.setMaxPatternLength(maxPatternLength);
@@ -215,6 +237,9 @@ public class CrossValidator {
             }
             if (classMinConfMap != null) {
                 fpGrowth.setClassMinConfMap(classMinConfMap);
+            }
+            if (attrWeights != null) {
+                fpGrowth.setAttributeWeights(attrWeights);
             }
             List<AssociationRule> candidates = fpGrowth.mine(trainData, minConfidence);
 

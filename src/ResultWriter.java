@@ -509,38 +509,4 @@ public class ResultWriter {
         }
     }
 
-    /**
-     * Ghi báo cáo chi tiết phân phối lớp & Rule Generation (Hướng 2).
-     * Giúp verify rằng mỗi lớp có lượng luật hợp lý, đặc biệt lớp thiểu số.
-     */
-    public static void writeClassDistributionReport(
-            ClassDistributionReport report,
-            String filePath) throws IOException {
-        ensureParentDir(filePath);
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, true))) {
-            // Append báo cáo
-            bw.write("Dataset: " + report.datasetName + "\n");
-            bw.write("Train Size: " + report.trainSize + "\n");
-            bw.write("Total Patterns: " + report.totalPatterns + "\n");
-            bw.write("Total Rules: " + report.totalRules + "\n");
-            bw.write("\n");
-
-            bw.write(String.format("%-15s %8s %8s | %8s %8s %8s%n",
-                "Class", "Freq", "%Abs", "MinSup", "Rules", "AvgConf"));
-            bw.write("-".repeat(70) + "\n");
-
-            for (String cls : report.classFreq.keySet()) {
-                int freq = report.classFreq.get(cls);
-                double pctAbs = 100.0 * freq / report.trainSize;
-                int minSup = report.classMinSupMap.getOrDefault(cls, 0);
-                int ruleCnt = report.ruleCountByClass.getOrDefault(cls, 0);
-                double avgConf = report.avgConfByClass.getOrDefault(cls, 0.0);
-
-                bw.write(String.format(java.util.Locale.US,
-                    "%-15s %8d %7.1f%% | %8d %8d %8.4f%n",
-                    cls, freq, pctAbs, minSup, ruleCnt, avgConf));
-            }
-            bw.write("\n");
-        }
-    }
 }

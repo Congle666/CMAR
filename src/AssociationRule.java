@@ -23,23 +23,40 @@ public class AssociationRule implements Comparable<AssociationRule> {
     private final int supportCount;
     private final int condsetSupportCount;
     /**
-     * Harmonic Mean (HM) của support và confidence — WCBA 2018.
-     * HM(R) = 2 × sup × conf / (sup + conf).
-     * HM cao chỉ khi CẢ sup VÀ conf đều cao, dùng làm metric ranking
-     * không phụ thuộc ngưỡng cứng minConf/minSup.
+     * Weighted support — WCBA 2018. = avg(attribute_weights) × support.
+     * Mặc định = support (khi không có attribute weighting).
+     */
+    private final double weightedSupport;
+    /**
+     * Harmonic Mean (HM) của weightedSupport và confidence — WCBA 2018.
+     * HM(R) = 2 × weightedSup × conf / (weightedSup + conf).
+     * Dùng làm metric ranking parameter-free; cao chỉ khi cả sup VÀ conf đều cao.
      */
     private final double hm;
 
     public AssociationRule(Set<String> condset, String classLabel,
                            double support, double confidence,
                            int supportCount, int condsetSupportCount) {
+        this(condset, classLabel, support, confidence,
+             supportCount, condsetSupportCount, support);  // weightedSupport = support
+    }
+
+    /**
+     * Constructor đầy đủ kèm weightedSupport (cho WCBA).
+     * HM được tính từ weightedSupport × confidence.
+     */
+    public AssociationRule(Set<String> condset, String classLabel,
+                           double support, double confidence,
+                           int supportCount, int condsetSupportCount,
+                           double weightedSupport) {
         this.condset = Collections.unmodifiableSet(condset);
         this.classLabel = classLabel;
         this.support = support;
         this.confidence = confidence;
         this.supportCount = supportCount;
         this.condsetSupportCount = condsetSupportCount;
-        this.hm = computeHM(support, confidence);
+        this.weightedSupport = weightedSupport;
+        this.hm = computeHM(weightedSupport, confidence);
     }
 
     /** HM = 2 × sup × conf / (sup + conf). Trả 0 nếu cả hai = 0. */
@@ -56,8 +73,10 @@ public class AssociationRule implements Comparable<AssociationRule> {
     public double getConfidence() { return confidence; }
     public int getSupportCount() { return supportCount; }
     public int getCondsetSupportCount() { return condsetSupportCount; }
-    /** Harmonic Mean của support và confidence (WCBA 2018). */
+    /** Harmonic Mean của (weighted)support và confidence (WCBA 2018). */
     public double getHM() { return hm; }
+    /** Weighted support theo attribute weights (= support nếu không weighted). */
+    public double getWeightedSupport() { return weightedSupport; }
 
     /**
      * Trả về true nếu mọi item trong condset của luật đều có mặt trong
