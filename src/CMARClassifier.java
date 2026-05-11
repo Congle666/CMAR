@@ -40,6 +40,11 @@ public class CMARClassifier {
     // --- Tham số cắt tỉa (§5) ---
     private double chiSquareThreshold = 3.841;
     private int    coverageThreshold  = 4;
+    private int    topK               = 0;  // Top-K per class (0 = disable)
+    private double classificationThreshold = 0.5;  // HƯỚNG 1: Threshold để filter rules
+    private boolean useClassWeighting = false;  // HƯỚNG 2: Class weighting for imbalanced data
+    private boolean useHMRanking      = false;  // HƯỚNG WCBA: rank Top-K by HM thay vì χ²
+    private double minHM              = 0.0;    // HƯỚNG WCBA: filter rules dưới HM threshold
 
     // --- Thống kê ---
     private int candidateCount;
@@ -49,6 +54,13 @@ public class CMARClassifier {
 
     public void setChiSquareThreshold(double threshold) { this.chiSquareThreshold = threshold; }
     public void setCoverageThreshold(int delta)         { this.coverageThreshold = delta; }
+    public void setTopK(int k)                          { this.topK = k; }
+    public void setThreshold(double threshold)          { this.classificationThreshold = threshold; }  // HƯỚNG 1
+    public void setUseClassWeighting(boolean use)       { this.useClassWeighting = use; }  // HƯỚNG 2
+    /** HƯỚNG WCBA: nếu true, sort Top-K theo HM thay vì χ². */
+    public void setUseHMRanking(boolean use)            { this.useHMRanking = use; }
+    /** HƯỚNG WCBA: filter rules có HM < threshold trước khi Top-K. */
+    public void setMinHM(double minHM)                  { this.minHM = minHM; }
 
     // -----------------------------------------------------------------------
     // Huấn luyện
@@ -92,6 +104,13 @@ public class CMARClassifier {
         this.afterCoveragePruneCount = this.rules.size();
         System.out.println("    Cat tia 3 (db coverage, delta=" + coverageThreshold + "):  "
             + afterPrune2.size() + " -> " + this.rules.size());
+
+        // --- Top-K selection (tùy chọn) ---
+        if (topK > 0) {
+            this.rules = selectTopKRulesPerClass(this.rules, topK);
+            System.out.println("    Top-K selection (k=" + topK + "): "
+                + this.afterCoveragePruneCount + " -> " + this.rules.size());
+        }
 
         // --- Xây CR-tree để lưu luật nén gọn + truy vấn nhanh ---
         this.crTree = new CRTree(itemFreq);
@@ -153,6 +172,60 @@ public class CMARClassifier {
     }
 
     // -----------------------------------------------------------------------
+    // Top-K Selection Per Class (Hướng 4)
+    // -----------------------------------------------------------------------
+
+    private List<AssociationRule> selectTopKRulesPerClass(
+            List<AssociationRule> rules, int k) {
+        Map<String, List<AssociationRule>> byClass = new HashMap<>();
+        List<AssociationRule> result = new ArrayList<>();
+
+        // Lọc theo minHM trước (HƯỚNG WCBA)
+        List<AssociationRule> filtered = rules;
+        if (useHMRanking && minHM > 0) {
+            filtered = new ArrayList<>();
+            for (AssociationRule r : rules) {
+                if (r.getHM() >= minHM) filtered.add(r);
+            }
+            // Fallback: nếu lọc hết, dùng lại tập gốc
+            if (filtered.isEmpty()) filtered = rules;
+        }
+
+        // Group by class
+        for (AssociationRule r : filtered) {
+            byClass.computeIfAbsent(r.getClassLabel(), cls -> new ArrayList<>())
+                   .add(r);
+        }
+
+        // Sort within each class, then select top-K
+        for (Map.Entry<String, List<AssociationRule>> entry : byClass.entrySet()) {
+            String cls = entry.getKey();
+            List<AssociationRule> rulesForClass = entry.getValue();
+
+            if (useHMRanking) {
+                // HƯỚNG WCBA: rank theo HM (harmonic mean of sup & conf)
+                rulesForClass.sort((r1, r2) -> Double.compare(r2.getHM(), r1.getHM()));
+            } else {
+                // Mặc định CMAR: rank theo chi-square
+                rulesForClass.sort((r1, r2) -> Double.compare(
+                    computeChiSquare(r2, cls),
+                    computeChiSquare(r1, cls)
+                ));
+            }
+
+            // Take top-K
+            int limit = Math.min(k, rulesForClass.size());
+            for (int i = 0; i < limit; i++) {
+                result.add(rulesForClass.get(i));
+            }
+        }
+
+        // Re-sort globally by rule precedence (conf, sup, size)
+        Collections.sort(result);
+        return result;
+    }
+
+    // -----------------------------------------------------------------------
     // Cắt tỉa 3: Database Coverage (Thuật toán 1)
     // -----------------------------------------------------------------------
 
@@ -196,6 +269,10 @@ public class CMARClassifier {
         List<AssociationRule> matching = crTree.findMatching(record);
 
         if (matching.isEmpty()) return defaultClass;
+        
+        // HƯỚNG 1: Threshold Adjustment - filter rules theo confidence
+        matching = filterRulesByThreshold(matching, classificationThreshold);
+        if (matching.isEmpty()) return defaultClass;
 
         Map<String, List<AssociationRule>> byClass = new HashMap<>();
         for (AssociationRule rule : matching) {
@@ -228,6 +305,26 @@ public class CMARClassifier {
     }
 
     // -----------------------------------------------------------------------
+    // HƯỚNG 1: Filter Rules By Threshold
+    // -----------------------------------------------------------------------
+    
+    private List<AssociationRule> filterRulesByThreshold(
+            List<AssociationRule> rules, double threshold) {
+        if (threshold >= 1.0) return rules;  // No filtering if threshold >= 1.0
+        
+        List<AssociationRule> filtered = new ArrayList<>();
+        for (AssociationRule rule : rules) {
+            // Confidence = support(A ∩ B ∩ C) / support(A ∩ B)
+            double confidence = (double) rule.getSupportCount() / 
+                               Math.max(1, rule.getCondsetSupportCount());
+            if (confidence >= threshold) {
+                filtered.add(rule);
+            }
+        }
+        return filtered.isEmpty() ? rules : filtered;  // Fallback if none pass
+    }
+
+    // -----------------------------------------------------------------------
     // Tính chi-square (dùng chung cho cắt tỉa và phân lớp)
     // -----------------------------------------------------------------------
 
@@ -240,7 +337,17 @@ public class CMARClassifier {
 
         double denom = (a + b) * (c + d) * (a + c) * (b + d);
         if (denom == 0) return 0.0;
-        return n * Math.pow(a * d - b * c, 2) / denom;
+        
+        double chi2 = n * Math.pow(a * d - b * c, 2) / denom;
+        
+        // HƯỚNG 2: Class weighting - boost minority classes
+        if (useClassWeighting && classFreq.size() > 0) {
+            int classFreqVal = classFreq.getOrDefault(cls, 1);
+            double weight = (double) n / (classFreqVal * classFreq.size());
+            chi2 *= weight;
+        }
+        
+        return chi2;
     }
 
     protected double computeMaxChiSquare(AssociationRule rule, String cls) {
@@ -290,6 +397,7 @@ public class CMARClassifier {
     public int                   getAfterCoveragePruneCount(){ return afterCoveragePruneCount; }
     public double                getChiSquareThreshold()    { return chiSquareThreshold; }
     public int                   getCoverageThreshold()     { return coverageThreshold; }
+    public int                   getTopK()                  { return topK; }
     public Map<String, Integer>  getClassFreq()             { return classFreq; }
     public int                   getTotalTransactions()     { return totalTransactions; }
 }

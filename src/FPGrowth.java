@@ -53,6 +53,9 @@ public class FPGrowth {
     // Cache trong mine() để mineTree() không phải nhận tham số dài dòng.
     private double minConfidence;
     private int    totalTransactions;
+    
+    // Hướng 2: lưu classMinSupMap để áp dụng xuyên suốt mining (không chỉ sinh luật)
+    private Map<String, Integer> cachedClassMinSupMap;
 
     public FPGrowth(int minSupport) {
         this.minSupport = minSupport;
@@ -113,6 +116,11 @@ public class FPGrowth {
     public List<AssociationRule> getRules() {
         return rules;
     }
+    
+    /** classMinSupMap được sử dụng trong lần mine() gần nhất (dùng cho báo cáo Hướng 2). */
+    public Map<String, Integer> getCachedClassMinSupMap() {
+        return cachedClassMinSupMap;
+    }
 
     /**
      * Khai thác Class Association Rule từ các transaction huấn luyện.
@@ -127,6 +135,8 @@ public class FPGrowth {
         rules.clear();
         this.minConfidence     = minConfidence;
         this.totalTransactions = trainData.size();
+        // Giữ cachedClassMinSupMap từ lần setClassMinSupMap() gần nhất
+        // (nếu chưa set thì là null — dùng minSupport toàn cục)
 
         // --- Bước 1: tần suất item toàn cục (chỉ thuộc tính, không tính class) ---
         Map<String, Integer> freq = new HashMap<>();
@@ -247,7 +257,17 @@ public class FPGrowth {
                     condFreq.merge(condItem, cnt, Integer::sum);
                 }
             }
-            condFreq.entrySet().removeIf(e -> e.getValue() < minSupport);
+            
+            // --- Hướng 2: Nếu có classMinSupMap → áp dụng class-specific minSup cho filtering ---
+            // Thay vì dùng global minSupport, tính min của class-specific ngưỡng
+            final int effectiveMinSup = (cachedClassMinSupMap != null && !cachedClassMinSupMap.isEmpty())
+                ? cachedClassMinSupMap.values().stream()
+                    .mapToInt(Integer::intValue)
+                    .min()
+                    .orElse(minSupport)
+                : minSupport;
+            
+            condFreq.entrySet().removeIf(e -> e.getValue() < effectiveMinSup);
             if (condFreq.isEmpty()) continue;
 
             // --- Xây CR-tree điều kiện, lan truyền phân phối lớp ---

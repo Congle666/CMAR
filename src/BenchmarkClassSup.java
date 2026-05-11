@@ -13,13 +13,15 @@ import java.util.Set;
  * <pre>
  *   minSup(c) = max(2, round(minSupPct × freq(c)))
  * </pre>
- * Cho phép sinh luật cho các lớp thiểu số mà support tuyệt đối không thể
- * đạt ngưỡng toàn cục. Dùng {@link CMARClassifier} baseline (KHÔNG có
- * trọng số) — để cô lập riêng hiệu ứng của Hướng 2.
+ * MỘT SỬA LỚNLÀ: áp dụng class-specific minSup XUYÊN SUỐT mining (không chỉ sinh luật).
+ * 
+ * Điều này cho phép khai thác pattern cho lớp thiểu số mà không bị loại bỏ
+ * trong conditional pattern base (vốn dùng global minSupport).
  *
  * File kết quả:
- *   result/v3_metrics.csv
- *   result/v3_per_class.csv
+ *   result/v3_metrics.csv               (accuracy, F1 per dataset)
+ *   result/v3_per_class.csv             (P/R/F1 per dataset×class)
+ *   result/v3_class_dist_report.txt     (báo cáo chi tiết class distribution)
  */
 public class BenchmarkClassSup {
 
@@ -27,6 +29,7 @@ public class BenchmarkClassSup {
 
     static final String OUT_METRICS_CSV   = "result/v3_metrics.csv";
     static final String OUT_PER_CLASS_CSV = "result/v3_per_class.csv";
+    static final String OUT_CLASS_DIST_REPORT = "result/v3_class_dist_report.txt";
 
     public static void main(String[] args) throws Exception {
         int K = 10;

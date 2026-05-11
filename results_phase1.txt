@@ -1,0 +1,844 @@
+Picked up JAVA_TOOL_OPTIONS: -Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8
+╔════════════════════════════════════════════════════════╗
+║   PHASE 1: THRESHOLD ADJUSTMENT TEST (0.3, 0.4, 0.5)   ║
+║            5 Imbalanced Datasets                       ║
+╚════════════════════════════════════════════════════════╝
+
+
+======================================================================
+📊 Dataset: LYMPH
+======================================================================
+   Records: 148, MinSup: 5,0%
+
+   ▶ Threshold = 0,3    Cat tia 1 (luat tong quat):     149563 -> 2508
+    Cat tia 2 (chi-square >= 3.841): 2508 -> 1983
+    Cat tia 3 (db coverage, delta=4):  1983 -> 122
+    Luat cuoi cung: 122 (tu 149563 ung vien; luu trong CR-tree)
+    Fold  1: acc=0,7778 macroF1=0,4118  (train=130, test=18, minSup=7, rules=122)
+    Cat tia 1 (luat tong quat):     156105 -> 2634
+    Cat tia 2 (chi-square >= 3.841): 2634 -> 2225
+    Cat tia 3 (db coverage, delta=4):  2225 -> 119
+    Luat cuoi cung: 119 (tu 156105 ung vien; luu trong CR-tree)
+    Fold  2: acc=0,6875 macroF1=0,3661  (train=132, test=16, minSup=7, rules=119)
+    Cat tia 1 (luat tong quat):     153009 -> 2522
+    Cat tia 2 (chi-square >= 3.841): 2522 -> 2127
+    Cat tia 3 (db coverage, delta=4):  2127 -> 129
+    Luat cuoi cung: 129 (tu 153009 ung vien; luu trong CR-tree)
+    Fold  3: acc=0,8000 macroF1=0,5524  (train=133, test=15, minSup=7, rules=129)
+    Cat tia 1 (luat tong quat):     152406 -> 2475
+    Cat tia 2 (chi-square >= 3.841): 2475 -> 2068
+    Cat tia 3 (db coverage, delta=4):  2068 -> 132
+    Luat cuoi cung: 132 (tu 152406 ung vien; luu trong CR-tree)
+    Fold  4: acc=0,8667 macroF1=0,5915  (train=133, test=15, minSup=7, rules=132)
+    Cat tia 1 (luat tong quat):     135133 -> 2740
+    Cat tia 2 (chi-square >= 3.841): 2740 -> 2162
+    Cat tia 3 (db coverage, delta=4):  2162 -> 132
+    Luat cuoi cung: 132 (tu 135133 ung vien; luu trong CR-tree)
+    Fold  5: acc=1,0000 macroF1=1,0000  (train=134, test=14, minSup=7, rules=132)
+    Cat tia 1 (luat tong quat):     141012 -> 2693
+    Cat tia 2 (chi-square >= 3.841): 2693 -> 2237
+    Cat tia 3 (db coverage, delta=4):  2237 -> 125
+    Luat cuoi cung: 125 (tu 141012 ung vien; luu trong CR-tree)
+    Fold  6: acc=0,8571 macroF1=0,8542  (train=134, test=14, minSup=7, rules=125)
+    Cat tia 1 (luat tong quat):     148116 -> 2783
+    Cat tia 2 (chi-square >= 3.841): 2783 -> 2258
+    Cat tia 3 (db coverage, delta=4):  2258 -> 126
+    Luat cuoi cung: 126 (tu 148116 ung vien; luu trong CR-tree)
+    Fold  7: acc=0,9286 macroF1=0,9251  (train=134, test=14, minSup=7, rules=126)
+    Cat tia 1 (luat tong quat):     146302 -> 2674
+    Cat tia 2 (chi-square >= 3.841): 2674 -> 2164
+    Cat tia 3 (db coverage, delta=4):  2164 -> 129
+    Luat cuoi cung: 129 (tu 146302 ung vien; luu trong CR-tree)
+    Fold  8: acc=0,7857 macroF1=0,7846  (train=134, test=14, minSup=7, rules=129)
+    Cat tia 1 (luat tong quat):     146935 -> 2654
+    Cat tia 2 (chi-square >= 3.841): 2654 -> 2187
+    Cat tia 3 (db coverage, delta=4):  2187 -> 133
+    Luat cuoi cung: 133 (tu 146935 ung vien; luu trong CR-tree)
+    Fold  9: acc=0,8571 macroF1=0,8542  (train=134, test=14, minSup=7, rules=133)
+    Cat tia 1 (luat tong quat):     148087 -> 2791
+    Cat tia 2 (chi-square >= 3.841): 2791 -> 2301
+    Cat tia 3 (db coverage, delta=4):  2301 -> 114
+    Luat cuoi cung: 114 (tu 148087 ung vien; luu trong CR-tree)
+    Fold 10: acc=0,7857 macroF1=0,7846  (train=134, test=14, minSup=7, rules=114)
+ → Accuracy: 83,46%, F1: 0,7124
+
+   ▶ Threshold = 0,4    Cat tia 1 (luat tong quat):     149563 -> 2508
+    Cat tia 2 (chi-square >= 3.841): 2508 -> 1983
+    Cat tia 3 (db coverage, delta=4):  1983 -> 122
+    Luat cuoi cung: 122 (tu 149563 ung vien; luu trong CR-tree)
+    Fold  1: acc=0,7778 macroF1=0,4118  (train=130, test=18, minSup=7, rules=122)
+    Cat tia 1 (luat tong quat):     156105 -> 2634
+    Cat tia 2 (chi-square >= 3.841): 2634 -> 2225
+    Cat tia 3 (db coverage, delta=4):  2225 -> 119
+    Luat cuoi cung: 119 (tu 156105 ung vien; luu trong CR-tree)
+    Fold  2: acc=0,6875 macroF1=0,3661  (train=132, test=16, minSup=7, rules=119)
+    Cat tia 1 (luat tong quat):     153009 -> 2522
+    Cat tia 2 (chi-square >= 3.841): 2522 -> 2127
+    Cat tia 3 (db coverage, delta=4):  2127 -> 129
+    Luat cuoi cung: 129 (tu 153009 ung vien; luu trong CR-tree)
+    Fold  3: acc=0,8000 macroF1=0,5524  (train=133, test=15, minSup=7, rules=129)
+    Cat tia 1 (luat tong quat):     152406 -> 2475
+    Cat tia 2 (chi-square >= 3.841): 2475 -> 2068
+    Cat tia 3 (db coverage, delta=4):  2068 -> 132
+    Luat cuoi cung: 132 (tu 152406 ung vien; luu trong CR-tree)
+    Fold  4: acc=0,8667 macroF1=0,5915  (train=133, test=15, minSup=7, rules=132)
+    Cat tia 1 (luat tong quat):     135133 -> 2740
+    Cat tia 2 (chi-square >= 3.841): 2740 -> 2162
+    Cat tia 3 (db coverage, delta=4):  2162 -> 132
+    Luat cuoi cung: 132 (tu 135133 ung vien; luu trong CR-tree)
+    Fold  5: acc=1,0000 macroF1=1,0000  (train=134, test=14, minSup=7, rules=132)
+    Cat tia 1 (luat tong quat):     141012 -> 2693
+    Cat tia 2 (chi-square >= 3.841): 2693 -> 2237
+    Cat tia 3 (db coverage, delta=4):  2237 -> 125
+    Luat cuoi cung: 125 (tu 141012 ung vien; luu trong CR-tree)
+    Fold  6: acc=0,8571 macroF1=0,8542  (train=134, test=14, minSup=7, rules=125)
+    Cat tia 1 (luat tong quat):     148116 -> 2783
+    Cat tia 2 (chi-square >= 3.841): 2783 -> 2258
+    Cat tia 3 (db coverage, delta=4):  2258 -> 126
+    Luat cuoi cung: 126 (tu 148116 ung vien; luu trong CR-tree)
+    Fold  7: acc=0,9286 macroF1=0,9251  (train=134, test=14, minSup=7, rules=126)
+    Cat tia 1 (luat tong quat):     146302 -> 2674
+    Cat tia 2 (chi-square >= 3.841): 2674 -> 2164
+    Cat tia 3 (db coverage, delta=4):  2164 -> 129
+    Luat cuoi cung: 129 (tu 146302 ung vien; luu trong CR-tree)
+    Fold  8: acc=0,7857 macroF1=0,7846  (train=134, test=14, minSup=7, rules=129)
+    Cat tia 1 (luat tong quat):     146935 -> 2654
+    Cat tia 2 (chi-square >= 3.841): 2654 -> 2187
+    Cat tia 3 (db coverage, delta=4):  2187 -> 133
+    Luat cuoi cung: 133 (tu 146935 ung vien; luu trong CR-tree)
+    Fold  9: acc=0,8571 macroF1=0,8542  (train=134, test=14, minSup=7, rules=133)
+    Cat tia 1 (luat tong quat):     148087 -> 2791
+    Cat tia 2 (chi-square >= 3.841): 2791 -> 2301
+    Cat tia 3 (db coverage, delta=4):  2301 -> 114
+    Luat cuoi cung: 114 (tu 148087 ung vien; luu trong CR-tree)
+    Fold 10: acc=0,7857 macroF1=0,7846  (train=134, test=14, minSup=7, rules=114)
+ → Accuracy: 83,46%, F1: 0,7124
+
+   ▶ Threshold = 0,5    Cat tia 1 (luat tong quat):     149563 -> 2508
+    Cat tia 2 (chi-square >= 3.841): 2508 -> 1983
+    Cat tia 3 (db coverage, delta=4):  1983 -> 122
+    Luat cuoi cung: 122 (tu 149563 ung vien; luu trong CR-tree)
+    Fold  1: acc=0,7778 macroF1=0,4118  (train=130, test=18, minSup=7, rules=122)
+    Cat tia 1 (luat tong quat):     156105 -> 2634
+    Cat tia 2 (chi-square >= 3.841): 2634 -> 2225
+    Cat tia 3 (db coverage, delta=4):  2225 -> 119
+    Luat cuoi cung: 119 (tu 156105 ung vien; luu trong CR-tree)
+    Fold  2: acc=0,6875 macroF1=0,3661  (train=132, test=16, minSup=7, rules=119)
+    Cat tia 1 (luat tong quat):     153009 -> 2522
+    Cat tia 2 (chi-square >= 3.841): 2522 -> 2127
+    Cat tia 3 (db coverage, delta=4):  2127 -> 129
+    Luat cuoi cung: 129 (tu 153009 ung vien; luu trong CR-tree)
+    Fold  3: acc=0,8000 macroF1=0,5524  (train=133, test=15, minSup=7, rules=129)
+    Cat tia 1 (luat tong quat):     152406 -> 2475
+    Cat tia 2 (chi-square >= 3.841): 2475 -> 2068
+    Cat tia 3 (db coverage, delta=4):  2068 -> 132
+    Luat cuoi cung: 132 (tu 152406 ung vien; luu trong CR-tree)
+    Fold  4: acc=0,8667 macroF1=0,5915  (train=133, test=15, minSup=7, rules=132)
+    Cat tia 1 (luat tong quat):     135133 -> 2740
+    Cat tia 2 (chi-square >= 3.841): 2740 -> 2162
+    Cat tia 3 (db coverage, delta=4):  2162 -> 132
+    Luat cuoi cung: 132 (tu 135133 ung vien; luu trong CR-tree)
+    Fold  5: acc=1,0000 macroF1=1,0000  (train=134, test=14, minSup=7, rules=132)
+    Cat tia 1 (luat tong quat):     141012 -> 2693
+    Cat tia 2 (chi-square >= 3.841): 2693 -> 2237
+    Cat tia 3 (db coverage, delta=4):  2237 -> 125
+    Luat cuoi cung: 125 (tu 141012 ung vien; luu trong CR-tree)
+    Fold  6: acc=0,8571 macroF1=0,8542  (train=134, test=14, minSup=7, rules=125)
+    Cat tia 1 (luat tong quat):     148116 -> 2783
+    Cat tia 2 (chi-square >= 3.841): 2783 -> 2258
+    Cat tia 3 (db coverage, delta=4):  2258 -> 126
+    Luat cuoi cung: 126 (tu 148116 ung vien; luu trong CR-tree)
+    Fold  7: acc=0,9286 macroF1=0,9251  (train=134, test=14, minSup=7, rules=126)
+    Cat tia 1 (luat tong quat):     146302 -> 2674
+    Cat tia 2 (chi-square >= 3.841): 2674 -> 2164
+    Cat tia 3 (db coverage, delta=4):  2164 -> 129
+    Luat cuoi cung: 129 (tu 146302 ung vien; luu trong CR-tree)
+    Fold  8: acc=0,7857 macroF1=0,7846  (train=134, test=14, minSup=7, rules=129)
+    Cat tia 1 (luat tong quat):     146935 -> 2654
+    Cat tia 2 (chi-square >= 3.841): 2654 -> 2187
+    Cat tia 3 (db coverage, delta=4):  2187 -> 133
+    Luat cuoi cung: 133 (tu 146935 ung vien; luu trong CR-tree)
+    Fold  9: acc=0,8571 macroF1=0,8542  (train=134, test=14, minSup=7, rules=133)
+    Cat tia 1 (luat tong quat):     148087 -> 2791
+    Cat tia 2 (chi-square >= 3.841): 2791 -> 2301
+    Cat tia 3 (db coverage, delta=4):  2301 -> 114
+    Luat cuoi cung: 114 (tu 148087 ung vien; luu trong CR-tree)
+    Fold 10: acc=0,7857 macroF1=0,7846  (train=134, test=14, minSup=7, rules=114)
+ → Accuracy: 83,46%, F1: 0,7124
+
+   📈 IMPROVEMENT vs Baseline (0.5):
+     Threshold=0,3: Acc +0,00% | F1 +0,00%
+     Threshold=0,4: Acc +0,00% | F1 +0,00%
+
+======================================================================
+📊 Dataset: GLASS
+======================================================================
+   Records: 214, MinSup: 1,0%
+
+   ▶ Threshold = 0,3    Cat tia 1 (luat tong quat):     12525 -> 1685
+    Cat tia 2 (chi-square >= 3.841): 1685 -> 1098
+    Cat tia 3 (db coverage, delta=4):  1098 -> 302
+    Luat cuoi cung: 302 (tu 12525 ung vien; luu trong CR-tree)
+    Fold  1: acc=0,6522 macroF1=0,6435  (train=191, test=23, minSup=2, rules=302)
+    Cat tia 1 (luat tong quat):     11945 -> 1735
+    Cat tia 2 (chi-square >= 3.841): 1735 -> 1055
+    Cat tia 3 (db coverage, delta=4):  1055 -> 310
+    Luat cuoi cung: 310 (tu 11945 ung vien; luu trong CR-tree)
+    Fold  2: acc=0,8261 macroF1=0,6109  (train=191, test=23, minSup=2, rules=310)
+    Cat tia 1 (luat tong quat):     12603 -> 1720
+    Cat tia 2 (chi-square >= 3.841): 1720 -> 1119
+    Cat tia 3 (db coverage, delta=4):  1119 -> 291
+    Luat cuoi cung: 291 (tu 12603 ung vien; luu trong CR-tree)
+    Fold  3: acc=0,7391 macroF1=0,7484  (train=191, test=23, minSup=2, rules=291)
+    Cat tia 1 (luat tong quat):     12484 -> 1667
+    Cat tia 2 (chi-square >= 3.841): 1667 -> 1138
+    Cat tia 3 (db coverage, delta=4):  1138 -> 302
+    Luat cuoi cung: 302 (tu 12484 ung vien; luu trong CR-tree)
+    Fold  4: acc=0,5455 macroF1=0,4989  (train=192, test=22, minSup=2, rules=302)
+    Cat tia 1 (luat tong quat):     12487 -> 1704
+    Cat tia 2 (chi-square >= 3.841): 1704 -> 1085
+    Cat tia 3 (db coverage, delta=4):  1085 -> 297
+    Luat cuoi cung: 297 (tu 12487 ung vien; luu trong CR-tree)
+    Fold  5: acc=0,5000 macroF1=0,4889  (train=192, test=22, minSup=2, rules=297)
+    Cat tia 1 (luat tong quat):     12430 -> 1717
+    Cat tia 2 (chi-square >= 3.841): 1717 -> 1075
+    Cat tia 3 (db coverage, delta=4):  1075 -> 299
+    Luat cuoi cung: 299 (tu 12430 ung vien; luu trong CR-tree)
+    Fold  6: acc=0,6364 macroF1=0,6175  (train=192, test=22, minSup=2, rules=299)
+    Cat tia 1 (luat tong quat):     12427 -> 1773
+    Cat tia 2 (chi-square >= 3.841): 1773 -> 1149
+    Cat tia 3 (db coverage, delta=4):  1149 -> 311
+    Luat cuoi cung: 311 (tu 12427 ung vien; luu trong CR-tree)
+    Fold  7: acc=0,7619 macroF1=0,8076  (train=193, test=21, minSup=2, rules=311)
+    Cat tia 1 (luat tong quat):     12596 -> 1809
+    Cat tia 2 (chi-square >= 3.841): 1809 -> 1158
+    Cat tia 3 (db coverage, delta=4):  1158 -> 303
+    Luat cuoi cung: 303 (tu 12596 ung vien; luu trong CR-tree)
+    Fold  8: acc=0,7000 macroF1=0,5549  (train=194, test=20, minSup=2, rules=303)
+    Cat tia 1 (luat tong quat):     12630 -> 1761
+    Cat tia 2 (chi-square >= 3.841): 1761 -> 1136
+    Cat tia 3 (db coverage, delta=4):  1136 -> 312
+    Luat cuoi cung: 312 (tu 12630 ung vien; luu trong CR-tree)
+    Fold  9: acc=0,7500 macroF1=0,6337  (train=194, test=20, minSup=2, rules=312)
+    Cat tia 1 (luat tong quat):     12962 -> 1804
+    Cat tia 2 (chi-square >= 3.841): 1804 -> 1180
+    Cat tia 3 (db coverage, delta=4):  1180 -> 307
+    Luat cuoi cung: 307 (tu 12962 ung vien; luu trong CR-tree)
+    Fold 10: acc=0,5000 macroF1=0,3333  (train=196, test=18, minSup=2, rules=307)
+ → Accuracy: 66,11%, F1: 0,5938
+
+   ▶ Threshold = 0,4    Cat tia 1 (luat tong quat):     12525 -> 1685
+    Cat tia 2 (chi-square >= 3.841): 1685 -> 1098
+    Cat tia 3 (db coverage, delta=4):  1098 -> 302
+    Luat cuoi cung: 302 (tu 12525 ung vien; luu trong CR-tree)
+    Fold  1: acc=0,6522 macroF1=0,6435  (train=191, test=23, minSup=2, rules=302)
+    Cat tia 1 (luat tong quat):     11945 -> 1735
+    Cat tia 2 (chi-square >= 3.841): 1735 -> 1055
+    Cat tia 3 (db coverage, delta=4):  1055 -> 310
+    Luat cuoi cung: 310 (tu 11945 ung vien; luu trong CR-tree)
+    Fold  2: acc=0,8261 macroF1=0,6109  (train=191, test=23, minSup=2, rules=310)
+    Cat tia 1 (luat tong quat):     12603 -> 1720
+    Cat tia 2 (chi-square >= 3.841): 1720 -> 1119
+    Cat tia 3 (db coverage, delta=4):  1119 -> 291
+    Luat cuoi cung: 291 (tu 12603 ung vien; luu trong CR-tree)
+    Fold  3: acc=0,7391 macroF1=0,7484  (train=191, test=23, minSup=2, rules=291)
+    Cat tia 1 (luat tong quat):     12484 -> 1667
+    Cat tia 2 (chi-square >= 3.841): 1667 -> 1138
+    Cat tia 3 (db coverage, delta=4):  1138 -> 302
+    Luat cuoi cung: 302 (tu 12484 ung vien; luu trong CR-tree)
+    Fold  4: acc=0,5455 macroF1=0,4989  (train=192, test=22, minSup=2, rules=302)
+    Cat tia 1 (luat tong quat):     12487 -> 1704
+    Cat tia 2 (chi-square >= 3.841): 1704 -> 1085
+    Cat tia 3 (db coverage, delta=4):  1085 -> 297
+    Luat cuoi cung: 297 (tu 12487 ung vien; luu trong CR-tree)
+    Fold  5: acc=0,5000 macroF1=0,4889  (train=192, test=22, minSup=2, rules=297)
+    Cat tia 1 (luat tong quat):     12430 -> 1717
+    Cat tia 2 (chi-square >= 3.841): 1717 -> 1075
+    Cat tia 3 (db coverage, delta=4):  1075 -> 299
+    Luat cuoi cung: 299 (tu 12430 ung vien; luu trong CR-tree)
+    Fold  6: acc=0,6364 macroF1=0,6175  (train=192, test=22, minSup=2, rules=299)
+    Cat tia 1 (luat tong quat):     12427 -> 1773
+    Cat tia 2 (chi-square >= 3.841): 1773 -> 1149
+    Cat tia 3 (db coverage, delta=4):  1149 -> 311
+    Luat cuoi cung: 311 (tu 12427 ung vien; luu trong CR-tree)
+    Fold  7: acc=0,7619 macroF1=0,8076  (train=193, test=21, minSup=2, rules=311)
+    Cat tia 1 (luat tong quat):     12596 -> 1809
+    Cat tia 2 (chi-square >= 3.841): 1809 -> 1158
+    Cat tia 3 (db coverage, delta=4):  1158 -> 303
+    Luat cuoi cung: 303 (tu 12596 ung vien; luu trong CR-tree)
+    Fold  8: acc=0,7000 macroF1=0,5549  (train=194, test=20, minSup=2, rules=303)
+    Cat tia 1 (luat tong quat):     12630 -> 1761
+    Cat tia 2 (chi-square >= 3.841): 1761 -> 1136
+    Cat tia 3 (db coverage, delta=4):  1136 -> 312
+    Luat cuoi cung: 312 (tu 12630 ung vien; luu trong CR-tree)
+    Fold  9: acc=0,7500 macroF1=0,6337  (train=194, test=20, minSup=2, rules=312)
+    Cat tia 1 (luat tong quat):     12962 -> 1804
+    Cat tia 2 (chi-square >= 3.841): 1804 -> 1180
+    Cat tia 3 (db coverage, delta=4):  1180 -> 307
+    Luat cuoi cung: 307 (tu 12962 ung vien; luu trong CR-tree)
+    Fold 10: acc=0,5000 macroF1=0,3333  (train=196, test=18, minSup=2, rules=307)
+ → Accuracy: 66,11%, F1: 0,5938
+
+   ▶ Threshold = 0,5    Cat tia 1 (luat tong quat):     12525 -> 1685
+    Cat tia 2 (chi-square >= 3.841): 1685 -> 1098
+    Cat tia 3 (db coverage, delta=4):  1098 -> 302
+    Luat cuoi cung: 302 (tu 12525 ung vien; luu trong CR-tree)
+    Fold  1: acc=0,6522 macroF1=0,6435  (train=191, test=23, minSup=2, rules=302)
+    Cat tia 1 (luat tong quat):     11945 -> 1735
+    Cat tia 2 (chi-square >= 3.841): 1735 -> 1055
+    Cat tia 3 (db coverage, delta=4):  1055 -> 310
+    Luat cuoi cung: 310 (tu 11945 ung vien; luu trong CR-tree)
+    Fold  2: acc=0,8261 macroF1=0,6109  (train=191, test=23, minSup=2, rules=310)
+    Cat tia 1 (luat tong quat):     12603 -> 1720
+    Cat tia 2 (chi-square >= 3.841): 1720 -> 1119
+    Cat tia 3 (db coverage, delta=4):  1119 -> 291
+    Luat cuoi cung: 291 (tu 12603 ung vien; luu trong CR-tree)
+    Fold  3: acc=0,7391 macroF1=0,7484  (train=191, test=23, minSup=2, rules=291)
+    Cat tia 1 (luat tong quat):     12484 -> 1667
+    Cat tia 2 (chi-square >= 3.841): 1667 -> 1138
+    Cat tia 3 (db coverage, delta=4):  1138 -> 302
+    Luat cuoi cung: 302 (tu 12484 ung vien; luu trong CR-tree)
+    Fold  4: acc=0,5455 macroF1=0,4989  (train=192, test=22, minSup=2, rules=302)
+    Cat tia 1 (luat tong quat):     12487 -> 1704
+    Cat tia 2 (chi-square >= 3.841): 1704 -> 1085
+    Cat tia 3 (db coverage, delta=4):  1085 -> 297
+    Luat cuoi cung: 297 (tu 12487 ung vien; luu trong CR-tree)
+    Fold  5: acc=0,5000 macroF1=0,4889  (train=192, test=22, minSup=2, rules=297)
+    Cat tia 1 (luat tong quat):     12430 -> 1717
+    Cat tia 2 (chi-square >= 3.841): 1717 -> 1075
+    Cat tia 3 (db coverage, delta=4):  1075 -> 299
+    Luat cuoi cung: 299 (tu 12430 ung vien; luu trong CR-tree)
+    Fold  6: acc=0,6364 macroF1=0,6175  (train=192, test=22, minSup=2, rules=299)
+    Cat tia 1 (luat tong quat):     12427 -> 1773
+    Cat tia 2 (chi-square >= 3.841): 1773 -> 1149
+    Cat tia 3 (db coverage, delta=4):  1149 -> 311
+    Luat cuoi cung: 311 (tu 12427 ung vien; luu trong CR-tree)
+    Fold  7: acc=0,7619 macroF1=0,8076  (train=193, test=21, minSup=2, rules=311)
+    Cat tia 1 (luat tong quat):     12596 -> 1809
+    Cat tia 2 (chi-square >= 3.841): 1809 -> 1158
+    Cat tia 3 (db coverage, delta=4):  1158 -> 303
+    Luat cuoi cung: 303 (tu 12596 ung vien; luu trong CR-tree)
+    Fold  8: acc=0,7000 macroF1=0,5549  (train=194, test=20, minSup=2, rules=303)
+    Cat tia 1 (luat tong quat):     12630 -> 1761
+    Cat tia 2 (chi-square >= 3.841): 1761 -> 1136
+    Cat tia 3 (db coverage, delta=4):  1136 -> 312
+    Luat cuoi cung: 312 (tu 12630 ung vien; luu trong CR-tree)
+    Fold  9: acc=0,7500 macroF1=0,6337  (train=194, test=20, minSup=2, rules=312)
+    Cat tia 1 (luat tong quat):     12962 -> 1804
+    Cat tia 2 (chi-square >= 3.841): 1804 -> 1180
+    Cat tia 3 (db coverage, delta=4):  1180 -> 307
+    Luat cuoi cung: 307 (tu 12962 ung vien; luu trong CR-tree)
+    Fold 10: acc=0,5000 macroF1=0,3333  (train=196, test=18, minSup=2, rules=307)
+ → Accuracy: 66,11%, F1: 0,5938
+
+   📈 IMPROVEMENT vs Baseline (0.5):
+     Threshold=0,3: Acc +0,00% | F1 +0,00%
+     Threshold=0,4: Acc +0,00% | F1 +0,00%
+
+======================================================================
+📊 Dataset: VEHICLE
+======================================================================
+   Records: 846, MinSup: 3,0%
+
+   ▶ Threshold = 0,3    Cat tia 1 (luat tong quat):     52200 -> 3686
+    Cat tia 2 (chi-square >= 3.841): 3686 -> 3686
+    Cat tia 3 (db coverage, delta=4):  3686 -> 500
+    Luat cuoi cung: 500 (tu 52200 ung vien; luu trong CR-tree)
+    Fold  1: acc=0,7326 macroF1=0,7078  (train=760, test=86, minSup=23, rules=500)
+    Cat tia 1 (luat tong quat):     37680 -> 3288
+    Cat tia 2 (chi-square >= 3.841): 3288 -> 3288
+    Cat tia 3 (db coverage, delta=4):  3288 -> 517
+    Luat cuoi cung: 517 (tu 37680 ung vien; luu trong CR-tree)
+    Fold  2: acc=0,6860 macroF1=0,6531  (train=760, test=86, minSup=23, rules=517)
+    Cat tia 1 (luat tong quat):     42966 -> 3625
+    Cat tia 2 (chi-square >= 3.841): 3625 -> 3625
+    Cat tia 3 (db coverage, delta=4):  3625 -> 505
+    Luat cuoi cung: 505 (tu 42966 ung vien; luu trong CR-tree)
+    Fold  3: acc=0,6706 macroF1=0,6356  (train=761, test=85, minSup=23, rules=505)
+    Cat tia 1 (luat tong quat):     48930 -> 3499
+    Cat tia 2 (chi-square >= 3.841): 3499 -> 3499
+    Cat tia 3 (db coverage, delta=4):  3499 -> 475
+    Luat cuoi cung: 475 (tu 48930 ung vien; luu trong CR-tree)
+    Fold  4: acc=0,6824 macroF1=0,6492  (train=761, test=85, minSup=23, rules=475)
+    Cat tia 1 (luat tong quat):     56666 -> 3697
+    Cat tia 2 (chi-square >= 3.841): 3697 -> 3697
+    Cat tia 3 (db coverage, delta=4):  3697 -> 503
+    Luat cuoi cung: 503 (tu 56666 ung vien; luu trong CR-tree)
+    Fold  5: acc=0,6588 macroF1=0,5977  (train=761, test=85, minSup=23, rules=503)
+    Cat tia 1 (luat tong quat):     47417 -> 3275
+    Cat tia 2 (chi-square >= 3.841): 3275 -> 3275
+    Cat tia 3 (db coverage, delta=4):  3275 -> 508
+    Luat cuoi cung: 508 (tu 47417 ung vien; luu trong CR-tree)
+    Fold  6: acc=0,6824 macroF1=0,6500  (train=761, test=85, minSup=23, rules=508)
+    Cat tia 1 (luat tong quat):     50641 -> 3680
+    Cat tia 2 (chi-square >= 3.841): 3680 -> 3680
+    Cat tia 3 (db coverage, delta=4):  3680 -> 482
+    Luat cuoi cung: 482 (tu 50641 ung vien; luu trong CR-tree)
+    Fold  7: acc=0,6941 macroF1=0,6745  (train=761, test=85, minSup=23, rules=482)
+    Cat tia 1 (luat tong quat):     50202 -> 3890
+    Cat tia 2 (chi-square >= 3.841): 3890 -> 3890
+    Cat tia 3 (db coverage, delta=4):  3890 -> 505
+    Luat cuoi cung: 505 (tu 50202 ung vien; luu trong CR-tree)
+    Fold  8: acc=0,6310 macroF1=0,6024  (train=762, test=84, minSup=23, rules=505)
+    Cat tia 1 (luat tong quat):     48057 -> 3427
+    Cat tia 2 (chi-square >= 3.841): 3427 -> 3427
+    Cat tia 3 (db coverage, delta=4):  3427 -> 484
+    Luat cuoi cung: 484 (tu 48057 ung vien; luu trong CR-tree)
+    Fold  9: acc=0,7108 macroF1=0,6855  (train=763, test=83, minSup=23, rules=484)
+    Cat tia 1 (luat tong quat):     54511 -> 3543
+    Cat tia 2 (chi-square >= 3.841): 3543 -> 3543
+    Cat tia 3 (db coverage, delta=4):  3543 -> 489
+    Luat cuoi cung: 489 (tu 54511 ung vien; luu trong CR-tree)
+    Fold 10: acc=0,6341 macroF1=0,5942  (train=764, test=82, minSup=23, rules=489)
+ → Accuracy: 67,83%, F1: 0,6450
+
+   ▶ Threshold = 0,4    Cat tia 1 (luat tong quat):     52200 -> 3686
+    Cat tia 2 (chi-square >= 3.841): 3686 -> 3686
+    Cat tia 3 (db coverage, delta=4):  3686 -> 500
+    Luat cuoi cung: 500 (tu 52200 ung vien; luu trong CR-tree)
+    Fold  1: acc=0,7326 macroF1=0,7078  (train=760, test=86, minSup=23, rules=500)
+    Cat tia 1 (luat tong quat):     37680 -> 3288
+    Cat tia 2 (chi-square >= 3.841): 3288 -> 3288
+    Cat tia 3 (db coverage, delta=4):  3288 -> 517
+    Luat cuoi cung: 517 (tu 37680 ung vien; luu trong CR-tree)
+    Fold  2: acc=0,6860 macroF1=0,6531  (train=760, test=86, minSup=23, rules=517)
+    Cat tia 1 (luat tong quat):     42966 -> 3625
+    Cat tia 2 (chi-square >= 3.841): 3625 -> 3625
+    Cat tia 3 (db coverage, delta=4):  3625 -> 505
+    Luat cuoi cung: 505 (tu 42966 ung vien; luu trong CR-tree)
+    Fold  3: acc=0,6706 macroF1=0,6356  (train=761, test=85, minSup=23, rules=505)
+    Cat tia 1 (luat tong quat):     48930 -> 3499
+    Cat tia 2 (chi-square >= 3.841): 3499 -> 3499
+    Cat tia 3 (db coverage, delta=4):  3499 -> 475
+    Luat cuoi cung: 475 (tu 48930 ung vien; luu trong CR-tree)
+    Fold  4: acc=0,6824 macroF1=0,6492  (train=761, test=85, minSup=23, rules=475)
+    Cat tia 1 (luat tong quat):     56666 -> 3697
+    Cat tia 2 (chi-square >= 3.841): 3697 -> 3697
+    Cat tia 3 (db coverage, delta=4):  3697 -> 503
+    Luat cuoi cung: 503 (tu 56666 ung vien; luu trong CR-tree)
+    Fold  5: acc=0,6588 macroF1=0,5977  (train=761, test=85, minSup=23, rules=503)
+    Cat tia 1 (luat tong quat):     47417 -> 3275
+    Cat tia 2 (chi-square >= 3.841): 3275 -> 3275
+    Cat tia 3 (db coverage, delta=4):  3275 -> 508
+    Luat cuoi cung: 508 (tu 47417 ung vien; luu trong CR-tree)
+    Fold  6: acc=0,6824 macroF1=0,6500  (train=761, test=85, minSup=23, rules=508)
+    Cat tia 1 (luat tong quat):     50641 -> 3680
+    Cat tia 2 (chi-square >= 3.841): 3680 -> 3680
+    Cat tia 3 (db coverage, delta=4):  3680 -> 482
+    Luat cuoi cung: 482 (tu 50641 ung vien; luu trong CR-tree)
+    Fold  7: acc=0,6941 macroF1=0,6745  (train=761, test=85, minSup=23, rules=482)
+    Cat tia 1 (luat tong quat):     50202 -> 3890
+    Cat tia 2 (chi-square >= 3.841): 3890 -> 3890
+    Cat tia 3 (db coverage, delta=4):  3890 -> 505
+    Luat cuoi cung: 505 (tu 50202 ung vien; luu trong CR-tree)
+    Fold  8: acc=0,6310 macroF1=0,6024  (train=762, test=84, minSup=23, rules=505)
+    Cat tia 1 (luat tong quat):     48057 -> 3427
+    Cat tia 2 (chi-square >= 3.841): 3427 -> 3427
+    Cat tia 3 (db coverage, delta=4):  3427 -> 484
+    Luat cuoi cung: 484 (tu 48057 ung vien; luu trong CR-tree)
+    Fold  9: acc=0,7108 macroF1=0,6855  (train=763, test=83, minSup=23, rules=484)
+    Cat tia 1 (luat tong quat):     54511 -> 3543
+    Cat tia 2 (chi-square >= 3.841): 3543 -> 3543
+    Cat tia 3 (db coverage, delta=4):  3543 -> 489
+    Luat cuoi cung: 489 (tu 54511 ung vien; luu trong CR-tree)
+    Fold 10: acc=0,6341 macroF1=0,5942  (train=764, test=82, minSup=23, rules=489)
+ → Accuracy: 67,83%, F1: 0,6450
+
+   ▶ Threshold = 0,5    Cat tia 1 (luat tong quat):     52200 -> 3686
+    Cat tia 2 (chi-square >= 3.841): 3686 -> 3686
+    Cat tia 3 (db coverage, delta=4):  3686 -> 500
+    Luat cuoi cung: 500 (tu 52200 ung vien; luu trong CR-tree)
+    Fold  1: acc=0,7326 macroF1=0,7078  (train=760, test=86, minSup=23, rules=500)
+    Cat tia 1 (luat tong quat):     37680 -> 3288
+    Cat tia 2 (chi-square >= 3.841): 3288 -> 3288
+    Cat tia 3 (db coverage, delta=4):  3288 -> 517
+    Luat cuoi cung: 517 (tu 37680 ung vien; luu trong CR-tree)
+    Fold  2: acc=0,6860 macroF1=0,6531  (train=760, test=86, minSup=23, rules=517)
+    Cat tia 1 (luat tong quat):     42966 -> 3625
+    Cat tia 2 (chi-square >= 3.841): 3625 -> 3625
+    Cat tia 3 (db coverage, delta=4):  3625 -> 505
+    Luat cuoi cung: 505 (tu 42966 ung vien; luu trong CR-tree)
+    Fold  3: acc=0,6706 macroF1=0,6356  (train=761, test=85, minSup=23, rules=505)
+    Cat tia 1 (luat tong quat):     48930 -> 3499
+    Cat tia 2 (chi-square >= 3.841): 3499 -> 3499
+    Cat tia 3 (db coverage, delta=4):  3499 -> 475
+    Luat cuoi cung: 475 (tu 48930 ung vien; luu trong CR-tree)
+    Fold  4: acc=0,6824 macroF1=0,6492  (train=761, test=85, minSup=23, rules=475)
+    Cat tia 1 (luat tong quat):     56666 -> 3697
+    Cat tia 2 (chi-square >= 3.841): 3697 -> 3697
+    Cat tia 3 (db coverage, delta=4):  3697 -> 503
+    Luat cuoi cung: 503 (tu 56666 ung vien; luu trong CR-tree)
+    Fold  5: acc=0,6588 macroF1=0,5977  (train=761, test=85, minSup=23, rules=503)
+    Cat tia 1 (luat tong quat):     47417 -> 3275
+    Cat tia 2 (chi-square >= 3.841): 3275 -> 3275
+    Cat tia 3 (db coverage, delta=4):  3275 -> 508
+    Luat cuoi cung: 508 (tu 47417 ung vien; luu trong CR-tree)
+    Fold  6: acc=0,6824 macroF1=0,6500  (train=761, test=85, minSup=23, rules=508)
+    Cat tia 1 (luat tong quat):     50641 -> 3680
+    Cat tia 2 (chi-square >= 3.841): 3680 -> 3680
+    Cat tia 3 (db coverage, delta=4):  3680 -> 482
+    Luat cuoi cung: 482 (tu 50641 ung vien; luu trong CR-tree)
+    Fold  7: acc=0,6941 macroF1=0,6745  (train=761, test=85, minSup=23, rules=482)
+    Cat tia 1 (luat tong quat):     50202 -> 3890
+    Cat tia 2 (chi-square >= 3.841): 3890 -> 3890
+    Cat tia 3 (db coverage, delta=4):  3890 -> 505
+    Luat cuoi cung: 505 (tu 50202 ung vien; luu trong CR-tree)
+    Fold  8: acc=0,6310 macroF1=0,6024  (train=762, test=84, minSup=23, rules=505)
+    Cat tia 1 (luat tong quat):     48057 -> 3427
+    Cat tia 2 (chi-square >= 3.841): 3427 -> 3427
+    Cat tia 3 (db coverage, delta=4):  3427 -> 484
+    Luat cuoi cung: 484 (tu 48057 ung vien; luu trong CR-tree)
+    Fold  9: acc=0,7108 macroF1=0,6855  (train=763, test=83, minSup=23, rules=484)
+    Cat tia 1 (luat tong quat):     54511 -> 3543
+    Cat tia 2 (chi-square >= 3.841): 3543 -> 3543
+    Cat tia 3 (db coverage, delta=4):  3543 -> 489
+    Luat cuoi cung: 489 (tu 54511 ung vien; luu trong CR-tree)
+    Fold 10: acc=0,6341 macroF1=0,5942  (train=764, test=82, minSup=23, rules=489)
+ → Accuracy: 67,83%, F1: 0,6450
+
+   📈 IMPROVEMENT vs Baseline (0.5):
+     Threshold=0,3: Acc +0,00% | F1 +0,00%
+     Threshold=0,4: Acc +0,00% | F1 +0,00%
+
+======================================================================
+📊 Dataset: HEPATITIS
+======================================================================
+   Records: 155, MinSup: 5,0%
+
+   ▶ Threshold = 0,3    Cat tia 1 (luat tong quat):     153224 -> 1476
+    Cat tia 2 (chi-square >= 3.841): 1476 -> 782
+    Cat tia 3 (db coverage, delta=4):  782 -> 137
+    Luat cuoi cung: 137 (tu 153224 ung vien; luu trong CR-tree)
+    Fold  1: acc=0,9412 macroF1=0,9101  (train=138, test=17, minSup=7, rules=137)
+    Cat tia 1 (luat tong quat):     158962 -> 1435
+    Cat tia 2 (chi-square >= 3.841): 1435 -> 808
+    Cat tia 3 (db coverage, delta=4):  808 -> 130
+    Luat cuoi cung: 130 (tu 158962 ung vien; luu trong CR-tree)
+    Fold  2: acc=0,8235 macroF1=0,7733  (train=138, test=17, minSup=7, rules=130)
+    Cat tia 1 (luat tong quat):     157019 -> 1412
+    Cat tia 2 (chi-square >= 3.841): 1412 -> 878
+    Cat tia 3 (db coverage, delta=4):  878 -> 140
+    Luat cuoi cung: 140 (tu 157019 ung vien; luu trong CR-tree)
+    Fold  3: acc=0,7500 macroF1=0,6667  (train=139, test=16, minSup=7, rules=140)
+    Cat tia 1 (luat tong quat):     152505 -> 1493
+    Cat tia 2 (chi-square >= 3.841): 1493 -> 856
+    Cat tia 3 (db coverage, delta=4):  856 -> 145
+    Luat cuoi cung: 145 (tu 152505 ung vien; luu trong CR-tree)
+    Fold  4: acc=0,8000 macroF1=0,7205  (train=140, test=15, minSup=7, rules=145)
+    Cat tia 1 (luat tong quat):     157340 -> 1595
+    Cat tia 2 (chi-square >= 3.841): 1595 -> 969
+    Cat tia 3 (db coverage, delta=4):  969 -> 137
+    Luat cuoi cung: 137 (tu 157340 ung vien; luu trong CR-tree)
+    Fold  5: acc=0,7333 macroF1=0,4231  (train=140, test=15, minSup=7, rules=137)
+    Cat tia 1 (luat tong quat):     149704 -> 1509
+    Cat tia 2 (chi-square >= 3.841): 1509 -> 838
+    Cat tia 3 (db coverage, delta=4):  838 -> 137
+    Luat cuoi cung: 137 (tu 149704 ung vien; luu trong CR-tree)
+    Fold  6: acc=0,6667 macroF1=0,6411  (train=140, test=15, minSup=7, rules=137)
+    Cat tia 1 (luat tong quat):     158075 -> 1496
+    Cat tia 2 (chi-square >= 3.841): 1496 -> 861
+    Cat tia 3 (db coverage, delta=4):  861 -> 128
+    Luat cuoi cung: 128 (tu 158075 ung vien; luu trong CR-tree)
+    Fold  7: acc=0,8667 macroF1=0,7917  (train=140, test=15, minSup=7, rules=128)
+    Cat tia 1 (luat tong quat):     153843 -> 1613
+    Cat tia 2 (chi-square >= 3.841): 1613 -> 876
+    Cat tia 3 (db coverage, delta=4):  876 -> 141
+    Luat cuoi cung: 141 (tu 153843 ung vien; luu trong CR-tree)
+    Fold  8: acc=0,8000 macroF1=0,6400  (train=140, test=15, minSup=7, rules=141)
+    Cat tia 1 (luat tong quat):     165704 -> 1520
+    Cat tia 2 (chi-square >= 3.841): 1520 -> 851
+    Cat tia 3 (db coverage, delta=4):  851 -> 141
+    Luat cuoi cung: 141 (tu 165704 ung vien; luu trong CR-tree)
+    Fold  9: acc=0,9333 macroF1=0,8800  (train=140, test=15, minSup=7, rules=141)
+    Cat tia 1 (luat tong quat):     164407 -> 1428
+    Cat tia 2 (chi-square >= 3.841): 1428 -> 825
+    Cat tia 3 (db coverage, delta=4):  825 -> 144
+    Luat cuoi cung: 144 (tu 164407 ung vien; luu trong CR-tree)
+    Fold 10: acc=0,8667 macroF1=0,7917  (train=140, test=15, minSup=7, rules=144)
+ → Accuracy: 81,81%, F1: 0,7238
+
+   ▶ Threshold = 0,4    Cat tia 1 (luat tong quat):     153224 -> 1476
+    Cat tia 2 (chi-square >= 3.841): 1476 -> 782
+    Cat tia 3 (db coverage, delta=4):  782 -> 137
+    Luat cuoi cung: 137 (tu 153224 ung vien; luu trong CR-tree)
+    Fold  1: acc=0,9412 macroF1=0,9101  (train=138, test=17, minSup=7, rules=137)
+    Cat tia 1 (luat tong quat):     158962 -> 1435
+    Cat tia 2 (chi-square >= 3.841): 1435 -> 808
+    Cat tia 3 (db coverage, delta=4):  808 -> 130
+    Luat cuoi cung: 130 (tu 158962 ung vien; luu trong CR-tree)
+    Fold  2: acc=0,8235 macroF1=0,7733  (train=138, test=17, minSup=7, rules=130)
+    Cat tia 1 (luat tong quat):     157019 -> 1412
+    Cat tia 2 (chi-square >= 3.841): 1412 -> 878
+    Cat tia 3 (db coverage, delta=4):  878 -> 140
+    Luat cuoi cung: 140 (tu 157019 ung vien; luu trong CR-tree)
+    Fold  3: acc=0,7500 macroF1=0,6667  (train=139, test=16, minSup=7, rules=140)
+    Cat tia 1 (luat tong quat):     152505 -> 1493
+    Cat tia 2 (chi-square >= 3.841): 1493 -> 856
+    Cat tia 3 (db coverage, delta=4):  856 -> 145
+    Luat cuoi cung: 145 (tu 152505 ung vien; luu trong CR-tree)
+    Fold  4: acc=0,8000 macroF1=0,7205  (train=140, test=15, minSup=7, rules=145)
+    Cat tia 1 (luat tong quat):     157340 -> 1595
+    Cat tia 2 (chi-square >= 3.841): 1595 -> 969
+    Cat tia 3 (db coverage, delta=4):  969 -> 137
+    Luat cuoi cung: 137 (tu 157340 ung vien; luu trong CR-tree)
+    Fold  5: acc=0,7333 macroF1=0,4231  (train=140, test=15, minSup=7, rules=137)
+    Cat tia 1 (luat tong quat):     149704 -> 1509
+    Cat tia 2 (chi-square >= 3.841): 1509 -> 838
+    Cat tia 3 (db coverage, delta=4):  838 -> 137
+    Luat cuoi cung: 137 (tu 149704 ung vien; luu trong CR-tree)
+    Fold  6: acc=0,6667 macroF1=0,6411  (train=140, test=15, minSup=7, rules=137)
+    Cat tia 1 (luat tong quat):     158075 -> 1496
+    Cat tia 2 (chi-square >= 3.841): 1496 -> 861
+    Cat tia 3 (db coverage, delta=4):  861 -> 128
+    Luat cuoi cung: 128 (tu 158075 ung vien; luu trong CR-tree)
+    Fold  7: acc=0,8667 macroF1=0,7917  (train=140, test=15, minSup=7, rules=128)
+    Cat tia 1 (luat tong quat):     153843 -> 1613
+    Cat tia 2 (chi-square >= 3.841): 1613 -> 876
+    Cat tia 3 (db coverage, delta=4):  876 -> 141
+    Luat cuoi cung: 141 (tu 153843 ung vien; luu trong CR-tree)
+    Fold  8: acc=0,8000 macroF1=0,6400  (train=140, test=15, minSup=7, rules=141)
+    Cat tia 1 (luat tong quat):     165704 -> 1520
+    Cat tia 2 (chi-square >= 3.841): 1520 -> 851
+    Cat tia 3 (db coverage, delta=4):  851 -> 141
+    Luat cuoi cung: 141 (tu 165704 ung vien; luu trong CR-tree)
+    Fold  9: acc=0,9333 macroF1=0,8800  (train=140, test=15, minSup=7, rules=141)
+    Cat tia 1 (luat tong quat):     164407 -> 1428
+    Cat tia 2 (chi-square >= 3.841): 1428 -> 825
+    Cat tia 3 (db coverage, delta=4):  825 -> 144
+    Luat cuoi cung: 144 (tu 164407 ung vien; luu trong CR-tree)
+    Fold 10: acc=0,8667 macroF1=0,7917  (train=140, test=15, minSup=7, rules=144)
+ → Accuracy: 81,81%, F1: 0,7238
+
+   ▶ Threshold = 0,5    Cat tia 1 (luat tong quat):     153224 -> 1476
+    Cat tia 2 (chi-square >= 3.841): 1476 -> 782
+    Cat tia 3 (db coverage, delta=4):  782 -> 137
+    Luat cuoi cung: 137 (tu 153224 ung vien; luu trong CR-tree)
+    Fold  1: acc=0,9412 macroF1=0,9101  (train=138, test=17, minSup=7, rules=137)
+    Cat tia 1 (luat tong quat):     158962 -> 1435
+    Cat tia 2 (chi-square >= 3.841): 1435 -> 808
+    Cat tia 3 (db coverage, delta=4):  808 -> 130
+    Luat cuoi cung: 130 (tu 158962 ung vien; luu trong CR-tree)
+    Fold  2: acc=0,8235 macroF1=0,7733  (train=138, test=17, minSup=7, rules=130)
+    Cat tia 1 (luat tong quat):     157019 -> 1412
+    Cat tia 2 (chi-square >= 3.841): 1412 -> 878
+    Cat tia 3 (db coverage, delta=4):  878 -> 140
+    Luat cuoi cung: 140 (tu 157019 ung vien; luu trong CR-tree)
+    Fold  3: acc=0,7500 macroF1=0,6667  (train=139, test=16, minSup=7, rules=140)
+    Cat tia 1 (luat tong quat):     152505 -> 1493
+    Cat tia 2 (chi-square >= 3.841): 1493 -> 856
+    Cat tia 3 (db coverage, delta=4):  856 -> 145
+    Luat cuoi cung: 145 (tu 152505 ung vien; luu trong CR-tree)
+    Fold  4: acc=0,8000 macroF1=0,7205  (train=140, test=15, minSup=7, rules=145)
+    Cat tia 1 (luat tong quat):     157340 -> 1595
+    Cat tia 2 (chi-square >= 3.841): 1595 -> 969
+    Cat tia 3 (db coverage, delta=4):  969 -> 137
+    Luat cuoi cung: 137 (tu 157340 ung vien; luu trong CR-tree)
+    Fold  5: acc=0,7333 macroF1=0,4231  (train=140, test=15, minSup=7, rules=137)
+    Cat tia 1 (luat tong quat):     149704 -> 1509
+    Cat tia 2 (chi-square >= 3.841): 1509 -> 838
+    Cat tia 3 (db coverage, delta=4):  838 -> 137
+    Luat cuoi cung: 137 (tu 149704 ung vien; luu trong CR-tree)
+    Fold  6: acc=0,6667 macroF1=0,6411  (train=140, test=15, minSup=7, rules=137)
+    Cat tia 1 (luat tong quat):     158075 -> 1496
+    Cat tia 2 (chi-square >= 3.841): 1496 -> 861
+    Cat tia 3 (db coverage, delta=4):  861 -> 128
+    Luat cuoi cung: 128 (tu 158075 ung vien; luu trong CR-tree)
+    Fold  7: acc=0,8667 macroF1=0,7917  (train=140, test=15, minSup=7, rules=128)
+    Cat tia 1 (luat tong quat):     153843 -> 1613
+    Cat tia 2 (chi-square >= 3.841): 1613 -> 876
+    Cat tia 3 (db coverage, delta=4):  876 -> 141
+    Luat cuoi cung: 141 (tu 153843 ung vien; luu trong CR-tree)
+    Fold  8: acc=0,8000 macroF1=0,6400  (train=140, test=15, minSup=7, rules=141)
+    Cat tia 1 (luat tong quat):     165704 -> 1520
+    Cat tia 2 (chi-square >= 3.841): 1520 -> 851
+    Cat tia 3 (db coverage, delta=4):  851 -> 141
+    Luat cuoi cung: 141 (tu 165704 ung vien; luu trong CR-tree)
+    Fold  9: acc=0,9333 macroF1=0,8800  (train=140, test=15, minSup=7, rules=141)
+    Cat tia 1 (luat tong quat):     164407 -> 1428
+    Cat tia 2 (chi-square >= 3.841): 1428 -> 825
+    Cat tia 3 (db coverage, delta=4):  825 -> 144
+    Luat cuoi cung: 144 (tu 164407 ung vien; luu trong CR-tree)
+    Fold 10: acc=0,8667 macroF1=0,7917  (train=140, test=15, minSup=7, rules=144)
+ → Accuracy: 81,81%, F1: 0,7238
+
+   📈 IMPROVEMENT vs Baseline (0.5):
+     Threshold=0,3: Acc +0,00% | F1 +0,00%
+     Threshold=0,4: Acc +0,00% | F1 +0,00%
+
+======================================================================
+📊 Dataset: GERMAN
+======================================================================
+   Records: 999, MinSup: 6,0%
+
+   ▶ Threshold = 0,3    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  1: acc=0,0000 macroF1=0,0000  (train=0, test=999, minSup=2, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  2: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  3: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  4: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  5: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  6: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  7: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  8: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  9: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold 10: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+ → Accuracy: 0,00%, F1: 0,0000
+
+   ▶ Threshold = 0,4    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  1: acc=0,0000 macroF1=0,0000  (train=0, test=999, minSup=2, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  2: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  3: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  4: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  5: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  6: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  7: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  8: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  9: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold 10: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+ → Accuracy: 0,00%, F1: 0,0000
+
+   ▶ Threshold = 0,5    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  1: acc=0,0000 macroF1=0,0000  (train=0, test=999, minSup=2, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  2: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  3: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  4: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  5: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  6: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  7: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  8: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold  9: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+    Cat tia 1 (luat tong quat):     0 -> 0
+    Cat tia 2 (chi-square >= 3.841): 0 -> 0
+    Cat tia 3 (db coverage, delta=4):  0 -> 0
+    Luat cuoi cung: 0 (tu 0 ung vien; luu trong CR-tree)
+    Fold 10: acc=0,0000 macroF1=0,0000  (train=999, test=0, minSup=60, rules=0)
+ → Accuracy: 0,00%, F1: 0,0000
+
+   📈 IMPROVEMENT vs Baseline (0.5):
+     Threshold=0,3: Acc NaN% | F1 NaN%
+     Threshold=0,4: Acc NaN% | F1 NaN%
+
+======================================================================
+📊 SUMMARY TABLE - All 5 Imbalanced Datasets
+======================================================================
+Dataset         |      T=0.3 |      T=0.4 | T=0.5 (BL) | Best
+----------------------------------------------------------------------
+lymph           | 0,7124 | 0,7124 | 0,7124 | 0.3
+glass           | 0,5938 | 0,5938 | 0,5938 | 0.3
+vehicle         | 0,6450 | 0,6450 | 0,6450 | 0.3
+hepatitis       | 0,7238 | 0,7238 | 0,7238 | 0.3
+german          | 0,0000 | 0,0000 | 0,0000 | 0.3
+======================================================================
+✅ PHASE 1 Complete!

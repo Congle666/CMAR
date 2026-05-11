@@ -1,0 +1,18 @@
+Picked up JAVA_TOOL_OPTIONS: -Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8
+╔════════════════════════════════════════════════════════╗
+║   PHASE 1: THRESHOLD ADJUSTMENT TEST (0.3, 0.4, 0.5)   ║
+║            5 Imbalanced Datasets                       ║
+╚════════════════════════════════════════════════════════╝
+
+
+======================================================================
+📊 Dataset: LYMPH
+======================================================================
+Exception in thread "main" java.io.FileNotFoundException: data\lymph.csv (The system cannot find the path specified)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:213)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:152)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:106)
+	at java.base/java.io.FileReader.<init>(FileReader.java:60)
+	at DatasetLoader.load(DatasetLoader.java:21)
+	at BenchmarkPhase1.main(BenchmarkPhase1.java:40)

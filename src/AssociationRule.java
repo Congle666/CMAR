@@ -22,6 +22,13 @@ public class AssociationRule implements Comparable<AssociationRule> {
     private final double confidence;
     private final int supportCount;
     private final int condsetSupportCount;
+    /**
+     * Harmonic Mean (HM) của support và confidence — WCBA 2018.
+     * HM(R) = 2 × sup × conf / (sup + conf).
+     * HM cao chỉ khi CẢ sup VÀ conf đều cao, dùng làm metric ranking
+     * không phụ thuộc ngưỡng cứng minConf/minSup.
+     */
+    private final double hm;
 
     public AssociationRule(Set<String> condset, String classLabel,
                            double support, double confidence,
@@ -32,6 +39,13 @@ public class AssociationRule implements Comparable<AssociationRule> {
         this.confidence = confidence;
         this.supportCount = supportCount;
         this.condsetSupportCount = condsetSupportCount;
+        this.hm = computeHM(support, confidence);
+    }
+
+    /** HM = 2 × sup × conf / (sup + conf). Trả 0 nếu cả hai = 0. */
+    private static double computeHM(double sup, double conf) {
+        double denom = sup + conf;
+        return denom == 0 ? 0.0 : 2.0 * sup * conf / denom;
     }
 
     // --- Getters ---
@@ -42,6 +56,8 @@ public class AssociationRule implements Comparable<AssociationRule> {
     public double getConfidence() { return confidence; }
     public int getSupportCount() { return supportCount; }
     public int getCondsetSupportCount() { return condsetSupportCount; }
+    /** Harmonic Mean của support và confidence (WCBA 2018). */
+    public double getHM() { return hm; }
 
     /**
      * Trả về true nếu mọi item trong condset của luật đều có mặt trong
