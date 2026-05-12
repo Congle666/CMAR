@@ -9,63 +9,36 @@ import java.util.function.Supplier;
 /**
  * Kiểm chứng chéo K-fold có phân tầng (Stratified K-Fold CV) cho CMAR.
  *
- * Triển khai đúng giao thức đánh giá của paper CMAR:
- *   - 10-fold stratified cross-validation
- *   - Mỗi fold bảo toàn phân phối lớp
- *   - Báo cáo accuracy trung bình trên các fold
+ * <p>Đúng giao thức đánh giá của paper CMAR 2001:</p>
+ * <ul>
+ *   <li>10-fold stratified cross-validation</li>
+ *   <li>Mỗi fold bảo toàn phân phối lớp</li>
+ *   <li>Báo cáo accuracy + Macro-F1 + Weighted-F1 + per-class P/R/F1</li>
+ * </ul>
+ *
+ * <p>Hỗ trợ 3 cải tiến cho dữ liệu mất cân bằng:</p>
+ * <ul>
+ *   <li><b>H2</b> — Class-specific minSup: {@code minSup(c) = supPct × freq(c)}</li>
+ *   <li><b>H3</b> — Adaptive minConf: {@code minConf(c) = min(globalMinConf, max(floor, lift × freq(c)/N))}</li>
+ *   <li><b>SMOTE</b> — Synthetic Minority Over-sampling (categorical N-variant)</li>
+ * </ul>
  */
 public class CrossValidator {
 
-    /**
-     * Chạy stratified k-fold CV và trả về accuracy của từng fold.
-     *
-     * @param data           dataset đầy đủ
-     * @param k              số fold (thường là 10)
-     * @param minSupportPct  minSupport dưới dạng phần trăm kích thước train (0.01 = 1%)
-     * @param minConfidence  confidence tối thiểu của luật
-     * @param chiSqThreshold ngưỡng ý nghĩa chi-square
-     * @param coverageDelta  tham số database coverage
-     * @param seed           seed ngẫu nhiên để lặp lại được
-     * @return mảng k giá trị accuracy
-     */
+    /** Convenience: chỉ trả về accuracy array. */
     public static double[] run(List<Transaction> data, int k,
                                 double minSupportPct, double minConfidence,
                                 double chiSqThreshold, int coverageDelta,
                                 long seed) {
-        return run(data, k, minSupportPct, minConfidence,
-                   chiSqThreshold, coverageDelta, seed, Integer.MAX_VALUE);
-    }
-
-    public static double[] run(List<Transaction> data, int k,
-                                double minSupportPct, double minConfidence,
-                                double chiSqThreshold, int coverageDelta,
-                                long seed, int maxPatternLength) {
         List<EvalMetrics> foldMetrics = runWithMetrics(
             data, k, minSupportPct, minConfidence,
-            chiSqThreshold, coverageDelta, seed, maxPatternLength);
+            chiSqThreshold, coverageDelta, seed, Integer.MAX_VALUE);
         double[] accs = new double[foldMetrics.size()];
-        for (int i = 0; i < foldMetrics.size(); i++) {
-            accs[i] = foldMetrics.get(i).accuracy;
-        }
+        for (int i = 0; i < foldMetrics.size(); i++) accs[i] = foldMetrics.get(i).accuracy;
         return accs;
     }
 
-    /**
-     * Giống {@link #run}, nhưng trả về đầy đủ {@link EvalMetrics} của từng fold
-     * (accuracy + P/R/F1 theo lớp + Macro-F1 + Weighted-F1).
-     *
-     * Đây là phương thức được ưu tiên khi benchmark các cải tiến — người gọi
-     * có thể tổng hợp F1 và chỉ số theo lớp qua các fold.
-     */
-    public static List<EvalMetrics> runWithMetrics(
-            List<Transaction> data, int k,
-            double minSupportPct, double minConfidence,
-            double chiSqThreshold, int coverageDelta,
-            long seed) {
-        return runWithMetrics(data, k, minSupportPct, minConfidence,
-            chiSqThreshold, coverageDelta, seed, Integer.MAX_VALUE);
-    }
-
+    /** Baseline CMAR (không H2/H3/SMOTE). */
     public static List<EvalMetrics> runWithMetrics(
             List<Transaction> data, int k,
             double minSupportPct, double minConfidence,
@@ -73,72 +46,16 @@ public class CrossValidator {
             long seed, int maxPatternLength) {
         return runWithMetrics(data, k, minSupportPct, minConfidence,
             chiSqThreshold, coverageDelta, seed, maxPatternLength,
-            CMARClassifier::new);
+            CMARClassifier::new, 0.0, 0.0, 0.0, 0.0);
     }
 
     /**
-     * Overload cho phép cắm factory classifier tuỳ ý. Truyền
-     * {@code CMARClassifierWeighted::new} để benchmark biến thể có trọng số,
-     * hoặc bất kỳ subclass nào của {@link CMARClassifier}.
-     */
-    public static List<EvalMetrics> runWithMetrics(
-            List<Transaction> data, int k,
-            double minSupportPct, double minConfidence,
-            double chiSqThreshold, int coverageDelta,
-            long seed, int maxPatternLength,
-            Supplier<CMARClassifier> classifierFactory) {
-        return runWithMetrics(data, k, minSupportPct, minConfidence,
-            chiSqThreshold, coverageDelta, seed, maxPatternLength,
-            classifierFactory, 0.0);
-    }
-
-    /**
-     * Overload đầy đủ kèm hỗ trợ minSup theo từng lớp (Hướng 2).
+     * Overload đầy đủ — bật/tắt từng cải tiến qua tham số.
      *
-     * @param classMinSupFraction  khi > 0, ngưỡng mỗi lớp là
-     *   {@code max(2, round(fraction × freq(c)))}. Giá trị điển hình trùng
-     *   với {@code minSupportPct} (ví dụ 0.05). Khi ≤ 0, tắt (baseline —
-     *   chỉ dùng minSupport toàn cục).
-     */
-    public static List<EvalMetrics> runWithMetrics(
-            List<Transaction> data, int k,
-            double minSupportPct, double minConfidence,
-            double chiSqThreshold, int coverageDelta,
-            long seed, int maxPatternLength,
-            Supplier<CMARClassifier> classifierFactory,
-            double classMinSupFraction) {
-        return runWithMetrics(data, k, minSupportPct, minConfidence,
-            chiSqThreshold, coverageDelta, seed, maxPatternLength,
-            classifierFactory, classMinSupFraction,
-            0.0, 0.0, false);
-    }
-
-    public static List<EvalMetrics> runWithMetrics(
-            List<Transaction> data, int k,
-            double minSupportPct, double minConfidence,
-            double chiSqThreshold, int coverageDelta,
-            long seed, int maxPatternLength,
-            Supplier<CMARClassifier> classifierFactory,
-            double classMinSupFraction,
-            double adaptiveMinConfFloor,
-            double adaptiveMinConfLift) {
-        return runWithMetrics(data, k, minSupportPct, minConfidence,
-            chiSqThreshold, coverageDelta, seed, maxPatternLength,
-            classifierFactory, classMinSupFraction,
-            adaptiveMinConfFloor, adaptiveMinConfLift, false);
-    }
-
-    /**
-     * Overload đầy đủ kèm Hướng 3 — Adaptive minConf per class.
-     *
-     * @param adaptiveMinConfFloor  ngưỡng sàn tuyệt đối cho minConf(c). Khi
-     *   > 0, enable Hướng 3 với công thức:
-     *   {@code minConf(c) = min(globalMinConf, max(floor, lift × freq(c)/N))}.
-     *   Giá trị điển hình: 0.3.
-     * @param adaptiveMinConfLift  hệ số khuếch đại baseline class frequency
-     *   (= random-guess confidence). Điển hình 5.0 — rule phải có confidence
-     *   ≥ 5 lần baseline ngẫu nhiên mới được giữ. Chỉ có tác dụng khi
-     *   {@code adaptiveMinConfFloor > 0}.
+     * @param classMinSupFraction    H2 — > 0 để bật class-specific minSup. Điển hình = {@code minSupportPct}.
+     * @param adaptiveMinConfFloor   H3 — > 0 để bật adaptive minConf. Điển hình 0.3.
+     * @param adaptiveMinConfLift    H3 — hệ số khuếch đại baseline freq. Điển hình 5.0.
+     * @param smoteTargetRatio       SMOTE — > 0 để bật. 1.0 = balance hoàn toàn. 0 = tắt.
      */
     public static List<EvalMetrics> runWithMetrics(
             List<Transaction> data, int k,
@@ -149,44 +66,47 @@ public class CrossValidator {
             double classMinSupFraction,
             double adaptiveMinConfFloor,
             double adaptiveMinConfLift,
-            boolean useWCBAWeights) {
+            double smoteTargetRatio) {
 
         // --- Chia có phân tầng: nhóm theo lớp, rồi phân phối ---
         List<Transaction> shuffled = new ArrayList<>(data);
         Collections.shuffle(shuffled, new Random(seed));
 
-        // Nhóm theo nhãn lớp
-        java.util.Map<String, List<Transaction>> byClass = new java.util.LinkedHashMap<>();
+        Map<String, List<Transaction>> byClass = new java.util.LinkedHashMap<>();
         for (Transaction t : shuffled) {
             byClass.computeIfAbsent(t.getClassLabel(), c -> new ArrayList<>()).add(t);
         }
 
-        // Tạo k fold có phân tầng
         @SuppressWarnings("unchecked")
         List<Transaction>[] folds = new ArrayList[k];
         for (int i = 0; i < k; i++) folds[i] = new ArrayList<>();
-
         for (List<Transaction> classGroup : byClass.values()) {
             for (int i = 0; i < classGroup.size(); i++) {
                 folds[i % k].add(classGroup.get(i));
             }
         }
 
-        // --- Chạy k vòng lặp ---
         List<EvalMetrics> results = new ArrayList<>();
 
         for (int fold = 0; fold < k; fold++) {
-            // Xây tập train và test
             List<Transaction> testData = folds[fold];
             List<Transaction> trainData = new ArrayList<>();
-            for (int j = 0; j < k; j++) {
-                if (j != fold) trainData.addAll(folds[j]);
-            }
+            for (int j = 0; j < k; j++) if (j != fold) trainData.addAll(folds[j]);
 
-            // Tính minSupport từ phần trăm
             int minSupport = Math.max(2, (int) Math.round(trainData.size() * minSupportPct));
 
-            // Tính class frequency một lần, dùng cho cả H2 và H3
+            // --- SMOTE: áp dụng oversampling minority class TRƯỚC khi tính thresholds ---
+            if (smoteTargetRatio > 0) {
+                int beforeSize = trainData.size();
+                trainData = SMOTE.apply(trainData, 5, smoteTargetRatio, seed + fold);
+                minSupport = Math.max(2, (int) Math.round(trainData.size() * minSupportPct));
+                if (fold == 0) {
+                    System.out.println("    SMOTE applied (fold 0): " + beforeSize
+                        + " -> " + trainData.size() + " records");
+                }
+            }
+
+            // --- Tính classFreq cho H2/H3 (sau SMOTE nếu có) ---
             Map<String, Integer> classFreq = null;
             if (classMinSupFraction > 0 || adaptiveMinConfFloor > 0) {
                 classFreq = new HashMap<>();
@@ -195,7 +115,7 @@ public class CrossValidator {
                 }
             }
 
-            // minSup theo lớp (Hướng 2)
+            // --- H2: minSup(c) = supPct × freq(c) ---
             Map<String, Integer> classMinSupMap = null;
             if (classMinSupFraction > 0) {
                 classMinSupMap = new HashMap<>();
@@ -204,18 +124,15 @@ public class CrossValidator {
                         (int) Math.round(classMinSupFraction * e.getValue()));
                     classMinSupMap.put(e.getKey(), thr);
                 }
-                // KHÔNG hạ global minSupport — giữ nguyên để tractable trên
-                // dataset nhiều chiều. classMinSupMap chỉ ảnh hưởng sinh luật.
             }
 
-            // minConf theo lớp (Hướng 3 — Adaptive minConf)
+            // --- H3: minConf(c) = min(globalMinConf, max(floor, lift × freq(c)/N)) ---
             Map<String, Double> classMinConfMap = null;
             if (adaptiveMinConfFloor > 0) {
                 classMinConfMap = new HashMap<>();
                 int N = trainData.size();
                 for (Map.Entry<String, Integer> e : classFreq.entrySet()) {
                     double classRatio = (double) e.getValue() / N;
-                    // min(globalMinConf, max(floor, lift × freq(c)/N))
                     double thr = Math.min(minConfidence,
                         Math.max(adaptiveMinConfFloor,
                                  adaptiveMinConfLift * classRatio));
@@ -223,58 +140,30 @@ public class CrossValidator {
                 }
             }
 
-            // WCBA: compute attribute weights bằng Information Gain
-            AttributeWeights attrWeights = null;
-            if (useWCBAWeights) {
-                attrWeights = AttributeWeights.computeFromTrainData(trainData);
-            }
-
-            // Khai thác CAR trực tiếp trên CR-tree (FP-Growth có nhận thức về lớp)
+            // --- Mining CAR ---
             FPGrowth fpGrowth = new FPGrowth(minSupport);
             fpGrowth.setMaxPatternLength(maxPatternLength);
-            if (classMinSupMap != null) {
-                fpGrowth.setClassMinSupMap(classMinSupMap);
-            }
-            if (classMinConfMap != null) {
-                fpGrowth.setClassMinConfMap(classMinConfMap);
-            }
-            if (attrWeights != null) {
-                fpGrowth.setAttributeWeights(attrWeights);
-            }
+            if (classMinSupMap != null)  fpGrowth.setClassMinSupMap(classMinSupMap);
+            if (classMinConfMap != null) fpGrowth.setClassMinConfMap(classMinConfMap);
             List<AssociationRule> candidates = fpGrowth.mine(trainData, minConfidence);
 
-            // Huấn luyện — tạo classifier thông qua factory được truyền vào
+            // --- Huấn luyện classifier ---
             CMARClassifier classifier = classifierFactory.get();
             classifier.setChiSquareThreshold(chiSqThreshold);
             classifier.setCoverageThreshold(coverageDelta);
             classifier.train(candidates, trainData);
 
-            // Dự đoán & đánh giá
+            // --- Dự đoán & đánh giá ---
             List<String> predictions = classifier.predict(testData);
             EvalMetrics metrics = EvalMetrics.compute(testData, predictions);
             results.add(metrics);
 
             System.out.printf("    Fold %2d: acc=%.4f macroF1=%.4f  (train=%d, test=%d, minSup=%d, rules=%d)%n",
                 fold + 1, metrics.accuracy, metrics.macroF1,
-                trainData.size(), testData.size(),
-                minSupport, classifier.getRules().size());
+                trainData.size(), testData.size(), minSupport,
+                classifier.getRules().size());
         }
 
         return results;
-    }
-
-    /** Tính trung bình của một mảng. */
-    public static double mean(double[] values) {
-        double sum = 0;
-        for (double v : values) sum += v;
-        return sum / values.length;
-    }
-
-    /** Tính độ lệch chuẩn của một mảng. */
-    public static double stddev(double[] values) {
-        double m = mean(values);
-        double sumSq = 0;
-        for (double v : values) sumSq += (v - m) * (v - m);
-        return Math.sqrt(sumSq / values.length);
     }
 }

@@ -45,14 +45,6 @@ public class FPGrowth {
      */
     private Map<String, Double> classMinConfMap;
 
-    /**
-     * Attribute weights cho Weighted Support (WCBA 2018).
-     * Khi có, rule emission lưu weightedSupport = avg(item_weights) × support.
-     * HM trong rule sẽ được tính từ weightedSupport thay vì support.
-     * Null = không dùng weighted support (hành vi baseline).
-     */
-    private AttributeWeights attributeWeights;
-
     private final List<FrequentPattern> patterns = new ArrayList<>();
     private final List<AssociationRule> rules    = new ArrayList<>();
 
@@ -108,15 +100,6 @@ public class FPGrowth {
     private double classMinConfidence(String cls) {
         if (classMinConfMap == null) return minConfidence;
         return classMinConfMap.getOrDefault(cls, minConfidence);
-    }
-
-    /**
-     * Bật chế độ Weighted Support theo attribute weights (WCBA 2018).
-     * Mỗi rule sẽ lưu weightedSupport = avg(item_weights) × support, và
-     * HM của rule được tính từ weightedSupport.
-     */
-    public void setAttributeWeights(AttributeWeights w) {
-        this.attributeWeights = w;
     }
 
     /** CR-tree ban đầu được xây trong lần mine() gần nhất. */
@@ -235,21 +218,11 @@ public class FPGrowth {
 
                 double support = (double) classSup / totalTransactions;
 
-                // WCBA: weightedSupport = avg(attribute weights) × support
-                double weightedSup;
-                if (attributeWeights != null) {
-                    double wAvg = attributeWeights.weightOfCondset(patternSet);
-                    weightedSup = wAvg * support;
-                } else {
-                    weightedSup = support;
-                }
-
                 rules.add(new AssociationRule(
                     new HashSet<>(patternSet),
                     cls,
                     support, confidence,
-                    classSup, itemSupport,
-                    weightedSup
+                    classSup, itemSupport
                 ));
             }
 
