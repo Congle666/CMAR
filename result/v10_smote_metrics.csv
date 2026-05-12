@@ -1,0 +1,4 @@
+dataset,records,classes,minSupPct,accuracy,accStd,macroF1,macroF1Std,weightedF1
+lymph,,4,0.05,0.8328,0.0559,0.7445,0.1479,0.8320
+hepatitis,,2,0.05,0.8256,0.0552,0.7430,0.1176,0.8286
+german,,2,0.06,0.7000,0.0363,0.6716,0.0368,0.7102

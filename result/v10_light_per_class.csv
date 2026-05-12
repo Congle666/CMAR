@@ -1,0 +1,9 @@
+dataset,class,support,tp,fp,fn,precision,recall,f1
+lymph,metastases,81,68,8,13,0.8947,0.8395,0.8662
+lymph,malign_lymph,61,52,16,9,0.7647,0.8525,0.8062
+lymph,fibrosis,4,0,4,4,0.0000,0.0000,0.0000
+lymph,normal,2,0,0,2,0.0000,0.0000,0.0000
+hepatitis,LIVE,123,108,12,15,0.9000,0.8780,0.8889
+hepatitis,DIE,32,20,15,12,0.5714,0.6250,0.5970
+german,good,700,585,139,115,0.8080,0.8357,0.8216
+german,bad,300,161,115,139,0.5833,0.5367,0.5590
