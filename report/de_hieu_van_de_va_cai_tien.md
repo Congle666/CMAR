@@ -1,7 +1,7 @@
 # 📚 Hiểu rõ Vấn đề & Cải tiến trong CMAR — Từ A đến Z
 
 **Ngày:** 2026-05-12
-**Đối tượng:** Người mới đọc, sinh viên thesis, không cần biết technical sâu.
+
 **Mục tiêu:** Sau khi đọc xong, bạn hiểu **chính xác**:
 - Bài toán đang giải là gì
 - Imbalanced dataset là gì và tại sao gây khó
@@ -721,6 +721,8 @@ Check phân phối class:
 
 ## Tham khảo
 
-1. **Li, W., Han, J., & Pei, J.** (2001). *CMAR: Accurate and Efficient Classification Based on Multiple Class-Association Rules*. ICDM 2001.
-2. **Chawla, N. V. et al.** (2002). *SMOTE: Synthetic Minority Over-sampling Technique*. JAIR 16, 321-357.
-3. **WCBA 2018** — Weighted Classification Based on Association Rules.
+1. **Li, W., Han, J., & Pei, J.** (2001). *CMAR: Accurate and Efficient Classification Based on Multiple Class-Association Rules*. ICDM 2001. — Thuật toán gốc CMAR.
+2. **Chawla, N. V. et al.** (2002). *SMOTE: Synthetic Minority Over-sampling Technique*. JAIR 16, 321-357. — Nguồn của SMOTE-N.
+3. **Liu, B., Ma, Y., & Wong, C.K.** (2000). *Improving an Association Rule Based Classifier*. PKDD 2000, LNCS 1910, pp. 504-509. DOI: 10.1007/3-540-45372-5_58. — **Nguồn của H2** (class-specific minSup).
+4. **Vo, B., Nguyen, L.T.T., & Hong, T.P.** (2015). *Class Association Rule Mining with Multiple Imbalanced Attributes*. ICDM 2015 Workshops, LNCS 9376, pp. 636-647. — **Component A của H3** (class-weighted confidence).
+5. **Nguyen, L.T.T., Vo, B., Nguyen, T.-N., et al.** (2019). *Mining class association rules on imbalanced class datasets*. Journal of Intelligent & Fuzzy Systems 37(1). DOI: 10.3233/JIFS-179326. — **Component B của H3** (lift for imbalanced).

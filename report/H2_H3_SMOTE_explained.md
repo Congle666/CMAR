@@ -2,7 +2,7 @@
 
 **Ngày:** 2026-05-12
 **Phiên bản code:** v12 (sau aggressive cleanup)
-**Đối tượng:** sinh viên/researcher đọc CMAR & WCBA paper, muốn hiểu rõ 3 cải tiến đã làm.
+**Đối tượng:** sinh viên/researcher đọc CMAR, muốn hiểu rõ 3 cải tiến đã làm.
 
 ---
 
@@ -12,7 +12,7 @@
 2. [H2 — Class-specific minSupport](#2-h2--class-specific-minsupport)
 3. [H3 — Adaptive minConfidence](#3-h3--adaptive-minconfidence)
 4. [SMOTE — Synthetic Minority Over-sampling](#4-smote--synthetic-minority-over-sampling)
-5. [Áp dụng từ paper WCBA 2018](#5-áp-dụng-từ-paper-wcba-2018)
+5. [Nguồn gốc khoa học của H2 và H3](#5-nguồn-gốc-khoa-học-của-h2-và-h3)
 6. [So sánh tác dụng — Honest Analysis](#6-so-sánh-tác-dụng--honest-analysis)
 7. [Khi nào dùng cái gì](#7-khi-nào-dùng-cái-gì)
 8. [Mapping code → công thức](#8-mapping-code--công-thức)
@@ -271,47 +271,61 @@ if (useSMOTE) {
 
 ---
 
-## 5. Áp dụng từ paper WCBA 2018
+## 5. Nguồn gốc khoa học của H2 và H3
 
-Paper: *Weighted Classification Based on Association rules algorithm* (2018).
+### 5.1 H2 — kế thừa từ Liu, Ma, Wong (2000)
 
-### 5.1 Ý tưởng WCBA gốc
+> **Liu, B., Ma, Y., & Wong, C.K.** (2000). *Improving an Association Rule Based Classifier*. PKDD 2000, LNCS 1910, pp. 504-509. Springer. DOI: 10.1007/3-540-45372-5_58.
 
-WCBA đề xuất một số kỹ thuật để cải thiện CBA/CMAR trên imbalanced data:
-1. **Harmonic Mean (HM)** thay vì χ² hoặc confidence cho rule ranking.
-2. **Class weight** trong tính chi-square để boost minority.
-3. **Strong + Spare rules**: 2-stage prediction (Strong rules first, Spare fallback).
-4. **Attribute weights** (Information Gain) để weighted support.
+Liu et al. 2000 đề xuất class-specific minSup cho CBA classifier:
+```
+minsupp_i = minsupp_t × supp(c_i) / max(supp(C))
+```
 
-### 5.2 Lịch sử áp dụng trong project (v6 → v11)
+**H2 trong project là biến thể với 2 điểm tinh chỉnh:**
+- Dùng absolute frequency thay relative support → implementation đơn giản hơn
+- Thêm safety floor `max(2, ...)` → tránh ngưỡng = 0 trên class cực hiếm
 
-| Phiên bản | Ý tưởng từ WCBA | Kết quả |
-|:---------:|-----------------|---------|
-| v6 | Stratified Top-K (extension) | Cải tiến nhẹ |
-| v7 | Class-weighted χ² + IG weights | Mixed results |
-| v8 | HM ranking + Strong+Spare rules | Marginal |
-| v9 | **H2 + H3** (class-specific thresholds — extension của "class weight") | Khá tốt cho moderate imbalance |
-| v10 | SMOTE + Class Score Boost (Boost thừa khi đã SMOTE) | Lymph breakthrough |
-| **v11** | **H2 + H3 + Adaptive SMOTE** (final) | **+18% MacroF1 trên lymph** |
+**Lineage:**
+- Liu, Hsu, Ma (1999) KDD '99 — MS-Apriori (item-specific MIS) — conceptual ancestor
+- **Liu, Ma, Wong (2000) PKDD — CLASS-SPECIFIC minSup — parent của H2**
+- Hu et al. (2016) SpringerPlus — MMSCBA refinement (MIS + MCS)
 
-### 5.3 Đã GIỮ lại từ WCBA trong code v11+ (sau cleanup)
+### 5.2 H3 — novel combination dựa trên Vo (2015) + Nguyen (2019)
 
-| Ý tưởng WCBA | Trong code? | Lý do |
-|--------------|:-----------:|-------|
-| Class-specific thresholds (H2/H3) | ✅ giữ | **Backbone** của v11 |
-| Harmonic Mean ranking | ❌ xoá | Không add giá trị khi đã có SMOTE |
-| Strong + Spare rules | ❌ xoá | Cải tiến marginal, complexity cao |
-| Class-weighted χ² | ❌ xoá | Bị SMOTE thay thế (SMOTE balance class trước mining) |
-| Attribute weights (IG) | ❌ xoá | Cải tiến mơ hồ, chưa validate được |
+H3 KHÔNG là pure invention. 2 components có paper backing:
 
-→ **Tinh thần KISS**: chỉ giữ thứ thực sự đóng góp.
+**Component A — adjust confidence theo class frequency:**
+> **Vo, B., Nguyen, L.T.T., & Hong, T.P.** (2015). *Class Association Rule Mining with Multiple Imbalanced Attributes*. ICDM 2015 Workshops, LNCS 9376, pp. 636-647.
 
-### 5.4 H2 + H3 là EXTENSION của WCBA
+Quote: *"Weighted confidence = confidence × weight(class) where weight inversely relates to class frequency."*
 
-WCBA gốc weight **classification stage** (χ² lúc predict). H2 + H3 extend ý tưởng đó xuống **mining stage** (FPGrowth lúc sinh rules). Lợi ích:
+**Component B — lift là alternative tốt cho confidence trên imbalanced:**
+> **Nguyen, L.T.T., Vo, B., Nguyen, T.-N., et al.** (2019). *Mining class association rules on imbalanced class datasets*. Journal of Intelligent & Fuzzy Systems, Vol. 37, No. 1. DOI: 10.3233/JIFS-179326.
 
-- Mining stage: H2 + H3 đảm bảo minority class **có rules** để classify.
-- Classification stage: dùng χ² gốc (đã đủ), không cần weight thêm.
+Quote: *"Confidence is not suitable for imbalanced datasets... lift and conviction are less sensitive to class distribution."*
+
+**Đóng góp gốc của H3:**
+- ⭐ Apply per-class threshold tại **MINING stage** (Vo 2015 & Nguyen 2019 chỉ áp dụng post-mining)
+- ⭐ Combine `lift × P(c)` thành adaptive threshold
+- ⭐ First AC method với adaptive minConf tại rule generation phase (đã verify 9 algorithms: MCAR, CPAR, ECBA, FACA, MAC, BCAR, L³, CMAR-XGB, WCBA — tất cả dùng global minConf)
+
+### 5.3 WCBA paper (2018) — KHÔNG phải nguồn của H2/H3
+
+> **Alwidian, J., Hammo, B.H., & Obeid, N.** (2018). *WCBA: Weighted classification based on association rules algorithm for breast cancer disease*. Applied Soft Computing 62, pp. 536-549.
+
+Sau khi đọc PDF trực tiếp, WCBA paper thực sự đề xuất:
+1. **Attribute weights** gán bởi domain experts (1-10 scale) — KHÔNG phải class weights
+2. **Weighted Support** = `support × attribute_weight`
+3. **Harmonic Mean ranking** thay vì χ²
+4. **Strong + Spare rules** (2-stage prediction)
+
+WCBA **KHÔNG có**:
+- ❌ Class-specific minSupport (= H2)
+- ❌ Adaptive minConfidence per class (= H3)
+- ❌ Xử lý class imbalance
+
+→ Trước đó project có gán nhầm H2/H3 đến từ WCBA. **Citation đúng**: H2 từ Liu 2000, H3 novel combination từ Vo 2015 + Nguyen 2019.
 
 ---
 
@@ -422,7 +436,10 @@ CrossValidator.runWithMetrics(
 
 1. **Chawla, N. V., Bowyer, K. W., Hall, L. O., & Kegelmeyer, W. P.** (2002). *SMOTE: Synthetic Minority Over-sampling Technique*. JAIR 16, 321-357.
 2. **Li, W., Han, J., & Pei, J.** (2001). *CMAR: Accurate and Efficient Classification Based on Multiple Class-Association Rules*. ICDM 2001, 369-376.
-3. **WCBA** (2018). *Weighted Classification Based on Association Rules algorithm*.
+3. **Liu, B., Ma, Y., & Wong, C.K.** (2000). *Improving an Association Rule Based Classifier*. PKDD 2000, LNCS 1910, pp. 504-509. — **Primary source cho H2**
+4. **Vo, B., Nguyen, L.T.T., & Hong, T.P.** (2015). *Class Association Rule Mining with Multiple Imbalanced Attributes*. ICDM 2015 Workshops, LNCS 9376, pp. 636-647. — **Component A cho H3**
+5. **Nguyen, L.T.T., Vo, B., Nguyen, T.-N., et al.** (2019). *Mining class association rules on imbalanced class datasets*. JIFS 37(1). DOI: 10.3233/JIFS-179326. — **Component B cho H3**
+6. **Hu, L.Y., et al.** (2016). *Building an associative classifier with multiple minimum supports*. SpringerPlus 5(1):1-19. — MMSCBA refinement
 
 ## 10. Files liên quan trong project
 

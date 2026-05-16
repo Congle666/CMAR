@@ -46,17 +46,10 @@ public class CrossValidator {
             long seed, int maxPatternLength) {
         return runWithMetrics(data, k, minSupportPct, minConfidence,
             chiSqThreshold, coverageDelta, seed, maxPatternLength,
-            CMARClassifier::new, 0.0, 0.0, 0.0, 0.0);
+            CMARClassifier::new, 0.0, 0.0, 0.0, 0.0, false);
     }
 
-    /**
-     * Overload đầy đủ — bật/tắt từng cải tiến qua tham số.
-     *
-     * @param classMinSupFraction    H2 — > 0 để bật class-specific minSup. Điển hình = {@code minSupportPct}.
-     * @param adaptiveMinConfFloor   H3 — > 0 để bật adaptive minConf. Điển hình 0.3.
-     * @param adaptiveMinConfLift    H3 — hệ số khuếch đại baseline freq. Điển hình 5.0.
-     * @param smoteTargetRatio       SMOTE — > 0 để bật. 1.0 = balance hoàn toàn. 0 = tắt.
-     */
+    /** Backward-compatible 4-param SMOTE overload (defaults to vanilla SMOTE). */
     public static List<EvalMetrics> runWithMetrics(
             List<Transaction> data, int k,
             double minSupportPct, double minConfidence,
@@ -67,6 +60,33 @@ public class CrossValidator {
             double adaptiveMinConfFloor,
             double adaptiveMinConfLift,
             double smoteTargetRatio) {
+        return runWithMetrics(data, k, minSupportPct, minConfidence,
+            chiSqThreshold, coverageDelta, seed, maxPatternLength,
+            classifierFactory, classMinSupFraction,
+            adaptiveMinConfFloor, adaptiveMinConfLift, smoteTargetRatio,
+            false);  // useBorderlineSMOTE = false → vanilla SMOTE
+    }
+
+    /**
+     * Overload đầy đủ — bật/tắt từng cải tiến qua tham số.
+     *
+     * @param classMinSupFraction    H2 — > 0 để bật class-specific minSup. Điển hình = {@code minSupportPct}.
+     * @param adaptiveMinConfFloor   H3 — > 0 để bật adaptive minConf. Điển hình 0.3.
+     * @param adaptiveMinConfLift    H3 — hệ số khuếch đại baseline freq. Điển hình 5.0.
+     * @param smoteTargetRatio       SMOTE — > 0 để bật. 1.0 = balance hoàn toàn. 0 = tắt.
+     * @param useBorderlineSMOTE     true → dùng Borderline-SMOTE-N (Han 2005) thay vì vanilla SMOTE-N (Chawla 2002).
+     */
+    public static List<EvalMetrics> runWithMetrics(
+            List<Transaction> data, int k,
+            double minSupportPct, double minConfidence,
+            double chiSqThreshold, int coverageDelta,
+            long seed, int maxPatternLength,
+            Supplier<CMARClassifier> classifierFactory,
+            double classMinSupFraction,
+            double adaptiveMinConfFloor,
+            double adaptiveMinConfLift,
+            double smoteTargetRatio,
+            boolean useBorderlineSMOTE) {
 
         // --- Chia có phân tầng: nhóm theo lớp, rồi phân phối ---
         List<Transaction> shuffled = new ArrayList<>(data);
@@ -98,10 +118,15 @@ public class CrossValidator {
             // --- SMOTE: áp dụng oversampling minority class TRƯỚC khi tính thresholds ---
             if (smoteTargetRatio > 0) {
                 int beforeSize = trainData.size();
-                trainData = SMOTE.apply(trainData, 5, smoteTargetRatio, seed + fold);
+                if (useBorderlineSMOTE) {
+                    trainData = BorderlineSMOTE.apply(trainData, 5, smoteTargetRatio, seed + fold);
+                } else {
+                    trainData = SMOTE.apply(trainData, 5, smoteTargetRatio, seed + fold);
+                }
                 minSupport = Math.max(2, (int) Math.round(trainData.size() * minSupportPct));
                 if (fold == 0) {
-                    System.out.println("    SMOTE applied (fold 0): " + beforeSize
+                    String tag = useBorderlineSMOTE ? "Borderline-SMOTE" : "SMOTE";
+                    System.out.println("    " + tag + " applied (fold 0): " + beforeSize
                         + " -> " + trainData.size() + " records");
                 }
             }

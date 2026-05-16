@@ -26,7 +26,7 @@
 - Một ngưỡng `minSupport` toàn cục, một ngưỡng `minConfidence` toàn cục.
 - **Không** xử lý imbalanced class → minority classes thường bị bỏ qua.
 
-### SAU (v11 final = CMAR + WCBA-Light + Adaptive SMOTE-N)
+### SAU (v11 final = CMAR + Light (H2 + H3) + Adaptive SMOTE-N)
 
 | Cải tiến | Mô tả | Hiệu lực |
 |----------|-------|----------|
@@ -426,6 +426,9 @@ java -Xmx2g -cp out BenchmarkSMOTEFull > result/v11_benchmark.log 2>&1
 
 ## Phụ lục C — Tài liệu tham khảo
 
-1. **Chawla, N. V., Bowyer, K. W., Hall, L. O., & Kegelmeyer, W. P.** (2002). *SMOTE: Synthetic Minority Over-sampling Technique*. Journal of Artificial Intelligence Research, 16, 321-357.
-2. **Li, W., Han, J., & Pei, J.** (2001). *CMAR: Accurate and Efficient Classification Based on Multiple Class-Association Rules*. ICDM 2001, 369-376.
-3. **WCBA** (2018): Weighted Classification Based on Association Rules.
+1. **Chawla, N. V., Bowyer, K. W., Hall, L. O., & Kegelmeyer, W. P.** (2002). *SMOTE: Synthetic Minority Over-sampling Technique*. Journal of Artificial Intelligence Research, 16, 321-357. — Nguồn của SMOTE-N.
+2. **Li, W., Han, J., & Pei, J.** (2001). *CMAR: Accurate and Efficient Classification Based on Multiple Class-Association Rules*. ICDM 2001, 369-376. — Thuật toán gốc CMAR.
+3. **Liu, B., Ma, Y., & Wong, C.K.** (2000). *Improving an Association Rule Based Classifier*. PKDD 2000, LNCS 1910, pp. 504-509. DOI: 10.1007/3-540-45372-5_58. — **Nguồn của H2**.
+4. **Vo, B., Nguyen, L.T.T., & Hong, T.P.** (2015). *Class Association Rule Mining with Multiple Imbalanced Attributes*. ICDM 2015 Workshops, LNCS 9376, pp. 636-647. — **Component A của H3**.
+5. **Nguyen, L.T.T., Vo, B., Nguyen, T.-N., et al.** (2019). *Mining class association rules on imbalanced class datasets*. Journal of Intelligent & Fuzzy Systems 37(1). DOI: 10.3233/JIFS-179326. — **Component B của H3**.
+6. **Hu, L.Y., Hu, Y.H., Tsai, C.F., Wang, J.S., & Huang, M.W.** (2016). *Building an associative classifier with multiple minimum supports*. SpringerPlus 5(1):1-19. DOI: 10.1186/s40064-016-2153-1. — MMSCBA refinement.
